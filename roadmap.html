@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roadmap — what's shipped and what's next | Konode</title>
+  <meta name="description" content="What works in Konode today, what's in beta, and what's planned: Chromium support, Google Drive, GitHub and WebDAV backends, the Firefox build, and the planned Mega backend." />
+  <link rel="canonical" href="https://konode.vercel.app/roadmap.html" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon128.png" />
+  <meta name="theme-color" content="#fafafa" />
+  <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Konode" />
+  <meta property="og:url" content="https://konode.vercel.app/roadmap.html" />
+  <meta property="og:title" content="Roadmap — what's shipped and what's next | Konode" />
+  <meta property="og:description" content="What works in Konode today, what's in beta, and what's planned." />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html#sync">What syncs</a>
+        <a href="index.html#storage">Your storage</a>
+        <a href="setup.html">Setup</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        <a href="roadmap.html" aria-current="page">Roadmap</a>
+      </nav>
+      <details class="menu">
+        <summary>Menu</summary>
+        <nav class="menu-panel" aria-label="Main">
+          <a href="index.html">Home</a>
+          <a href="index.html#sync">What syncs</a>
+          <a href="index.html#storage">Your storage</a>
+          <a href="index.html#compare">Comparison</a>
+          <a href="setup.html">Setup guide</a>
+          <a href="troubleshooting.html">Troubleshooting</a>
+          <a href="roadmap.html" aria-current="page">Roadmap</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="https://github.com/benstone326/Konode">Source on GitHub</a>
+        </nav>
+      </details>
+      <div class="head-actions">
+        <a class="src" href="https://github.com/benstone326/Konode">Source</a>
+        <a class="btn btn-dark btn-sm" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Install</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap doc">
+    <h1>Roadmap</h1>
+    <p class="lead">
+      This page tracks status honestly rather than optimistically. Anything listed as
+      planned has no date attached, because Konode is a small independent project and
+      a date would be a guess.
+    </p>
+
+    <h2>Working today</h2>
+    <ul class="rm">
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Chromium browsers</h3>
+          <p>Chrome, Brave, Helium, and ungoogled-chromium, via the Chrome Web Store.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Three storage backends</h3>
+          <p>Google Drive with the narrow <code>drive.file</code> scope, GitHub with a fine-grained token on a single private repository, and WebDAV against any compliant server.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Four data types</h3>
+          <p>Bookmarks with two-way sync and tombstoned deletions, open tabs and sessions, de-duplicated history, and the installed-extension list.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Optional end-to-end encryption</h3>
+          <p>AES-256-GCM with PBKDF2-SHA256 key derivation over 600,000 iterations, available on every backend.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Configurable conflict resolution</h3>
+          <p>Newest change wins, always prefer this device, always prefer the other, or resolve each conflict yourself.</p>
+        </div>
+      </li>
+    </ul>
+
+    <h2>In progress</h2>
+    <ul class="rm">
+      <li>
+        <span class="st st-beta">Beta</span>
+        <div>
+          <h3>Firefox</h3>
+          <p>
+            A dedicated Firefox build exists and works, including original history
+            visit times, which Chromium cannot do. The Add-ons listing is still in
+            progress, so for now it has to be built and loaded as a temporary add-on.
+            The <a href="setup.html#install">setup guide</a> covers how.
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <h2>Planned</h2>
+    <ul class="rm">
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
+          <h3>Mega backend</h3>
+          <p>A fourth storage option. Not available yet, and not started in any usable form.</p>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Add further roadmap items here as they become real. Keep the three
+         buckets (Working today / In progress / Planned) and keep the honest
+         framing: no dates on anything unstarted. -->
+
+    <h2>Not planned</h2>
+    <p>
+      Some things get asked for regularly and are not coming, for reasons worth
+      stating plainly:
+    </p>
+    <ul class="rm">
+      <li>
+        <span class="st st-planned">No</span>
+        <div>
+          <h3>Password sync</h3>
+          <p>
+            Browser extensions cannot read the browser's native password store. That
+            is a security boundary the browser enforces, so this is not something
+            Konode can choose to add. Use a dedicated password manager.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">No</span>
+        <div>
+          <h3>A hosted Konode backend</h3>
+          <p>
+            Running a server would undo the entire point. Your data goes to storage
+            you already control, which is only true as long as there is nothing in the
+            middle.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">No</span>
+        <div>
+          <h3>Analytics or telemetry</h3>
+          <p>
+            Not now and not later, including the anonymous, aggregated kind. Bug
+            reports through <a href="https://github.com/benstone326/Konode/issues">GitHub issues</a>
+            are how Konode finds out what is broken.
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="callout">
+      <p>
+        Want something that is not here? Open a
+        <a href="https://github.com/benstone326/Konode/issues">GitHub issue</a>.
+        Konode is MPL-2.0 licensed, so pull requests are welcome too.
+      </p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+          <p class="about">
+            An independent, open-source project by <b>Kōnabe Studio</b>. Not
+            affiliated with Google, GitHub, Mozilla, or any storage provider.
+          </p>
+        </div>
+        <div class="links">
+          <a href="setup.html">Setup</a>
+          <a href="troubleshooting.html">Troubleshooting</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>
+          <a href="https://github.com/benstone326/Konode">GitHub</a>
+          <span class="lic">MPL-2.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

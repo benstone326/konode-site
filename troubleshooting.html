@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Troubleshooting — Konode</title>
+  <meta name="description" content="Fixes for common Konode problems: sync not running, Google Drive sign-in failures, expired GitHub tokens, WebDAV connection errors, passphrase mismatches, history timestamps, and bookmarks reappearing after deletion." />
+  <link rel="canonical" href="https://konode.vercel.app/troubleshooting.html" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon128.png" />
+  <meta name="theme-color" content="#fafafa" />
+  <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Konode" />
+  <meta property="og:url" content="https://konode.vercel.app/troubleshooting.html" />
+  <meta property="og:title" content="Troubleshooting — Konode" />
+  <meta property="og:description" content="Fixes for the Konode problems that come up most often." />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html#sync">What syncs</a>
+        <a href="index.html#storage">Your storage</a>
+        <a href="setup.html">Setup</a>
+        <a href="troubleshooting.html" aria-current="page">Troubleshooting</a>
+        <a href="roadmap.html">Roadmap</a>
+      </nav>
+      <details class="menu">
+        <summary>Menu</summary>
+        <nav class="menu-panel" aria-label="Main">
+          <a href="index.html">Home</a>
+          <a href="index.html#sync">What syncs</a>
+          <a href="index.html#storage">Your storage</a>
+          <a href="index.html#compare">Comparison</a>
+          <a href="setup.html">Setup guide</a>
+          <a href="troubleshooting.html" aria-current="page">Troubleshooting</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="https://github.com/benstone326/Konode">Source on GitHub</a>
+        </nav>
+      </details>
+      <div class="head-actions">
+        <a class="src" href="https://github.com/benstone326/Konode">Source</a>
+        <a class="btn btn-dark btn-sm" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Install</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap doc">
+    <h1>Troubleshooting</h1>
+    <p class="lead">
+      Because Konode has no server, almost everything that goes wrong is between your
+      browser and your storage backend. That narrows the list considerably.
+    </p>
+
+    <div class="callout">
+      <p>
+        Not covered here? Open an issue on
+        <a href="https://github.com/benstone326/Konode/issues">GitHub</a> with your
+        browser, your backend, and what the popup's activity log shows. The log lives
+        on your device and is never uploaded, so you will need to copy the relevant
+        part in yourself.
+      </p>
+    </div>
+
+    <h2>Syncing</h2>
+    <div class="qa">
+      <div>
+        <h3>Nothing syncs, and there is no error</h3>
+        <p>
+          Check the obvious three in order. First, is a backend actually connected, or
+          did setup stop halfway? Second, are any data types turned on? All four are
+          off until you enable them, so a connected backend with nothing enabled will
+          sit there doing exactly nothing. Third, run a manual sync from the popup to
+          see whether it is a scheduling problem or a connection problem.
+        </p>
+        <p>
+          If a manual sync works but automatic ones do not, your browser is probably
+          suspending the extension's background worker to save power. Manifest V3
+          service workers are allowed to be shut down when idle. Keeping the browser
+          open and the device awake is the practical workaround.
+        </p>
+      </div>
+      <div>
+        <h3>One device syncs, the other does not see the changes</h3>
+        <p>
+          Both devices need the same backend <em>and the same account</em> on that
+          backend. A second Google account, or a different repository, gives you two
+          separate sync sets that will never meet. Confirm the account and the folder
+          or repository name match on both.
+        </p>
+      </div>
+      <div>
+        <h3>A bookmark I deleted came back</h3>
+        <p>
+          This is what tombstones are meant to prevent: Konode records a deletion as
+          an explicit event rather than inferring it from an absence, so the deletion
+          travels to other devices instead of being undone by them.
+        </p>
+        <p>
+          If it happens anyway, the usual cause is a device that was offline when you
+          deleted and had an older copy, combined with a conflict rule set to prefer
+          that device. Check your conflict setting. If it is on "always prefer this
+          device" somewhere, that device wins even when it is out of date. This is
+          worth reporting with the details, since a deletion coming back is the exact
+          failure the design targets.
+        </p>
+      </div>
+      <div>
+        <h3>Two devices disagree and I do not know which won</h3>
+        <p>
+          That is your conflict rule deciding. It is one of: newest change wins,
+          always prefer this device, always prefer the other one, or ask each time. If
+          you want to see each decision rather than have it made for you, switch to
+          manual resolution and Konode will hand you the choice from the popup.
+        </p>
+      </div>
+    </div>
+
+    <h2>Storage backends</h2>
+    <div class="qa">
+      <div>
+        <h3>Google Drive sign-in fails on Brave, Helium, or ungoogled-chromium</h3>
+        <p>
+          These browsers do not provide Chrome's built-in identity API, so Konode uses
+          an OAuth PKCE flow instead. It opens a normal sign-in page rather than a
+          native dialog. If it fails, the usual causes are a popup or redirect being
+          blocked by the browser's own shields, or a privacy setting stripping the
+          OAuth redirect. Try loosening shields for the sign-in, then restoring them
+          afterwards.
+        </p>
+      </div>
+      <div>
+        <h3>GitHub sync stopped working on its own</h3>
+        <p>
+          Almost always an expired fine-grained token. They have a mandatory expiry
+          date. Generate a new one, scoped to the same single private repository with
+          read and write access to contents, and paste it into settings. Nothing on
+          the backend is lost while the token is dead; syncing just pauses.
+        </p>
+      </div>
+      <div>
+        <h3>WebDAV will not connect</h3>
+        <p>Work through these in order:</p>
+        <ul>
+          <li>
+            <strong>The URL has to be the WebDAV endpoint</strong>, not your normal
+            web login. On Nextcloud that means
+            <code>https://your-server/remote.php/dav/files/USERNAME/</code>, not the
+            address you use in a browser.
+          </li>
+          <li>
+            <strong>HTTPS is required</strong>, with a certificate your browser
+            already trusts. Self-signed and expired certificates fail, and so does
+            plain HTTP.
+          </li>
+          <li>
+            <strong>Use an app password</strong> if your provider offers one. Accounts
+            with two-factor authentication frequently reject the main account password
+            for WebDAV.
+          </li>
+          <li>
+            <strong>Check the path exists.</strong> Some servers will not create
+            missing parent directories on demand.
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3>Can I use Mega, Dropbox, or OneDrive?</h3>
+        <p>
+          Mega is planned but not available yet. Dropbox and OneDrive are not
+          supported directly. If a provider offers a WebDAV endpoint, the WebDAV
+          backend will work with it. See the <a href="roadmap.html">roadmap</a>.
+        </p>
+      </div>
+    </div>
+
+    <h2>Encryption</h2>
+    <div class="qa">
+      <div>
+        <h3>My second device says the passphrase does not match</h3>
+        <p>
+          Every device has to use the identical passphrase, and Konode deliberately
+          tells you about a mismatch instead of silently producing an unreadable
+          second copy. Re-enter it carefully, watching for a different keyboard
+          layout, autocorrect capitalising the first character, or a trailing space
+          picked up by copy and paste.
+        </p>
+      </div>
+      <div>
+        <h3>I lost my encryption passphrase</h3>
+        <p>
+          Then the data already uploaded cannot be decrypted, by you or by anyone
+          else. No Konode server holds your key, so there is nothing to reset and no
+          recovery path. That is the tradeoff end-to-end encryption makes.
+        </p>
+        <p>
+          To start over: delete Konode's files from your backend, set a new passphrase,
+          and sync from the device whose local data is still intact. Your bookmarks in
+          the browser itself were never encrypted and are unaffected.
+        </p>
+      </div>
+      <div>
+        <h3>Can I turn encryption on after I have already been syncing?</h3>
+        <p>
+          Yes, but the files already on your backend were written in readable form.
+          Turning encryption on affects what gets written from then on. If the point
+          is that nothing readable should remain, delete the existing Konode files
+          from your backend after enabling it, then sync again.
+        </p>
+      </div>
+    </div>
+
+    <h2>Data quirks that are working as intended</h2>
+    <div class="qa">
+      <div>
+        <h3>Restored history shows today instead of the original visit dates</h3>
+        <p>
+          On Chromium this is a browser limitation, not a bug. Extensions cannot set
+          an arbitrary original visit time on a history entry, so restored entries
+          carry the moment they were synced. Firefox does allow it, so the original
+          times survive there. This is why history restore is described as
+          best-effort.
+        </p>
+      </div>
+      <div>
+        <h3>Konode lists my missing extensions but will not install them</h3>
+        <p>
+          Intentional. Konode holds a read-only permission on your extension list: it
+          can tell you what is missing and link you to each store page, and it cannot
+          install or remove anything. Installing an extension always takes your own
+          click in the store.
+        </p>
+      </div>
+      <div>
+        <h3>Passwords are not syncing</h3>
+        <p>
+          Konode does not sync passwords and cannot. Extensions have no access to the
+          browser's native password store, which is a browser security boundary rather
+          than a missing feature. Use a dedicated password manager such as Bitwarden,
+          Proton Pass, or a self-hosted Vaultwarden.
+        </p>
+      </div>
+      <div>
+        <h3>The install asked for very few permissions</h3>
+        <p>
+          Also intentional. History, tabs, and extension-management permissions are
+          requested at the moment you turn those data types on, not up front, so an
+          install you never configure holds almost nothing.
+        </p>
+      </div>
+    </div>
+
+    <h2>Firefox</h2>
+    <div class="qa">
+      <div>
+        <h3>The add-on disappears every time I restart Firefox</h3>
+        <p>
+          Expected for now. <strong>Load Temporary Add-on</strong> is exactly that:
+          Firefox discards unsigned temporary add-ons on restart. It will stop
+          happening once the Add-ons listing is live; until then you have to load
+          <code>dist-firefox/manifest.json</code> again after each restart.
+        </p>
+      </div>
+      <div>
+        <h3>Which Firefox-based browsers work?</h3>
+        <p>
+          The Firefox build targets Firefox and Firefox-derived browsers such as
+          Waterfox. Anything that loads standard Firefox extensions should work, with
+          the same temporary-add-on caveat above.
+        </p>
+      </div>
+    </div>
+
+    <h2>Starting over</h2>
+    <div class="qa">
+      <div>
+        <h3>How do I remove everything Konode has stored?</h3>
+        <p>
+          Two places, and you control both. On your device, uninstalling the extension
+          clears its local data, including credentials, settings, and the activity log.
+          On your backend, delete Konode's folder or repository contents directly
+          through Google Drive, GitHub, or your WebDAV server. Nothing is held
+          anywhere else, because there is nowhere else.
+        </p>
+      </div>
+      <div>
+        <h3>How do I switch backends?</h3>
+        <p>
+          Connect the new one in settings. Backends do not migrate between each other,
+          so treat it as a fresh start: your browser's own bookmarks are untouched and
+          will be written to the new backend on the next sync. Clean up the old
+          backend's files yourself if you want them gone.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+          <p class="about">
+            An independent, open-source project by <b>Kōnabe Studio</b>. Not
+            affiliated with Google, GitHub, Mozilla, or any storage provider.
+          </p>
+        </div>
+        <div class="links">
+          <a href="setup.html">Setup</a>
+          <a href="troubleshooting.html">Troubleshooting</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>
+          <a href="https://github.com/benstone326/Konode">GitHub</a>
+          <span class="lic">MPL-2.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

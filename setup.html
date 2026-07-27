@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Setup guide — connect Google Drive, GitHub, or WebDAV | Konode</title>
+  <meta name="description" content="Step-by-step setup for Konode: install the extension, then connect your own Google Drive, a GitHub repository, or a WebDAV server such as Nextcloud. Includes turning on end-to-end encryption and adding a second device." />
+  <link rel="canonical" href="https://konode.vercel.app/setup.html" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon128.png" />
+  <meta name="theme-color" content="#fafafa" />
+  <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Konode" />
+  <meta property="og:url" content="https://konode.vercel.app/setup.html" />
+  <meta property="og:title" content="Setup guide — connect Google Drive, GitHub, or WebDAV | Konode" />
+  <meta property="og:description" content="Install Konode, connect a storage backend you own, and add a second device." />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html#sync">What syncs</a>
+        <a href="index.html#storage">Your storage</a>
+        <a href="setup.html" aria-current="page">Setup</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        <a href="roadmap.html">Roadmap</a>
+      </nav>
+      <details class="menu">
+        <summary>Menu</summary>
+        <nav class="menu-panel" aria-label="Main">
+          <a href="index.html">Home</a>
+          <a href="index.html#sync">What syncs</a>
+          <a href="index.html#storage">Your storage</a>
+          <a href="index.html#compare">Comparison</a>
+          <a href="setup.html" aria-current="page">Setup guide</a>
+          <a href="troubleshooting.html">Troubleshooting</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="https://github.com/benstone326/Konode">Source on GitHub</a>
+        </nav>
+      </details>
+      <div class="head-actions">
+        <a class="src" href="https://github.com/benstone326/Konode">Source</a>
+        <a class="btn btn-dark btn-sm" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Install</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap doc">
+    <h1>Setting up Konode</h1>
+    <p class="lead">
+      Konode needs two things before it can sync: the extension installed, and one
+      storage backend connected. Everything after that is optional.
+    </p>
+
+    <nav class="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#install">Install the extension</a></li>
+        <li><a href="#choose">Choose a backend</a></li>
+        <li><a href="#drive">Connect Google Drive</a></li>
+        <li><a href="#github">Connect GitHub</a></li>
+        <li><a href="#webdav">Connect WebDAV</a></li>
+        <li><a href="#encryption">Turn on end-to-end encryption</a></li>
+        <li><a href="#datatypes">Pick what syncs</a></li>
+        <li><a href="#second">Add a second device</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="install">1. Install the extension</h2>
+    <p>
+      On Chrome, Brave, Helium, ungoogled-chromium, or another Chromium browser,
+      install from the
+      <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>.
+      Then pin Konode to your toolbar so the popup is one click away.
+    </p>
+    <p>
+      On Firefox, there is a dedicated build but no Add-ons listing yet, so you will
+      need to build it and load it yourself:
+    </p>
+    <pre class="code"><code><span class="c"># clone and install</span>
+git clone https://github.com/benstone326/Konode
+cd Konode
+npm install
+
+<span class="c"># build the Firefox bundle into dist-firefox/</span>
+npm run build:firefox</code></pre>
+    <p>
+      Open <code>about:debugging</code>, choose <strong>This Firefox</strong>, click
+      <strong>Load Temporary Add-on</strong>, and select
+      <code>dist-firefox/manifest.json</code>. For Chromium, run
+      <code>npm run build</code> instead, then load the <code>dist/</code> folder
+      through <code>chrome://extensions</code> with Developer mode enabled.
+    </p>
+    <div class="callout">
+      <p>
+        <strong>A temporary add-on in Firefox is removed when you restart the
+        browser.</strong> That is a Firefox restriction on unsigned extensions, not a
+        Konode setting. Until the Add-ons listing is live, you will need to load it
+        again after each restart.
+      </p>
+    </div>
+
+    <h2 id="choose">2. Choose a backend</h2>
+    <p>
+      Konode writes to exactly one backend at a time. All three do the same job, so
+      pick on the basis of what you already use:
+    </p>
+    <ul>
+      <li><strong>Google Drive</strong> is the least setup: one sign-in and you are done. Best if you already live in Drive.</li>
+      <li><strong>GitHub</strong> gives you a full version history of every sync, which is genuinely useful if you ever want to see what changed. Requires creating a token.</li>
+      <li><strong>WebDAV</strong> keeps everything on infrastructure you run, if you have a Nextcloud or Synology box. Requires a server.</li>
+    </ul>
+    <p>
+      You can switch later, but the backends do not migrate between each other. Treat
+      a switch as starting fresh.
+    </p>
+
+    <h2 id="drive">3. Connect Google Drive</h2>
+    <ol class="steps">
+      <li>Open the Konode popup and go to the settings screen.</li>
+      <li>Choose <strong>Google Drive</strong> as the backend and start the sign-in.</li>
+      <li>
+        Sign in with your Google account and approve the request. The consent screen
+        will name the <code>drive.file</code> scope, which is deliberately narrow: it
+        lets Konode see only the files it created itself, so the rest of your Drive
+        stays unreachable to it.
+      </li>
+      <li>Konode creates its own folder in your Drive and writes there from then on.</li>
+    </ol>
+    <p>
+      On Chromium browsers that are not Chrome, the sign-in uses an OAuth PKCE flow
+      instead of Chrome's built-in identity API. It may look slightly different, and
+      it works the same way.
+    </p>
+
+    <h2 id="github">4. Connect GitHub</h2>
+    <ol class="steps">
+      <li>Create a <strong>private</strong> repository for your sync data. An empty one is fine.</li>
+      <li>
+        In GitHub, go to <strong>Settings → Developer settings → Personal access
+        tokens → Fine-grained tokens</strong> and generate a token.
+      </li>
+      <li>
+        Scope it to <strong>only that one repository</strong>, and give it read and
+        write access to repository contents. Nothing else is needed.
+      </li>
+      <li>Paste the token into Konode's settings along with the repository name.</li>
+    </ol>
+    <div class="callout">
+      <p>
+        <strong>Set an expiry you will actually notice.</strong> When a fine-grained
+        token expires, syncing stops until you issue a new one. If you would rather
+        not think about it, Google Drive or WebDAV avoids the problem.
+      </p>
+    </div>
+
+    <h2 id="webdav">5. Connect WebDAV</h2>
+    <p>
+      Works with Nextcloud, ownCloud, Synology, pCloud, kDrive, and anything else
+      exposing a WebDAV endpoint. You need the endpoint URL plus a username and
+      password.
+    </p>
+    <ol class="steps">
+      <li>Find your provider's WebDAV URL. On Nextcloud it looks like <code>https://your-server/remote.php/dav/files/USERNAME/</code>.</li>
+      <li>
+        Create an app-specific password rather than using your main account
+        password, if your provider supports it. Nextcloud calls these
+        <strong>app passwords</strong>; most others have an equivalent.
+      </li>
+      <li>Enter the URL, username, and password in Konode's settings.</li>
+    </ol>
+    <p>
+      The endpoint has to be HTTPS. Browsers block extensions from sending
+      credentials over plain HTTP, so a self-signed or expired certificate will fail
+      here too.
+    </p>
+
+    <h2 id="encryption">6. Turn on end-to-end encryption</h2>
+    <p>
+      Optional, and worth it if anyone other than you could ever see your storage.
+      With it on, Konode encrypts your data on your device before uploading, using
+      AES-256-GCM with a key derived from your passphrase by PBKDF2-SHA256 over
+      600,000 iterations. The backend stores something it cannot read.
+    </p>
+    <p>Your passphrase must be at least 12 characters. Two things to know:</p>
+    <ul>
+      <li>
+        <strong>Every device must use the same passphrase.</strong> Konode tells you
+        when they do not match rather than failing quietly.
+      </li>
+      <li>
+        <strong>There is no recovery.</strong> No Konode server holds your key, so
+        nobody can reset it. If you lose the passphrase, the data already uploaded
+        cannot be decrypted. Put it in your password manager before you continue.
+      </li>
+    </ul>
+    <p>
+      Some metadata stays readable even with encryption on: your provider can see that
+      sync files exist, roughly how many devices you sync, which data type each file
+      holds, and when it was last written. Not the contents. The
+      <a href="privacy.html">privacy policy</a> spells this out in full.
+    </p>
+
+    <h2 id="datatypes">7. Pick what syncs</h2>
+    <p>
+      Four independent toggles: bookmarks, open tabs, history, and your installed
+      extension list. Nothing is read until you turn it on.
+    </p>
+    <p>
+      Bookmarks need no extra permission. History, tabs, and the extension list each
+      trigger a browser permission prompt at the moment you enable them, which is why
+      the install itself asks for so little. Decline one and that data type simply
+      stays off.
+    </p>
+    <p>
+      While you are here, set your conflict rule: newest change wins, always prefer
+      this device, always prefer the other one, or ask you each time. "Newest wins"
+      is the reasonable default for most people.
+    </p>
+
+    <h2 id="second">8. Add a second device</h2>
+    <p>Syncing only means something once there are two. On the next device:</p>
+    <ol class="steps">
+      <li>Install Konode.</li>
+      <li>Connect <strong>the same backend and the same account</strong>.</li>
+      <li>Enter the same encryption passphrase, if you enabled encryption.</li>
+      <li>Turn on the same data types and run a sync.</li>
+    </ol>
+    <p>
+      The second device writes its own file and merges what it finds from the first,
+      so neither one overwrites the other. Give the first sync a moment if you have a
+      large bookmark tree.
+    </p>
+
+    <div class="callout">
+      <p>
+        Something not behaving? The <a href="troubleshooting.html">troubleshooting
+        page</a> covers the failures that come up most, including expired tokens,
+        passphrase mismatches, and history timestamps.
+      </p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+          <p class="about">
+            An independent, open-source project by <b>Kōnabe Studio</b>. Not
+            affiliated with Google, GitHub, Mozilla, or any storage provider.
+          </p>
+        </div>
+        <div class="links">
+          <a href="setup.html">Setup</a>
+          <a href="troubleshooting.html">Troubleshooting</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>
+          <a href="https://github.com/benstone326/Konode">GitHub</a>
+          <span class="lic">MPL-2.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

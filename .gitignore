@@ -1,0 +1,7 @@
+# Per-machine Claude Code settings (absolute paths, local permission allowlist).
+# .claude/launch.json is intentionally tracked — it drives the local preview.
+.claude/settings.local.json
+
+# OS cruft
+.DS_Store
+Thumbs.db
