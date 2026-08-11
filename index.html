@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Konode. Sync your browser to storage you own</title>
+  <title>Konode | Privacy-first browser sync to your own storage</title>
   <meta name="description" content="Konode keeps bookmarks, open tabs, history and your extension list in step across every browser, stored in your own Google Drive, GitHub repo or WebDAV server. No server. No telemetry. Open source." />
   <link rel="canonical" href="https://konode.org/" />
   <link rel="icon" href="icon.svg?v=2" type="image/svg+xml" />
@@ -18,7 +18,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Konode" />
   <meta property="og:url" content="https://konode.org/" />
-  <meta property="og:title" content="Konode. Sync your browser to storage you own" />
+  <meta property="og:title" content="Konode | Privacy-first browser sync to your own storage" />
   <meta property="og:description" content="Bookmarks, tabs, history and extensions synced across your browsers, on storage you already own. No middleman." />
   <meta name="twitter:card" content="summary" />
 
@@ -264,17 +264,24 @@
             </div>
           </div>
           <div class="card">
+            <span class="card-icon"><img src="assets/synology.svg" alt="" /></span>
+            <div>
+              <h3>Synology</h3>
+              <p>Turn on the WebDAV Server package in DSM and point Konode at it. The one option where storage you own is literal, because the disk is in your house.</p>
+            </div>
+          </div>
+          <div class="card">
             <span class="card-icon"><img src="assets/webdav.svg" alt="" /></span>
             <div>
               <h3>WebDAV</h3>
-              <p>The generic route, and the one the four above travel on. Any compliant server works, Synology and kDrive included. No provider-specific code, no lock-in.</p>
+              <p>The generic route, and the one the five above travel on. Any compliant server works, kDrive included. No provider-specific code and nothing to lock you in.</p>
             </div>
           </div>
-          <div class="card card-dark card-wide">
+          <div class="card card-dark">
             <span class="card-icon"><img src="assets/question.svg" alt="" /></span>
             <div>
               <h3>Miss your storage?</h3>
-              <p>If your provider exposes a WebDAV endpoint, it already works, so try it first. If it does not, <a href="https://github.com/konabe-studio/konode/issues/new" target="_blank" rel="noopener noreferrer">open an issue</a> and name the one you use. That is how MEGA ended up on the <a href="roadmap.html">roadmap</a>.</p>
+              <p>If your provider exposes WebDAV, it already works, so try it first. If not, <a href="https://github.com/konabe-studio/konode/issues/new" target="_blank" rel="noopener noreferrer">open an issue</a> and name it. That is how MEGA got on the <a href="roadmap.html">roadmap</a>.</p>
             </div>
           </div>
         </div>
