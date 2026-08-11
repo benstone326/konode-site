@@ -640,11 +640,144 @@ p { margin: 0; }
 .cta-fine a { color: #fff; }
 
 
+/* ------------------------------------------------------------ encryption -- */
+/* The E2EE moment, between the Storage panel and the Privacy section.
+
+   It carries its weight through a filled stage rather than a shell of its own:
+   two .panel shells cannot sit next to each other without their 40px corners
+   pinching at the seam, and the Storage panel is directly above.
+
+   Deliberately not a second browser-to-storage diagram. The data path in
+   Privacy already draws that route, so this one draws the boundary instead:
+   what happens inside the browser, and what crosses out of it. */
+
+.e2ee-lead {
+  max-width: 640px;
+  margin: 0 auto var(--s-7);
+  color: var(--fg-muted);
+  line-height: 1.65;
+  text-align: center;
+}
+
+/* Stretched, not start-aligned: the two cards sit side by side and unequal
+   bottom edges read as unfinished rather than as deliberate. */
+.e2ee-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: stretch;
+}
+
+/* Dashed, echoing the dashed link line on the data path: both mean a boundary
+   that data crosses, rather than a solid edge. Edge only, no shadow. */
+.e2ee-device {
+  padding: var(--s-6);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-card);
+  background: var(--bg-card);
+}
+.e2ee-out {
+  padding: var(--s-6);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--bg-card);
+}
+
+.e2ee-tag {
+  margin: 0 0 var(--s-5);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.e2ee-steps {
+  counter-reset: e2ee;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.e2ee-steps li {
+  position: relative;
+  counter-increment: e2ee;
+  padding-left: var(--s-6);
+}
+.e2ee-steps li + li { margin-top: var(--s-5); }
+.e2ee-steps li::before {
+  content: counter(e2ee);
+  position: absolute;
+  top: 2px;
+  left: 0;
+  color: var(--accent-solid);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.e2ee-steps h3 {
+  margin: 0 0 var(--s-1);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+.e2ee-steps p {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.e2ee-sample {
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+}
+.e2ee-sample + .e2ee-sample { margin-top: var(--s-3); }
+.e2ee-sample-tag {
+  margin: 0 0 var(--s-2);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+/* Its own scroll container, so a long line here never widens the page. */
+.e2ee-sample code {
+  display: block;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+/* The sealed row is what the section is arguing for, so it takes the accent
+   edge and the tint. The label goes to --fg rather than --accent-solid:
+   accent-solid on --bg-card-sel is 4.35:1 and fails AA at 11px. */
+.e2ee-sample-on {
+  border-color: var(--accent-solid);
+  background: var(--bg-card-sel);
+}
+.e2ee-sample-on .e2ee-sample-tag { color: var(--fg); }
+
+.e2ee-claim {
+  margin: var(--s-5) 0 0;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.e2ee .footnote { margin-top: var(--s-6); max-width: 640px; }
+
+@media (max-width: 900px) {
+  .e2ee-stage { grid-template-columns: minmax(0, 1fr); }
+}
+
+
 /* --------------------------------------------------------------- privacy -- */
 /* The "threat model, out in the open" section. Four blocks: who can see what,
    where the data actually travels, what permissions are held right now, and
-   the limits. Sits on the plain page background because the Storage panel
-   above and the Code panel below are both filled shells. */
+   the limits. Sits on the plain page background, as does the Encryption
+   section above it; the Storage panel above that and the Code panel below are
+   both filled shells. */
 .pd { padding-block: var(--s-9); }
 
 .pd-block { margin-top: var(--s-8); }
@@ -746,8 +879,9 @@ p { margin: 0; }
 .pd-actor-us .pd-pips i { background: rgb(11 131 72 / 0.14); box-shadow: none; }
 
 /* --------------------------------------------- 2b. the data path -------- */
-/* Shows the absence instead of asserting it. The gap in the middle is the
-   whole argument: other sync tools have a box there, this one does not. */
+/* Two nodes and a wire. What sits on the wire is the encryption, not a third
+   box: other sync tools would have a server drawn between these two, and the
+   absence of one here is carried by the copy rather than by the label. */
 
 .pd-path {
   display: flex;
@@ -793,9 +927,10 @@ p { margin: 0; }
   padding: 0 var(--s-3);
 }
 
-/* A packet crossing the link. It does not slow down or stop at the label,
-   which is the entire argument the label is making. Motion that carries the
-   meaning, rather than motion for its own sake. */
+/* A packet crossing the link. It passes through the seal without stopping,
+   which is what the seal is describing: the data is encrypted on the way out,
+   not parked somewhere. Motion that carries the meaning, rather than motion
+   for its own sake. */
 .pd-track {
   position: absolute;
   z-index: 0;
@@ -841,9 +976,10 @@ p { margin: 0; }
   stroke-width: 2;
   margin-left: -10px;
 }
-/* Opaque on purpose: the packet passes behind it, so the label has to hide
-   it rather than let it show through. z-index lifts it over the track. */
-.pd-gap {
+/* Opaque on purpose: the packet goes behind it and comes out the far side, so
+   the label has to hide it rather than let it show through. That is what reads
+   as passing through the encryption. z-index lifts it over the track. */
+.pd-seal {
   position: relative;
   z-index: 1;
   flex: none;
@@ -1144,9 +1280,11 @@ table.compare tbody th {
 }
 table.compare td { color: var(--fg-muted); font-size: var(--fs-sm); }
 
-/* The Konode column is the accent column, header and body. */
-table.compare .col-konode { background: var(--accent); color: var(--on-accent); }
-table.compare thead .col-konode { background: var(--accent); color: var(--on-accent); }
+/* The Konode column is the accent column, header and body. Filled with
+   --accent-solid rather than --accent: white on #12b76a measures 2.6:1 and
+   fails AA for the body text in this column. White on #0b8348 is 4.8:1. */
+table.compare .col-konode { background: var(--accent-solid); color: var(--on-accent); }
+table.compare thead .col-konode { background: var(--accent-solid); color: var(--on-accent); }
 
 .compare .footnote { margin-top: var(--s-5); font-size: var(--fs-sm); max-width: none; }
 

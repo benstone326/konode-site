@@ -80,11 +80,35 @@ after 1.2.0 went live on AMO.
 MEGA has no storage card on purpose. It is on the roadmap, not shipped, and a
 card in that grid reads as an available option no matter what badge it carries.
 
+### The Encryption section
+
+`#encryption` sits between Storage and Privacy and is the one place the page
+argues for end-to-end encryption on its own terms. It draws the **boundary**
+(what happens inside the browser, and what crosses out of it) rather than the
+route, because the data path in `#privacy` already draws the route. Keep it that
+way: two browser-to-storage diagrams on one page is one too many.
+
+It also has to keep saying **optional**. Encryption is off until the user sets a
+passphrase, and the pill on the data path now reads `AES-256-GCM`, which on its
+own would imply always-on. The word "optional" in this section's lead, the "if
+you set a passphrase" in the first data-path node, and the "with a passphrase
+set" in `.pd-sub` are the three places that stop it being an overclaim. Do not
+quietly drop any of them.
+
+That pill used to read `No Konode server`, and its absence-of-a-middle-box
+argument is now carried by `.pd-sub` in words. See `DESIGN.md`, "The packet on
+the data path".
+
 ### Known gaps
 
-- The **Konode column** in the comparison table uses `#12b76a` with white text,
-  as the Figma specifies. That measures 2.6 : 1 and fails WCAG AA. Switching the
-  fill to `--accent-solid` (`#0b8348`) clears it at 4.8 : 1.
+- **`DESIGN.md` has drifted from `style.css`.** The doc claims to be the single
+  source of truth for every token, but the names and several values no longer
+  match what the stylesheet actually declares: `--surface` / `--fg-subtle` /
+  `--r-lg` / `--lift` are documented and do not exist, the shipped names are
+  `--bg-card` / `--fg-muted` / `--r-card` / `--shadow-lm`, and `--maxw` (1152 vs
+  1216), `--s-9` (96 vs 120) and `--dur` (160 vs 180) all disagree. The design
+  reasoning in it is still sound and worth reading; the token table is not
+  reliable. Reconcile it against `style.css` in one pass.
 
 **[`DESIGN.md`](DESIGN.md) is the design system** — every color, type step,
 radius and spacing value the site uses. Read it before changing anything visual,
@@ -177,8 +201,12 @@ Tracked against `SITE-REVIEW.md`. Open items only:
       promise on the privacy policy.
 - [ ] **OG image** — add a self-hosted image plus `og:image` / `twitter:image`, and
       switch `twitter:card` to `summary_large_image`. Previews are text-only today.
-- [ ] Replace the hand-built popup replica in `index.html` with real screenshots
-      (see the `PRODUCT VISUAL` comment in that file).
+- [ ] **Real product screenshots.** The page currently shows no picture of the
+      extension anywhere. The hero is the dial plate, and the hand-built popup
+      replica this item used to point at was removed in the redesign, along with
+      the `PRODUCT VISUAL` comment it referenced. The natural home is the "What
+      syncs" section, one capture per stream. Needs real captures from the
+      extension; nothing here can be hand-built without becoming a mockup again.
 - [ ] Add `includeSubDomains` to the HSTS header. The real domain is live, so this
       is now actionable — but it commits every `konode.org` subdomain to HTTPS for a
       year, so add it only once you know nothing plain-HTTP needs to live under one.
@@ -198,5 +226,9 @@ Decided, for the record:
   text-heavy site.
 - **Raindrop.io dropped from the comparison.** Its pricing page 404s and the claims
   could not be verified, and it's a bookmark manager rather than a browser-sync
-  tool. Floccus and xBrowserSync claims were re-verified against their own sites on
-  27 July 2026.
+  tool. The decision was recorded here well before the column actually came out of
+  the table; it is out now, leaving four columns. Floccus and xBrowserSync claims
+  were re-verified against their own sites on 27 July 2026.
+- **The Konode column contrast is fixed.** It filled with `--accent` (`#12b76a`),
+  which measured 2.6 : 1 against its white text and failed WCAG AA. It now fills
+  with `--accent-solid` (`#0b8348`), at 4.8 : 1.

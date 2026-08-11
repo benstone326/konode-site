@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Troubleshooting. Konode</title>
-  <meta name="description" content="Fixes for common Konode problems: sync not running, Google Drive sign-in failures, expired GitHub tokens, WebDAV connection errors, passphrase mismatches, history timestamps, and bookmarks reappearing after deletion." />
+  <title>Troubleshooting. Sync failures, Drive, GitHub and WebDAV errors | Konode</title>
+  <meta name="description" content="Fixes for Konode problems: bookmarks not syncing between browsers, history not syncing, Google Drive sign-in failures, expired GitHub tokens, WebDAV 401 and 403 errors, passphrase mismatches, and bookmarks reappearing after deletion." />
   <link rel="canonical" href="https://konode.org/troubleshooting.html" />
   <link rel="icon" href="icon.svg?v=2" type="image/svg+xml" />
   <link rel="icon" href="icon128.png?v=2" sizes="128x128" />
@@ -87,7 +87,7 @@
     <h2>Syncing</h2>
     <div class="qa">
       <div>
-        <h3>Nothing syncs, and there is no error</h3>
+        <h3>Konode is not syncing, and there is no error</h3>
         <p>
           Check the obvious three in order. First, is a backend actually connected, or
           did setup stop halfway? Second, are any data types turned on? All four are
@@ -103,12 +103,27 @@
         </p>
       </div>
       <div>
-        <h3>One device syncs, the other does not see the changes</h3>
+        <h3>Bookmarks are not syncing between my two browsers</h3>
         <p>
-          Both devices need the same backend <em>and the same account</em> on that
-          backend. A second Google account, or a different repository, gives you two
-          separate sync sets that will never meet. Confirm the account and the folder
-          or repository name match on both.
+          The usual cause has nothing to do with bookmarks in particular. Both devices
+          need the same backend <em>and the same account</em> on that backend. A second
+          Google account, or a different repository, gives you two separate sync sets
+          that will never meet. Confirm the account and the folder or repository name
+          match on both.
+        </p>
+      </div>
+      <div>
+        <h3>History is not syncing, but bookmarks are</h3>
+        <p>
+          History is one of the three streams that stay off until you switch them on, and
+          switching it on is what triggers the browser's permission prompt for it. If that
+          prompt was dismissed, the permission was never granted. Turn the stream off and
+          on again, and accept the prompt when it appears.
+        </p>
+        <p>
+          Firefox for Android is the exception that this will not fix. It does not grant
+          the history permission on request, so Konode marks history unavailable there and
+          syncs your open tabs only.
         </p>
       </div>
       <div>
@@ -163,7 +178,7 @@
         </p>
       </div>
       <div>
-        <h3>GitHub sync stopped working on its own</h3>
+        <h3>GitHub sync stopped working on its own, or returns 401</h3>
         <p>
           Almost always an expired fine-grained token. They have a mandatory expiry
           date. Generate a new one, scoped to the same single private repository with
@@ -172,7 +187,7 @@
         </p>
       </div>
       <div>
-        <h3>WebDAV will not connect</h3>
+        <h3>WebDAV will not connect, or returns 401 or 403</h3>
         <p>Work through these in order:</p>
         <ul>
           <li>
@@ -189,11 +204,13 @@
           <li>
             <strong>Use an app password</strong> if your provider offers one. Accounts
             with two-factor authentication frequently reject the main account password
-            for WebDAV.
+            for WebDAV, which is what a <code>401</code> normally means here.
           </li>
           <li>
-            <strong>Check the path exists.</strong> Some servers will not create
-            missing parent directories on demand.
+            <strong>Check the path exists</strong> and that the account may write to it.
+            Some servers will not create missing parent directories on demand. A
+            <code>403</code> normally points at one of those two rather than at your
+            credentials.
           </li>
         </ul>
       </div>

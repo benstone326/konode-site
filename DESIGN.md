@@ -177,10 +177,16 @@ they do in the Figma. Do not add a counter-rotation.
 ### The packet on the data path
 
 The Privacy section's diagram sends a small dot from the browser node to the
-storage node every 3.6 seconds. It passes **behind** the `No Konode server`
-pill and out the other side, which is the argument the pill is making: nothing
-stops there. Like the dial, it keeps running under
-`prefers-reduced-motion: reduce`.
+storage node every 3.6 seconds. It passes **behind** the `AES-256-GCM` pill and
+out the other side, which is the argument the pill is making: the data is
+sealed on the way out rather than parked anywhere. The pill is opaque for
+exactly this reason, so the dot disappears into it and re-emerges. Like the
+dial, it keeps running under `prefers-reduced-motion: reduce`.
+
+The pill used to read `No Konode server`, and the absence of a middle box was
+its whole point. That claim now lives in the copy above the diagram instead
+(`.pd-sub`), which is where it has to stay: the diagram no longer asserts it
+visually, so nothing else may quietly drop it.
 
 This is the outer edge of what the motion rules above allow, and it is allowed
 only because the movement carries the meaning. A second decorative loop
@@ -209,8 +215,11 @@ also left unscaled, which keeps the hairline crisp on small screens.
 
 ## Rules we're holding
 
-- **Zero JavaScript.** The only `<script>` is a JSON-LD data block. This is what
-  lets `vercel.json` ship a strict CSP with `script-src 'self'`.
+- **One script, external, no inline handlers.** `konode.js` swaps the install
+  CTA between the Chrome Web Store and AMO, and drives the permission toggles in
+  the Privacy section. Plus a JSON-LD data block, which is non-executable and so
+  needs no hash. Everything else is CSS. This is what lets `vercel.json` ship a
+  strict CSP with `script-src 'self'`.
 - **Zero inline styles.** Including the orbit tile positions, which are classes
   (`.p1`–`.p6`) precisely so the CSP can forbid inline styles outright.
 - **No decorative anything** beyond the orbit rings: no grid-line background, no

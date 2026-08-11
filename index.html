@@ -288,6 +288,65 @@
       </div>
     </section>
 
+    <!-- ====================================================== encryption -- -->
+    <section class="section e2ee" id="encryption">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">End-to-end encryption</p>
+          <h2>Encrypt it before it leaves your browser.</h2>
+        </div>
+
+        <p class="e2ee-lead">
+          Encryption is optional and stays off until you set a passphrase. Switch it on
+          and every file Konode writes is sealed on this machine first, so the provider
+          holding it is holding something it cannot read.
+        </p>
+
+        <div class="e2ee-stage">
+          <div class="e2ee-device">
+            <p class="e2ee-tag">Inside your browser</p>
+            <ol class="e2ee-steps">
+              <li>
+                <h3>You pick a passphrase</h3>
+                <p>The same one on every device you sync, typed in on each. Konode keeps no copy of it and has nowhere to keep one.</p>
+              </li>
+              <li>
+                <h3>The key is derived here</h3>
+                <p>On this machine, from that passphrase. It never crosses the network in either direction, so there is no moment at which it could be intercepted.</p>
+              </li>
+              <li>
+                <h3>The file is sealed with AES-256-GCM</h3>
+                <p>Bookmarks, tabs, history and your extension list become ciphertext before a single byte is uploaded.</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="e2ee-out">
+            <p class="e2ee-tag">What your storage provider receives</p>
+
+            <div class="e2ee-sample">
+              <p class="e2ee-sample-tag">Encryption off</p>
+              <code>"title": "Mortgage rates 2026", "url": "https://…"</code>
+            </div>
+
+            <div class="e2ee-sample e2ee-sample-on">
+              <p class="e2ee-sample-tag">Encryption on</p>
+              <code>"payload": "9f3c7a1e5d2b8c4f…"</code>
+            </div>
+
+            <p class="e2ee-claim">Konode never gets the key, and there is no Konode server to send it to.</p>
+          </div>
+        </div>
+
+        <p class="footnote">
+          That cuts both ways, and it is meant to. Nobody can read these files back
+          without the passphrase, and nobody includes you. Turning encryption on also
+          only changes what gets written from then on, so delete anything already synced
+          in readable form if you want none of it left.
+        </p>
+      </div>
+    </section>
+
     <!-- ========================================================= privacy -- -->
     <section class="section pd" id="privacy">
       <div class="wrap">
@@ -359,7 +418,7 @@
         <!-- ========================================== 2. where data goes -->
         <div class="pd-block">
           <h3 class="pd-h3">Where a bookmark actually goes</h3>
-          <p class="pd-sub">Two stops, and a gap in the middle where every other sync tool keeps a server.</p>
+          <p class="pd-sub">Two stops, and with a passphrase set, ciphertext for the whole crossing between them. Every other sync tool keeps a server in the middle of this picture. There is nothing to put there.</p>
 
           <div class="pd-path">
             <article class="pd-node">
@@ -370,7 +429,7 @@
 
             <div class="pd-link">
               <span class="pd-link-line"></span>
-              <span class="pd-gap">No Konode server</span>
+              <span class="pd-seal">AES-256-GCM</span>
               <span class="pd-link-line"></span>
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
               <span class="pd-track" aria-hidden="true"><i class="pd-packet"></i></span>
@@ -496,7 +555,6 @@
                   <th><span class="vh">Feature</span></th>
                   <th class="col-konode">Konode</th>
                   <th>Floccus</th>
-                  <th>Raindrop.io</th>
                   <th>xBrowserSync</th>
                   <th>Built-in sync</th>
                 </tr>
@@ -506,15 +564,13 @@
                   <th scope="row">What syncs</th>
                   <td class="col-konode">Bookmarks, tabs, history, extension list</td>
                   <td>Bookmarks, or open tabs</td>
-                  <td>Its own library, not your browser's bookmarks</td>
                   <td>Bookmarks</td>
                   <td>Bookmarks, tabs, history, passwords, and more</td>
                 </tr>
                 <tr>
-                  <th scope="row">Where it writes</th>
+                  <th scope="row">Where synced data is stored</th>
                   <td class="col-konode">Your Drive, GitHub, or WebDAV</td>
                   <td>Nextcloud, WebDAV, Git, Drive, Dropbox, Linkwarden, KaraKeep</td>
-                  <td>Raindrop's servers</td>
                   <td>Its own service: official, community-run, or self-hosted</td>
                   <td>Google's or Mozilla's servers</td>
                 </tr>
@@ -522,7 +578,6 @@
                   <th scope="row">Account needed</th>
                   <td class="col-konode">No Konode account</td>
                   <td>No floccus account</td>
-                  <td>Yes, and cloud only</td>
                   <td>No account, just a sync ID and password</td>
                   <td>Yes, a Google or Mozilla account</td>
                 </tr>
@@ -530,7 +585,6 @@
                   <th scope="row">End-to-end encryption</th>
                   <td class="col-konode">Optional, on every backend</td>
                   <td>Optional, on WebDAV, Drive and Dropbox</td>
-                  <td>No</td>
                   <td>Always on</td>
                   <td>Firefox by default, Chrome behind a passphrase</td>
                 </tr>
@@ -538,7 +592,6 @@
                   <th scope="row">Open source</th>
                   <td class="col-konode">Yes, MPL-2.0</td>
                   <td>Yes, MPL-2.0</td>
-                  <td>Client apps, not the server</td>
                   <td>Yes, GPL-3.0</td>
                   <td>Clients open, sync servers not</td>
                 </tr>
