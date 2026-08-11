@@ -152,6 +152,17 @@
         </p>
       </div>
       <div>
+        <h3>Google Drive is switched off in Orion</h3>
+        <p>
+          Not something you can change in settings. Orion's WebKit engine exposes the
+          OAuth bridge Konode needs, but throws a native error the moment it is called
+          instead of opening Google's consent screen. Konode disables the Drive option
+          there rather than letting setup fail halfway through. GitHub and WebDAV both
+          work in Orion, and a device set up with either joins the same sync group as
+          the rest of your devices.
+        </p>
+      </div>
+      <div>
         <h3>GitHub sync stopped working on its own</h3>
         <p>
           Almost always an expired fine-grained token. They have a mandatory expiry
@@ -286,7 +297,10 @@
         <h3>Which Firefox-based browsers work?</h3>
         <p>
           Firefox itself, and Firefox-derived browsers such as Waterfox. Anything that
-          installs a standard signed Firefox extension should work.
+          installs a standard signed Firefox extension should work. Firefox for Android
+          is the exception in what it can sync: it has no bookmarks API and will not
+          grant the history permission on request, so Konode shows both as unavailable
+          there and syncs your open tabs only.
         </p>
       </div>
     </div>
