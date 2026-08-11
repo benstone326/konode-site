@@ -139,6 +139,21 @@
           <p>A fourth storage option. Not available yet, and not started in any usable form.</p>
         </div>
       </li>
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
+          <h3>Diffs between restore points</h3>
+          <p>
+            See what actually changed between two restore points, rather than only that a
+            sync ran. A restore point already holds a full bookmark tree, and the extension
+            already reads one back and decrypts it in order to restore it, so this is a
+            comparison view over data that exists rather than new plumbing. It would work
+            the same on every backend, because restore points are ordinary files Konode
+            writes itself and not a versioning feature borrowed from the provider.
+            Bookmarks only, and only across the ten most recent restore points.
+          </p>
+        </div>
+      </li>
     </ul>
 
     <!-- Add further roadmap items here as they become real. Keep the three
