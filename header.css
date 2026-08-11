@@ -10,7 +10,8 @@ html {
 
 .site-header {
   position: fixed;
-  top: 18px;
+  /* 16px, so the pill lines up with the 16px inset on the section shells. */
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
