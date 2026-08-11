@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://konode.vercel.app/sitemap.xml
+Sitemap: https://konode.org/sitemap.xml

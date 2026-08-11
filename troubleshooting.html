@@ -3,52 +3,68 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Troubleshooting — Konode</title>
+  <title>Troubleshooting. Konode</title>
   <meta name="description" content="Fixes for common Konode problems: sync not running, Google Drive sign-in failures, expired GitHub tokens, WebDAV connection errors, passphrase mismatches, history timestamps, and bookmarks reappearing after deletion." />
-  <link rel="canonical" href="https://konode.vercel.app/troubleshooting.html" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="icon128.png" />
-  <meta name="theme-color" content="#fafafa" />
+  <link rel="canonical" href="https://konode.org/troubleshooting.html" />
+  <link rel="icon" href="icon.svg?v=2" type="image/svg+xml" />
+  <link rel="icon" href="icon128.png?v=2" sizes="128x128" />
+  <link rel="apple-touch-icon" href="icon128.png?v=2" />
+  <meta name="theme-color" content="#f7f8fa" />
   <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="header.css" />
+  <link rel="stylesheet" href="docs.css" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Konode" />
-  <meta property="og:url" content="https://konode.vercel.app/troubleshooting.html" />
-  <meta property="og:title" content="Troubleshooting — Konode" />
+  <meta property="og:url" content="https://konode.org/troubleshooting.html" />
+  <meta property="og:title" content="Troubleshooting. Konode" />
   <meta property="og:description" content="Fixes for the Konode problems that come up most often." />
+  <script src="konode.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="site">
-    <div class="wrap">
-      <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
-      <nav class="nav" aria-label="Main">
-        <a href="index.html#sync">What syncs</a>
-        <a href="index.html#storage">Your storage</a>
-        <a href="setup.html">Setup</a>
-        <a href="troubleshooting.html" aria-current="page">Troubleshooting</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#storage">Storage</a>
+      <a href="index.html#privacy">Privacy</a>
+      <a href="setup.html">Setup</a>
+      <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg>
+        GitHub
+      </a>
+    </nav>
+
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" />
+        </svg>
+      </summary>
+      <nav aria-label="Mobile navigation">
+        <a class="m-install js-install" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa" target="_blank" rel="noopener noreferrer">Add to <span class="js-browser">Chrome</span> for free</a>
+        <a href="index.html">Home</a>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#storage">Storage</a>
+        <a href="index.html#privacy">Privacy</a>
+        <a href="index.html#compare">Compare</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="setup.html">Setup guide</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
         <a href="roadmap.html">Roadmap</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
-      <details class="menu">
-        <summary>Menu</summary>
-        <nav class="menu-panel" aria-label="Main">
-          <a href="index.html">Home</a>
-          <a href="index.html#sync">What syncs</a>
-          <a href="index.html#storage">Your storage</a>
-          <a href="index.html#compare">Comparison</a>
-          <a href="setup.html">Setup guide</a>
-          <a href="troubleshooting.html" aria-current="page">Troubleshooting</a>
-          <a href="roadmap.html">Roadmap</a>
-          <a href="privacy.html">Privacy policy</a>
-          <a href="https://github.com/benstone326/Konode">Source on GitHub</a>
-        </nav>
-      </details>
-      <div class="head-actions">
-        <a class="src" href="https://github.com/benstone326/Konode">Source</a>
-        <a class="btn btn-dark btn-sm" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Install</a>
-      </div>
-    </div>
+    </details>
+
+    <a class="header-cta js-install" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa" target="_blank" rel="noopener noreferrer">
+      <img class="js-browser-logo" src="assets/chrome.svg" alt="" />
+      Add to <span class="js-browser">Chrome</span>
+      <img class="ext" src="assets/arrow-ur.svg" alt="" />
+    </a>
   </header>
 
   <main id="main" class="wrap doc">
@@ -61,7 +77,7 @@
     <div class="callout">
       <p>
         Not covered here? Open an issue on
-        <a href="https://github.com/benstone326/Konode/issues">GitHub</a> with your
+        <a href="https://github.com/konabe-studio/konode/issues">GitHub</a> with your
         browser, your backend, and what the popup's activity log shows. The log lives
         on your device and is never uploaded, so you will need to copy the relevant
         part in yourself.
@@ -317,7 +333,7 @@
           <a href="roadmap.html">Roadmap</a>
           <a href="privacy.html">Privacy</a>
           <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>
-          <a href="https://github.com/benstone326/Konode">GitHub</a>
+          <a href="https://github.com/konabe-studio/konode">GitHub</a>
           <span class="lic">MPL-2.0</span>
         </div>
       </div>

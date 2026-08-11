@@ -3,20 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Konode — Sync your browser to storage you own</title>
-  <meta name="description" content="Konode keeps your bookmarks, open tabs, history and extension list in sync across Chromium browsers, stored in your own Google Drive, GitHub repo, or WebDAV server. No server. No telemetry. Optional AES-256-GCM encryption. Open source." />
-  <link rel="canonical" href="https://konode.vercel.app/" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="icon128.png" />
+  <title>Konode. Sync your browser to storage you own</title>
+  <meta name="description" content="Konode keeps bookmarks, open tabs, history and your extension list in step across every browser, stored in your own Google Drive, GitHub repo or WebDAV server. No server. No telemetry. Open source." />
+  <link rel="canonical" href="https://konode.org/" />
+  <link rel="icon" href="icon.svg?v=2" type="image/svg+xml" />
+  <link rel="icon" href="icon128.png?v=2" sizes="128x128" />
+  <link rel="apple-touch-icon" href="icon128.png?v=2" />
   <meta name="theme-color" content="#f7f8fa" />
   <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="header.css" />
   <link rel="stylesheet" href="style.css" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Konode" />
-  <meta property="og:url" content="https://konode.vercel.app/" />
-  <meta property="og:title" content="Konode — Sync your browser to storage you own" />
-  <meta property="og:description" content="Bookmarks, tabs, history and extensions synced across every Chromium browser, on storage you already own. No middleman." />
+  <meta property="og:url" content="https://konode.org/" />
+  <meta property="og:title" content="Konode. Sync your browser to storage you own" />
+  <meta property="og:description" content="Bookmarks, tabs, history and extensions synced across your browsers, on storage you already own. No middleman." />
   <meta name="twitter:card" content="summary" />
 
   <script type="application/ld+json">
@@ -25,9 +28,9 @@
     "@type": "SoftwareApplication",
     "name": "Konode",
     "applicationCategory": "BrowserApplication",
-    "operatingSystem": "Chrome, Brave, Edge, Firefox",
+    "operatingSystem": "Chrome, Brave, Edge, Chromium",
     "description": "Browser extension that syncs bookmarks, open tabs, history, and the installed-extension list to storage you own: Google Drive, a GitHub repository, or any WebDAV server. No account, no server, no telemetry. Optional AES-256-GCM end-to-end encryption.",
-    "url": "https://konode.vercel.app/",
+    "url": "https://konode.org/",
     "downloadUrl": "https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa",
     "license": "https://www.mozilla.org/en-US/MPL/2.0/",
     "isAccessibleForFree": true,
@@ -35,420 +38,604 @@
     "author": { "@type": "Organization", "name": "Kōnabe Studio" }
   }
   </script>
+
+  <script src="konode.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="site">
-    <div class="wrap">
-      <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
-      <nav class="nav" aria-label="Main">
-        <a href="#sync">What syncs</a>
-        <a href="#storage">Your storage</a>
+  <header class="site-header">
+    <a class="brand" href="/"><img src="icon.svg" alt="" /> Konode</a>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href="#features">Features</a>
+      <a href="#storage">Storage</a>
+      <a href="#privacy">Privacy</a>
+      <a href="setup.html">Setup</a>
+      <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg>
+        GitHub
+      </a>
+    </nav>
+
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" />
+        </svg>
+      </summary>
+      <nav aria-label="Mobile navigation">
+        <a class="m-install js-install" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa" target="_blank" rel="noopener noreferrer">Add to <span class="js-browser">Chrome</span> for free</a>
+        <a href="#features">Features</a>
+        <a href="#storage">Storage</a>
         <a href="#privacy">Privacy</a>
         <a href="setup.html">Setup</a>
+        <a href="#compare">Compare</a>
+        <a href="#faq">FAQ</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
-      <details class="menu">
-        <summary>Menu</summary>
-        <nav class="menu-panel" aria-label="Main">
-          <a href="#sync">What syncs</a>
-          <a href="#storage">Your storage</a>
-          <a href="#privacy">Privacy</a>
-          <a href="#compare">Comparison</a>
-          <a href="setup.html">Setup guide</a>
-          <a href="troubleshooting.html">Troubleshooting</a>
-          <a href="roadmap.html">Roadmap</a>
-          <a href="privacy.html">Privacy policy</a>
-          <a href="https://github.com/benstone326/Konode">Source on GitHub</a>
-        </nav>
-      </details>
-      <div class="head-actions">
-        <a class="src" href="https://github.com/benstone326/Konode">Source</a>
-        <a class="btn btn-dark btn-sm" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Install</a>
-      </div>
-    </div>
+    </details>
+
+    <a class="header-cta js-install"
+       href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa"
+       target="_blank" rel="noopener noreferrer">
+      <img class="js-browser-logo" src="assets/chrome.svg" alt="" />
+      Add to <span class="js-browser">Chrome</span>
+      <img class="ext" src="assets/arrow-ur.svg" alt="" />
+    </a>
   </header>
 
   <main id="main">
-    <!-- ---------- Hero ---------- -->
+
+    <!-- ============================================================ hero -- -->
     <section class="hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+
       <div class="wrap">
-        <!-- Concentric rings + the storage destinations sitting on them. -->
-        <div class="orbit" aria-hidden="true">
-          <div class="orbit-inner">
-            <span></span><span></span><span></span><span></span>
-            <svg class="orbit-arc" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-              <circle cx="50" cy="50" r="39" fill="none" stroke="#12b76a"
-                      stroke-width="0.25" stroke-dasharray="0.6 3" opacity="0.7" />
-            </svg>
+        <div class="hero-copy">
+          <p class="chip"><span class="dot"></span> No server. No telemetry. Open source.</p>
+
+          <div>
+            <h1>Sync your browser to storage <em>you own</em>.</h1>
+            <p class="hero-lead">
+              Konode keeps bookmarks, open tabs, history and your extension list in step
+              across every <span class="js-browser-family">Chromium based</span> browser,
+              stored in your Google Drive, GitHub or WebDAV. Nothing ever touches a Konode
+              server, because there isn't one.
+            </p>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary js-install"
+               href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa"
+               target="_blank" rel="noopener noreferrer">
+              <img class="js-browser-logo" src="assets/chrome.svg" alt="" />
+              <span><b>Add to <span class="js-browser">Chrome</span></b> for free</span>
+              <img class="ext" src="assets/arrow-ur.svg" alt="" />
+            </a>
+            <a class="btn btn-secondary" href="setup.html">How to set it up?</a>
           </div>
         </div>
+      </div>
 
-        <div class="orbit-tiles" aria-hidden="true">
-          <div class="p1">
-            <div class="tile">
-              <!-- Google Drive -->
-              <svg viewBox="0 0 87 78"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5l5.4 9.35z" fill="#0066da"/><path d="M43.65 25L30.15 1.7c-1.35.8-2.5 1.9-3.3 3.3L1.2 49.5C.4 50.9 0 52.45 0 54h27.5l16.15-29z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.5 7.9 12.3z" fill="#ea4335"/><path d="M43.65 25L57.15 1.7C55.8.9 54.25.5 52.65.5H34.65c-1.6 0-3.15.45-4.5 1.2l13.5 23.3z" fill="#00832d"/><path d="M59.8 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2L59.8 53z" fill="#2684fc"/><path d="M73.4 26.5L60.55 4.5c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 59.8 53h27.45c0-1.55-.4-3.1-1.2-4.5l-12.65-22z" fill="#ffba00"/></svg>
-            </div>
-          </div>
-          <div class="p2">
-            <div class="tile">
-              <!-- GitHub -->
-              <svg viewBox="0 0 24 24" fill="#11151a"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.87-1.54-3.87-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.72-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.81 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.77 1.06.77 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
-            </div>
-          </div>
-          <div class="p3">
-            <div class="tile tile-lg">
-              <!-- Nextcloud -->
-              <svg viewBox="0 0 32 32" fill="#0082c9"><path d="M16 9c-3.3 0-6.1 2.3-6.9 5.3C8.4 12.9 7 12 5.3 12 2.4 12 0 14.4 0 17.3s2.4 5.3 5.3 5.3c1.7 0 3.1-.9 4-2.3.8 3 3.6 5.3 6.9 5.3s6-2.3 6.8-5.3c.9 1.4 2.3 2.3 4 2.3 2.9 0 5.3-2.4 5.3-5.3S30 12 27 12c-1.7 0-3.1.9-3.9 2.3C22.2 11.3 19.4 9 16 9zm0 3c2.9 0 5.2 2.3 5.2 5.3S18.9 22.6 16 22.6s-5.3-2.3-5.3-5.3S13.1 12 16 12zm-10.7 3c1.2 0 2.2 1 2.2 2.3s-1 2.3-2.2 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3zm21.4 0c1.2 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z"/></svg>
-            </div>
-          </div>
-          <div class="p4">
-            <div class="tile tile-lg">
-              <!-- WebDAV / any server -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/><path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
-            </div>
-          </div>
-          <div class="p5">
-            <div class="tile">
-              <!-- End-to-end encryption -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0a7a43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4" fill="#0a7a43" stroke="none"/></svg>
-            </div>
-          </div>
-          <div class="p6">
-            <div class="tile">
-              <!-- Extension list -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4.5a1.8 1.8 0 0 1 3.6 0V6h2.9a1.5 1.5 0 0 1 1.5 1.5v2.9h1.5a1.8 1.8 0 0 1 0 3.6H18v2.9a1.5 1.5 0 0 1-1.5 1.5h-2.9V21a1.8 1.8 0 0 1-3.6 0v-1.6H7.1A1.5 1.5 0 0 1 5.6 18v-2.9H4a1.8 1.8 0 0 1 0-3.6h1.6V7.5A1.5 1.5 0 0 1 7.1 6H10V4.5z"/></svg>
-            </div>
-          </div>
+      <!-- Dial plate. Three rings: big turns right, middle left, small right. -->
+      <div class="dial" aria-hidden="true">
+        <div class="ring ring-big">
+          <span class="tile s1"><img src="assets/drive.svg" alt="" /></span>
+          <span class="tile s2"><img src="assets/github.svg" alt="" /></span>
+          <span class="tile s3"><img src="assets/nextcloud.svg" alt="" /></span>
+          <span class="tile s4"><img src="assets/pcloud.svg" alt="" /></span>
+          <span class="tile s5"><img src="assets/koofr.svg" alt="" /></span>
+          <span class="tile s6"><img src="assets/fastmail.svg" alt="" /></span>
+          <span class="tile s7"><img src="assets/webdav.svg" alt="" /></span>
+          <span class="tile s8"><img src="icon.svg" alt="" /></span>
+          <span class="tile s9"><img src="assets/drive.svg" alt="" /></span>
+          <span class="tile s10"><img src="assets/github.svg" alt="" /></span>
+          <span class="tile s11"><img src="assets/nextcloud.svg" alt="" /></span>
+          <span class="tile s12"><img src="assets/pcloud.svg" alt="" /></span>
+          <span class="tile s13"><img src="assets/koofr.svg" alt="" /></span>
+          <span class="tile s14"><img src="assets/fastmail.svg" alt="" /></span>
+          <span class="tile s15"><img src="assets/webdav.svg" alt="" /></span>
+          <span class="tile s16"><img src="icon.svg" alt="" /></span>
         </div>
 
-        <!-- Center content -->
-        <div class="hero-center">
-          <p class="chip"><span class="dot"></span>No server. No telemetry. Open source.</p>
+        <div class="ring ring-middle">
+          <span class="tile s1"><img src="assets/pcloud.svg" alt="" /></span>
+          <span class="tile s2"><img src="assets/webdav.svg" alt="" /></span>
+          <span class="tile s3"><img src="icon.svg" alt="" /></span>
+          <span class="tile s4"><img src="assets/drive.svg" alt="" /></span>
+          <span class="tile s5"><img src="assets/fastmail.svg" alt="" /></span>
+          <span class="tile s6"><img src="assets/github.svg" alt="" /></span>
+          <span class="tile s7"><img src="assets/koofr.svg" alt="" /></span>
+          <span class="tile s8"><img src="assets/nextcloud.svg" alt="" /></span>
+          <span class="tile s9"><img src="assets/pcloud.svg" alt="" /></span>
+          <span class="tile s10"><img src="assets/webdav.svg" alt="" /></span>
+          <span class="tile s11"><img src="icon.svg" alt="" /></span>
+          <span class="tile s12"><img src="assets/drive.svg" alt="" /></span>
+          <span class="tile s13"><img src="assets/fastmail.svg" alt="" /></span>
+          <span class="tile s14"><img src="assets/github.svg" alt="" /></span>
+          <span class="tile s15"><img src="assets/koofr.svg" alt="" /></span>
+          <span class="tile s16"><img src="assets/nextcloud.svg" alt="" /></span>
+        </div>
 
-          <h1>Sync your browser to storage you own.</h1>
-
-          <p class="hero-lead">
-            Konode keeps bookmarks, open tabs, history and your extension list in
-            step across every Chromium browser, stored in your Google Drive,
-            GitHub, or WebDAV. Nothing ever touches a Konode server, because there
-            isn't one.
-          </p>
-
-          <div class="hero-cta">
-            <a class="btn btn-dark" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Add to Chrome — it's free</a>
-            <a class="btn btn-outline" href="setup.html">How to set it up</a>
-          </div>
-
-          <!-- PRODUCT VISUAL — hand-built replica of the extension popup.
-               TO SWAP IN A REAL SCREENSHOT: replace this whole <div class="device">
-               block with:
-                   <img src="shot-popup.png" width="896" height="560"
-                        alt="The Konode popup: Google Drive connected, with bookmarks,
-                             tabs and extensions syncing." />
-               Export at 2x the frame width (~896px) so it stays sharp, and keep the
-               width/height attributes so the layout doesn't shift while it loads. -->
-          <div class="device">
-            <div class="device-head">
-              <span class="device-icon"><span class="dot"></span></span>
-              <span class="device-who">
-                <b>MacBook · this device</b>
-                <span>Synced 42s ago · 3 streams active</span>
-              </span>
-              <span class="device-badge">E2EE</span>
-            </div>
-            <div class="device-rows">
-              <div><b>Bookmarks</b><span>312 items</span></div>
-              <div><b>Open tabs</b><span>18 tabs · 2 windows</span></div>
-              <div><b>History</b><span>de-duplicated</span></div>
-            </div>
-          </div>
+        <div class="ring ring-small">
+          <span class="tile s1"><img src="assets/koofr.svg" alt="" /></span>
+          <span class="tile s2"><img src="icon.svg" alt="" /></span>
+          <span class="tile s3"><img src="assets/fastmail.svg" alt="" /></span>
+          <span class="tile s4"><img src="assets/webdav.svg" alt="" /></span>
+          <span class="tile s5"><img src="assets/nextcloud.svg" alt="" /></span>
+          <span class="tile s6"><img src="assets/drive.svg" alt="" /></span>
+          <span class="tile s7"><img src="assets/pcloud.svg" alt="" /></span>
+          <span class="tile s8"><img src="assets/github.svg" alt="" /></span>
+          <span class="tile s9"><img src="assets/koofr.svg" alt="" /></span>
+          <span class="tile s10"><img src="icon.svg" alt="" /></span>
+          <span class="tile s11"><img src="assets/fastmail.svg" alt="" /></span>
+          <span class="tile s12"><img src="assets/webdav.svg" alt="" /></span>
+          <span class="tile s13"><img src="assets/nextcloud.svg" alt="" /></span>
+          <span class="tile s14"><img src="assets/drive.svg" alt="" /></span>
+          <span class="tile s15"><img src="assets/pcloud.svg" alt="" /></span>
+          <span class="tile s16"><img src="assets/github.svg" alt="" /></span>
         </div>
       </div>
     </section>
 
-    <!-- ---------- Proof strip ---------- -->
-    <section class="proof" aria-label="Technical summary">
+    <!-- ======================================================== features -- -->
+    <section class="section features" id="features">
       <div class="wrap">
-        <span>AES-256-GCM</span>
-        <span>PBKDF2 · 600k rounds</span>
-        <span>MV3 extension</span>
-        <span>MPL-2.0 licensed</span>
-        <span>Chromium + Firefox</span>
-        <span>SHA-256 integrity</span>
-      </div>
-    </section>
-
-    <!-- ---------- What syncs ---------- -->
-    <section id="sync" class="band">
-      <div class="wrap">
-        <div class="sec-head">
-          <span class="eyebrow">What syncs</span>
+        <div class="section-head">
+          <p class="eyebrow">What syncs</p>
           <h2>Four data streams, in step across every browser.</h2>
         </div>
-        <div class="sec-body">
-          <div class="hairgrid">
+
+        <div class="hairline-grid">
+          <div>
+            <h3><span class="dot"></span> Bookmarks</h3>
+            <p>Your whole tree lands on every device with the folders and the nesting intact. Add one on the laptop and it is on the desktop, so the organising you already did stays done.</p>
+          </div>
+          <div>
+            <h3><span class="dot"></span> Open tabs</h3>
+            <p>Close the laptop mid-thought and pick the same tabs back up on another machine. Save a set, restore it wherever you land. Your session stops belonging to one device.</p>
+          </div>
+          <div>
+            <h3><span class="dot"></span> History</h3>
+            <p>That page you found last week is still there on the machine you are sitting at now. One de-duplicated list instead of one per device, so searching your history finds things.</p>
+          </div>
+          <div>
+            <h3><span class="dot"></span> Extensions</h3>
+            <p>Set up a new machine and see at a glance which of your extensions are missing from it. Konode keeps the list in step, and never installs or removes a thing by itself.</p>
+          </div>
+        </div>
+
+        <p class="footnote">When two devices disagree, you choose how it's resolved: newest wins, always prefer this device, always prefer the other, or resolve it yourself from the popup.</p>
+      </div>
+    </section>
+
+    <!-- ======================================================== storages -- -->
+    <section class="panel panel-light" id="storage">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Your storage</p>
+          <h2>Bring the backend.<br />Konode does the rest.</h2>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <span class="card-icon"><img src="assets/drive.svg" alt="" /></span>
             <div>
-              <h3><span class="dot"></span>Bookmarks</h3>
-              <p>Two-way sync that preserves your folder structure. Deletions propagate too, so no old bookmarks quietly come back.</p>
-            </div>
-            <div>
-              <h3><span class="dot"></span>Open tabs</h3>
-              <p>Save the current tab set and restore another device's session whenever you want.</p>
-            </div>
-            <div>
-              <h3><span class="dot"></span>History</h3>
-              <p>A synced, de-duplicated history list, with the original visit time preserved where the browser allows it. Chromium does not, Firefox does.</p>
-            </div>
-            <div>
-              <h3><span class="dot"></span>Extensions</h3>
-              <p>Sync the list and see at a glance which extensions are missing on the device you're on. Read-only: Konode never installs anything.</p>
+              <h3>Google Drive</h3>
+              <p>Signs in with your own Google account and asks only for the narrow drive.file scope, so Konode can touch the files it created and nothing else in your Drive.</p>
             </div>
           </div>
-          <p class="sec-note">
-            When two devices disagree, you choose how it's resolved: newest wins,
-            always prefer this device, always prefer the other, or resolve it
-            yourself from the popup.
-          </p>
+          <div class="card">
+            <span class="card-icon"><img src="assets/github.svg" alt="" /></span>
+            <div>
+              <h3>GitHub</h3>
+              <p>Point it at a single private repository with a fine-grained token. Every sync lands as a commit, so you get a version history you can read, diff, and roll back by hand.</p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-icon"><img src="assets/nextcloud.svg" alt="" /></span>
+            <div>
+              <h3>Nextcloud / ownCloud</h3>
+              <p>Connects over WebDAV, so your sync files sit on the server you already run. Use an app password rather than your account login, especially with two-factor on.</p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-icon"><img src="assets/pcloud.svg" alt="" /></span>
+            <div>
+              <h3>pCloud</h3>
+              <p>Turn on WebDAV access in your pCloud account and paste the endpoint into Konode. It writes into one folder you pick and leaves the rest of your drive alone.</p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-icon"><img src="assets/koofr.svg" alt="" /></span>
+            <div>
+              <h3>Koofr</h3>
+              <p>Koofr exposes a WebDAV endpoint, so it works the same way. Generate an app password for it and your main Koofr login never goes into the extension.</p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-icon"><img src="assets/fastmail.svg" alt="" /></span>
+            <div>
+              <h3>Fastmail</h3>
+              <p>Fastmail's file storage speaks WebDAV too. Same three fields as any other server: endpoint URL, username, and an app password scoped to files.</p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-icon"><img src="assets/webdav.svg" alt="" /></span>
+            <div>
+              <h3>WebDAV</h3>
+              <p>The generic route, and the one the four above travel on. Any compliant server works, Synology and kDrive included. No provider-specific code, no lock-in.</p>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-icon"><img src="assets/mega.svg" alt="" /></span>
+            <div>
+              <div class="card-head">
+                <h3>MEGA</h3>
+                <span class="badge">Planned</span>
+              </div>
+              <p>Not available yet. MEGA has no WebDAV endpoint, so it needs a backend of its own rather than riding on the generic one. See the <a href="roadmap.html">roadmap</a>.</p>
+            </div>
+          </div>
+          <div class="card card-dark">
+            <span class="card-icon"><img src="assets/question.svg" alt="" /></span>
+            <div>
+              <h3>Miss your storage?</h3>
+              <p>If your provider exposes WebDAV, it already works, so try it. If it doesn't, open an issue and name it. That is how MEGA ended up on the roadmap.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ---------- Storage ---------- -->
-    <section id="storage" class="band">
+    <!-- ========================================================= privacy -- -->
+    <section class="section pd" id="privacy">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="eyebrow">Your storage</span>
-          <h2>Bring the backend. Konode does the rest.</h2>
-        </div>
-        <div class="sec-body">
-          <div class="cards cards-3">
-            <div class="card">
-              <div class="card-top">
-                <span class="tile">
-                  <svg viewBox="0 0 87 78" aria-hidden="true"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5l5.4 9.35z" fill="#0066da"/><path d="M43.65 25L30.15 1.7c-1.35.8-2.5 1.9-3.3 3.3L1.2 49.5C.4 50.9 0 52.45 0 54h27.5l16.15-29z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.5 7.9 12.3z" fill="#ea4335"/><path d="M43.65 25L57.15 1.7C55.8.9 54.25.5 52.65.5H34.65c-1.6 0-3.15.45-4.5 1.2l13.5 23.3z" fill="#00832d"/><path d="M59.8 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2L59.8 53z" fill="#2684fc"/><path d="M73.4 26.5L60.55 4.5c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 59.8 53h27.45c0-1.55-.4-3.1-1.2-4.5l-12.65-22z" fill="#ffba00"/></svg>
-                </span>
-                <span class="auth">One-time sign-in</span>
-              </div>
-              <h3 class="card-name">Google Drive</h3>
-              <p>Scoped to <code class="inline">drive.file</code>, so Konode only ever touches the files it creates.</p>
-            </div>
 
-            <div class="card">
-              <div class="card-top">
-                <span class="tile">
-                  <svg viewBox="0 0 24 24" fill="#11151a" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.87-1.54-3.87-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.72-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.81 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.77 1.06.77 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
-                </span>
-                <span class="auth">Fine-grained token</span>
-              </div>
-              <h3 class="card-name">GitHub</h3>
-              <p>Point it at a single private repository. Every sync leaves a version history you can read.</p>
-            </div>
-
-            <div class="card">
-              <div class="card-top">
-                <span class="tile">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/><path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
-                </span>
-                <span class="auth">Username + password</span>
-              </div>
-              <h3 class="card-name">WebDAV</h3>
-              <p>Nextcloud, ownCloud, Synology, pCloud, kDrive, or any other WebDAV server.</p>
-            </div>
-          </div>
-          <p class="planned"><b>Planned</b> · Mega. Not available yet.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ---------- Privacy ---------- -->
-    <section id="privacy" class="band">
-      <div class="wrap">
-        <div class="sec-head">
-          <span class="eyebrow">Privacy &amp; security</span>
+        <div class="section-head">
+          <p class="eyebrow">Privacy &amp; security</p>
           <h2>The threat model, out in the open.</h2>
         </div>
-        <div class="sec-body">
-          <div class="cards cards-2">
-            <div class="card">
-              <div class="card-head">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7.5 3v6c0 4.5-3.2 8.4-7.5 9-4.3-.6-7.5-4.5-7.5-9V6L12 3z" stroke="#12b76a" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#12b76a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h3>No Konode servers exist.</h3>
+
+        <!-- ============================================ 1. who sees what -->
+        <div class="pd-block">
+          <h3 class="pd-h3">Who can see what</h3>
+          <p class="pd-sub">Three parties can touch your synced data. Here is exactly how much of it each one gets, with encryption off and with it on.</p>
+
+          <div class="pd-actors">
+            <article class="pd-actor">
+              <h4>You</h4>
+              <p>On any device you have signed in on, with the passphrase you chose.</p>
+              <div class="pd-state">
+                <span class="pd-state-label">Encryption off</span>
+                <span class="pd-state-value">Everything
+                  <span class="pd-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                </span>
               </div>
-              <p>Your data goes only to the backend you configure. Nothing is ever sent to us or to any third party, because there is nothing in the middle.</p>
+              <div class="pd-state">
+                <span class="pd-state-label">Encryption on</span>
+                <span class="pd-state-value">Everything
+                  <span class="pd-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                </span>
+              </div>
+            </article>
+
+            <article class="pd-actor">
+              <h4>Your storage provider</h4>
+              <p>Google, GitHub, or whoever runs the WebDAV server you pointed Konode at.</p>
+              <div class="pd-state">
+                <span class="pd-state-label">Encryption off</span>
+                <span class="pd-state-value">File contents
+                  <span class="pd-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                </span>
+              </div>
+              <div class="pd-state">
+                <span class="pd-state-label">Encryption on</span>
+                <span class="pd-state-value">Ciphertext only
+                  <span class="pd-pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+                </span>
+              </div>
+            </article>
+
+            <article class="pd-actor pd-actor-us">
+              <h4>Konode</h4>
+              <p>The extension you install, and us, the people who wrote and publish it.</p>
+              <div class="pd-state">
+                <span class="pd-state-label">Encryption off</span>
+                <span class="pd-state-value">Nothing
+                  <span class="pd-pips" aria-hidden="true"><i></i><i></i><i></i></span>
+                </span>
+              </div>
+              <div class="pd-state">
+                <span class="pd-state-label">Encryption on</span>
+                <span class="pd-state-value">Nothing
+                  <span class="pd-pips" aria-hidden="true"><i></i><i></i><i></i></span>
+                </span>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- ========================================== 2. where data goes -->
+        <div class="pd-block">
+          <h3 class="pd-h3">Where a bookmark actually goes</h3>
+          <p class="pd-sub">Two stops, and a gap in the middle where every other sync tool keeps a server.</p>
+
+          <div class="pd-path">
+            <article class="pd-node">
+              <p class="pd-node-tag">Step 1, on your device</p>
+              <h4>Your browser</h4>
+              <p>Konode reads the streams you switched on and, if you set a passphrase, encrypts them here. The key is derived on this machine and never leaves it.</p>
+            </article>
+
+            <div class="pd-link">
+              <span class="pd-link-line"></span>
+              <span class="pd-gap">No Konode server</span>
+              <span class="pd-link-line"></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+              <span class="pd-track" aria-hidden="true"><i class="pd-packet"></i></span>
             </div>
-            <div class="card">
-              <div class="card-head">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7.5 3v6c0 4.5-3.2 8.4-7.5 9-4.3-.6-7.5-4.5-7.5-9V6L12 3z" stroke="#12b76a" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#12b76a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h3>Optional end-to-end encryption.</h3>
-              </div>
-              <p>AES-256-GCM with a 600,000-round PBKDF2-SHA256 derivation. An explicit choice during setup. Off by default, and never silently enabled.</p>
+
+            <article class="pd-node">
+              <p class="pd-node-tag">Step 2, your account</p>
+              <h4>Your storage</h4>
+              <p>The file lands in your own Drive, repository or WebDAV folder. With a passphrase set it arrives as ciphertext that nobody can read back without it.</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- ============================================= 3. permissions -->
+        <div class="pd-block">
+          <h3 class="pd-h3">Permissions arrive when you ask for them</h3>
+          <p class="pd-sub">Konode installs able to read one thing. The browser only prompts for the rest when you switch that stream on, so anything you leave off stays unreadable. Try it.</p>
+
+          <form class="pd-perms" data-perm-demo>
+            <div class="pd-switches">
+              <label class="pd-switch">
+                <input type="checkbox" value="bookmarks" checked disabled />
+                <span>Bookmarks <small>Granted at install. This is the baseline.</small></span>
+              </label>
+              <label class="pd-switch">
+                <input type="checkbox" value="tabs" />
+                <span>Open tabs <small>Prompted for when you turn it on</small></span>
+              </label>
+              <label class="pd-switch">
+                <input type="checkbox" value="history" />
+                <span>History <small>Prompted for when you turn it on</small></span>
+              </label>
+              <label class="pd-switch">
+                <input type="checkbox" value="extensions" />
+                <span>Extensions <small>Prompted for when you turn it on</small></span>
+              </label>
             </div>
-            <div class="card">
-              <div class="card-head">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7.5 3v6c0 4.5-3.2 8.4-7.5 9-4.3-.6-7.5-4.5-7.5-9V6L12 3z" stroke="#12b76a" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#12b76a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h3>Credentials stay local.</h3>
-              </div>
-              <p>OAuth tokens, GitHub tokens, WebDAV passwords and your passphrase live only in <code class="inline">chrome.storage.local</code> on your device.</p>
+
+            <div class="pd-readout" aria-live="polite">
+              <h5>Konode can read</h5>
+              <ul class="pd-can" data-can></ul>
+              <h5>Konode cannot read</h5>
+              <ul class="pd-cannot" data-cannot></ul>
             </div>
-            <div class="card">
-              <div class="card-head">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7.5 3v6c0 4.5-3.2 8.4-7.5 9-4.3-.6-7.5-4.5-7.5-9V6L12 3z" stroke="#12b76a" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#12b76a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <h3>Least privilege.</h3>
+          </form>
+        </div>
+
+        <!-- ================================================== 4. limits -->
+        <div class="pd-block">
+          <div class="pd-limits">
+            <p class="pd-limits-head">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+                <path d="M12 9v4" /><path d="M12 17h.01" />
+              </svg>
+              Known limits
+            </p>
+            <div class="pd-limits-body">
+              <h3>What this does not protect against</h3>
+              <p>A threat model that only lists wins is marketing. These are the three places where Konode cannot help you, stated before you install rather than after something goes wrong.</p>
+              <div class="pd-limit-list">
+              <div class="pd-limit">
+                <h4>Someone at your unlocked machine</h4>
+                <p>Browser extensions cannot reach the operating system keychain, so your backend credentials sit in ordinary local extension storage. Anyone using your unlocked profile can read them.</p>
               </div>
-              <p>History, tabs and management permissions are requested only when you turn those data types on. Extension-list access is read-only.</p>
+              <div class="pd-limit">
+                <h4>A forgotten passphrase</h4>
+                <p>Encryption keys are derived on your device and never leave it. Lose the passphrase and the uploaded data cannot be decrypted, by you or by us. There is nothing to reset.</p>
+              </div>
+              <div class="pd-limit">
+                <h4>Metadata at your provider</h4>
+                <p>Encryption hides what is inside a file, not that the file exists. Your provider can still see file names, sizes and when they last changed, whether encryption is on or off.</p>
+                </div>
+              </div>
             </div>
           </div>
-          <p class="sec-note">Full detail in the <a href="privacy.html">privacy policy</a>.</p>
         </div>
+
       </div>
     </section>
 
-    <!-- ---------- How it works ---------- -->
-    <section id="how" class="band">
+    <!-- ============================================================ code -- -->
+    <section class="panel panel-dark code">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="eyebrow">How it works</span>
-          <h2>One JSON file per device, per data type.</h2>
+        <div class="section-head">
+          <p class="eyebrow">The file format</p>
+          <h2>One JSON file<br />per device, per data type.</h2>
         </div>
-        <div class="sec-body">
-          <div class="window">
-            <div class="window-bar">
-              <i></i><i></i><i></i>
-              <span>/Konode/macbook-bookmarks.json</span>
-            </div>
-<pre><span class="k">{</span>
-  <span class="k">"device":</span>   <span class="v">"macbook"</span><span class="k">,</span>
-  <span class="k">"type":</span>     <span class="v">"bookmarks"</span><span class="k">,</span>
-  <span class="k">"updated":</span>  <span class="v">"2026-07-27T09:41:00Z"</span><span class="k">,</span>
-  <span class="k">"checksum":</span> <span class="v">"sha256:a3f9…c2b7"</span><span class="k">,</span>
-  <span class="k">"e2ee":</span>     <span class="v">true</span><span class="k">,</span>
+
+        <div class="code-window">
+          <div class="code-bar">
+            <i></i><i></i><i></i>
+            <span>/Konode/laptop-bookmarks.json</span>
+          </div>
+          <pre><code>{
+  <span class="k">"device":</span>   <span class="v">"laptop"</span>,
+  <span class="k">"type":</span>     <span class="v">"bookmarks"</span>,
+  <span class="k">"updated":</span>  <span class="v">"2026-07-27T09:41:00Z"</span>,
+  <span class="k">"checksum":</span> <span class="v">"sha256:a3f9…c2b7"</span>,
+  <span class="k">"e2ee":</span>     <span class="v">true</span>,
   <span class="k">"payload":</span>  <span class="v">"&lt;AES-256-GCM ciphertext&gt;"</span>
-<span class="k">}</span></pre>
-          </div>
-          <p class="sec-note">
-            Illustrative shape; the repository has the exact schema. Every sync pulls
-            each peer's file, merges non-destructively, then pushes back. Bookmarks
-            use tombstones so deletions travel between devices without resurrecting
-            old entries.
-          </p>
+}</code></pre>
+          <p class="code-siblings">Alongside it<span>laptop-tabs.json</span><span>desktop-bookmarks.json</span><span>desktop-history.json</span></p>
         </div>
+
+        <p class="footnote">This is an illustrative shape. The repository has the exact schema. Every sync pulls each peer's file, merges non-destructively, then pushes back. Bookmarks use tombstones so deletions travel between devices without resurrecting old entries.</p>
       </div>
     </section>
 
-    <!-- ---------- Compare ---------- -->
-    <section id="compare" class="band">
+    <!-- ========================================================= compare -- -->
+    <section class="section compare" id="compare">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="eyebrow">Alternatives</span>
+        <div class="section-head">
+          <p class="eyebrow">Alternatives</p>
           <h2>How it compares.</h2>
         </div>
-        <div class="sec-body">
+
+        <div class="table-shell">
           <div class="table-scroll">
-            <table class="cmp">
-              <caption class="sr-only">Konode compared with Floccus, Raindrop.io, xBrowserSync, and built-in browser sync</caption>
+            <table class="compare">
               <thead>
                 <tr>
-                  <th scope="col">&nbsp;</th>
-                  <th scope="col" class="self">Konode</th>
-                  <th scope="col">Floccus</th>
-                  <th scope="col">Raindrop.io</th>
-                  <th scope="col">xBrowserSync</th>
-                  <th scope="col">Built-in sync</th>
+                  <th><span class="vh">Feature</span></th>
+                  <th class="col-konode">Konode</th>
+                  <th>Floccus</th>
+                  <th>Raindrop.io</th>
+                  <th>xBrowserSync</th>
+                  <th>Built-in sync</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">What syncs</th>
-                  <td class="self">Bookmarks, tabs, history, extension list</td>
+                  <td class="col-konode">Bookmarks, tabs, history, extension list</td>
+                  <td>Bookmarks, or open tabs</td>
+                  <td>Its own library, not your browser's bookmarks</td>
                   <td>Bookmarks</td>
-                  <td>Bookmarks</td>
-                  <td>Bookmarks</td>
-                  <td>Bookmarks, tabs, history, passwords</td>
+                  <td>Bookmarks, tabs, history, passwords, and more</td>
                 </tr>
                 <tr>
                   <th scope="row">Where it writes</th>
-                  <td class="self">Your Drive, GitHub, or WebDAV</td>
-                  <td>Your Drive, Nextcloud, WebDAV, Dropbox, Git</td>
+                  <td class="col-konode">Your Drive, GitHub, or WebDAV</td>
+                  <td>Nextcloud, WebDAV, Git, Drive, Dropbox, Linkwarden, KaraKeep</td>
                   <td>Raindrop's servers</td>
-                  <td>Their server, or self-hosted</td>
+                  <td>Its own service: official, community-run, or self-hosted</td>
                   <td>Google's or Mozilla's servers</td>
                 </tr>
                 <tr>
                   <th scope="row">Account needed</th>
-                  <td class="self">No</td>
-                  <td>No</td>
-                  <td>Yes</td>
-                  <td>No, anonymous ID</td>
-                  <td>Yes</td>
+                  <td class="col-konode">No Konode account</td>
+                  <td>No floccus account</td>
+                  <td>Yes, and cloud only</td>
+                  <td>No account, just a sync ID and password</td>
+                  <td>Yes, a Google or Mozilla account</td>
                 </tr>
                 <tr>
                   <th scope="row">End-to-end encryption</th>
-                  <td class="self">Optional, on every backend</td>
-                  <td>Optional, WebDAV and Drive</td>
+                  <td class="col-konode">Optional, on every backend</td>
+                  <td>Optional, on WebDAV, Drive and Dropbox</td>
                   <td>No</td>
-                  <td>Yes, client-side</td>
-                  <td>Firefox yes, Chrome optional</td>
+                  <td>Always on</td>
+                  <td>Firefox by default, Chrome behind a passphrase</td>
                 </tr>
                 <tr>
                   <th scope="row">Open source</th>
-                  <td class="self">Yes, MPL-2.0</td>
-                  <td>Yes</td>
-                  <td>Apps only</td>
-                  <td>Yes</td>
-                  <td>Partially</td>
+                  <td class="col-konode">Yes, MPL-2.0</td>
+                  <td>Yes, MPL-2.0</td>
+                  <td>Client apps, not the server</td>
+                  <td>Yes, GPL-3.0</td>
+                  <td>Clients open, sync servers not</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="table-hint">
-            Compared in July 2026 from each project's own documentation. Check the
-            source projects for current details.
-          </p>
         </div>
+
+        <p class="footnote">Compared in July 2026 from each project's own documentation. Check the source projects for current details.</p>
       </div>
     </section>
 
-    <!-- ---------- Final CTA ---------- -->
-    <section class="final">
+    <!-- ============================================================= faq -- -->
+    <section class="section faq" id="faq">
       <div class="wrap">
-        <div class="final-card">
-          <img src="icon.svg" alt="" width="44" height="44" />
-          <h2>Your browser, everywhere. On storage you own.</h2>
-          <p>Free, open source, no account. Install once, connect your storage, you're done.</p>
-          <div class="hero-cta">
-            <a class="btn btn-dark" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Add to Chrome</a>
-            <a class="btn btn-outline" href="https://github.com/benstone326/Konode">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.87-1.54-3.87-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.72-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.81 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.77 1.06.77 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
-              Source on GitHub
-            </a>
+        <div class="section-head">
+          <p class="eyebrow">Questions</p>
+          <h2>The things people ask first.</h2>
+        </div>
+
+        <div class="faq-grid">
+          <div>
+            <h3>Do I need a Konode account?</h3>
+            <p>No. There is no account to create and no Konode server to sign in to, because there isn't one. You connect storage you already have, and that is the setup.</p>
+          </div>
+          <div>
+            <h3>Which browsers does it run on?</h3>
+            <p>Chromium browsers through the Chrome Web Store: Chrome, Brave, Helium and ungoogled-chromium. A Firefox build exists too. The <a href="roadmap.html">roadmap</a> tracks where it currently stands.</p>
+          </div>
+          <div>
+            <h3>Which storage can I point it at?</h3>
+            <p>Three backends: Google Drive, a GitHub repository, or any compliant WebDAV server. Nextcloud, ownCloud, Synology, pCloud and kDrive all qualify. The <a href="setup.html">setup guide</a> walks through each.</p>
+          </div>
+          <div>
+            <h3>Where are my credentials kept?</h3>
+            <p>On your device only, in the browser's local extension storage. They authenticate to the backend you chose and are never transmitted to us. There is no server to transmit them to.</p>
+          </div>
+          <div>
+            <h3>What if I lose my encryption passphrase?</h3>
+            <p>Then the uploaded data cannot be decrypted, by you or by anyone else. No Konode server holds your key, so there is nothing to reset and no recovery path.</p>
+          </div>
+          <div>
+            <h3>How do I delete everything Konode wrote?</h3>
+            <p>Two places, both yours. Uninstalling clears what the extension put on your device, credentials included. Deleting Konode's folder on your own backend clears the synced files. There is no third place.</p>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- ===================================================== closing cta -- -->
+    <section class="panel cta-panel">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Get started</p>
+          <h2>Your browser, your storage.<br />Takes about two minutes.</h2>
+        </div>
+
+        <p class="cta-lead">
+          Install it, point it at a backend you already pay for or already run, and add
+          your second device. Nothing to sign up for along the way.
+        </p>
+
+        <div class="cta-actions">
+          <a class="btn btn-invert js-install"
+             href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa"
+             target="_blank" rel="noopener noreferrer">
+            <img class="js-browser-logo" src="assets/chrome.svg" alt="" />
+            <span>Add to <b class="js-browser">Chrome</b> for free</span>
+          </a>
+          <a class="btn btn-ghost" href="setup.html">Read the setup guide</a>
+        </div>
+
+        <p class="cta-fine">
+          Free and open source under MPL-2.0.
+          <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">Read the code</a>.
+        </p>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="site">
+  <footer class="site-footer">
     <div class="wrap">
-      <div class="top">
-        <div>
-          <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
-          <p class="about">
-            An independent, open-source project by <b>Kōnabe Studio</b>. Not
-            affiliated with Google, GitHub, Mozilla, or any storage provider.
-          </p>
-        </div>
-        <div class="links">
+      <div class="footer-top">
+        <a class="brand" href="/"><img src="icon.svg" alt="" /> Konode</a>
+        <nav class="footer-nav" aria-label="Footer">
           <a href="setup.html">Setup</a>
           <a href="troubleshooting.html">Troubleshooting</a>
           <a href="roadmap.html">Roadmap</a>
-          <a href="privacy.html">Privacy</a>
-          <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>
-          <a href="https://github.com/benstone326/Konode">GitHub</a>
-          <span class="lic">MPL-2.0</span>
-        </div>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
       </div>
+      <p class="footer-legal">Konode is open source under MPL-2.0. Built by Kōnabe Studio. No account, no server, no telemetry.</p>
     </div>
   </footer>
 </body>

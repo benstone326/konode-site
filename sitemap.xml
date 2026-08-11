@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://konode.vercel.app/</loc>
+    <loc>https://konode.org/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://konode.vercel.app/setup.html</loc>
+    <loc>https://konode.org/setup.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://konode.vercel.app/troubleshooting.html</loc>
+    <loc>https://konode.org/troubleshooting.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://konode.vercel.app/roadmap.html</loc>
+    <loc>https://konode.org/roadmap.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://konode.vercel.app/privacy.html</loc>
+    <loc>https://konode.org/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>

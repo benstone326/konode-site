@@ -159,8 +159,51 @@ Interaction only. Transitions touch `transform`, `opacity`, `background-color`,
 ```
 
 No spring or elastic easing. No entrance animations: **all content is visible at
-rest.** No pulsing dots, no blinking carets, no marquees. Everything respects
-`prefers-reduced-motion`.
+rest.** No pulsing dots, no blinking carets, no marquees.
+
+### The dial plate is the one standing exception
+
+The three hero rings rotate continuously, and they keep rotating under
+`prefers-reduced-motion: reduce`. That is deliberate: the motion is decorative,
+it never flashes, and one full turn takes 105–190 seconds, far slower than the
+rate that triggers vestibular discomfort. Everything else on the site still
+collapses its transitions under that query.
+
+Each ring is a single animated element and the tiles are plain children, so the
+whole dial costs three animations, not fifty. The tiles keep the seat rotation
+(`--a`) rather than cancelling it, so the logos tilt with the ring exactly as
+they do in the Figma. Do not add a counter-rotation.
+
+### The packet on the data path
+
+The Privacy section's diagram sends a small dot from the browser node to the
+storage node every 3.6 seconds. It passes **behind** the `No Konode server`
+pill and out the other side, which is the argument the pill is making: nothing
+stops there. Like the dial, it keeps running under
+`prefers-reduced-motion: reduce`.
+
+This is the outer edge of what the motion rules above allow, and it is allowed
+only because the movement carries the meaning. A second decorative loop
+anywhere on the page would not be.
+
+### Scaling the dial
+
+One custom property, `--k` on `.dial`, scales the whole thing. Every dimension
+is written as `calc(<desktop px> * var(--k))`: the three radii, the three tile
+sizes, the ring offsets, the dial height and its top margin. A breakpoint sets
+`--k` and nothing else, so the proportions cannot drift apart.
+
+| Width | `--k` | Dial height | Tiles (big / middle / small) |
+| --- | --- | --- | --- |
+| default | 1 | 620px | 154 / 122 / 90 |
+| ≤ 1200px | 0.8 | 496px | 123 / 98 / 72 |
+| ≤ 900px | 0.62 | 384px | 95 / 76 / 56 |
+| ≤ 640px | 0.44 | 273px | 68 / 54 / 40 |
+| ≤ 360px | 0.36 | 223px | 55 / 44 / 32 |
+
+Spin durations stay fixed at every size, so a smaller dial turns at the same
+pace rather than looking faster. The 1px tile border and the tile shadow are
+also left unscaled, which keeps the hairline crisp on small screens.
 
 ---
 
@@ -182,7 +225,8 @@ rest.** No pulsing dots, no blinking carets, no marquees. Everything respects
   device card sits there and a tile covered it.
 - **No placeholder `<img>`.** The hero visual is a real, hand-built replica of the
   extension popup; see the swap note in `index.html`.
-- **Copy discipline.** Em dashes are rationed. No buzzwords. No aphoristic
+- **Copy discipline.** **No em dashes anywhere.** Use a period or a comma
+  instead. This is checkable: `grep -c "—" *.html` must return 0. No buzzwords. No aphoristic
   "not this. that." cadence. Claims are limited to what the Konode README
   actually documents, and the SyncPacket example is labelled illustrative.
 
