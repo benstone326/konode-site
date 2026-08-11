@@ -29,9 +29,18 @@ Stylesheets, and which pages load them:
 
 | File | Loaded by | Contains |
 | --- | --- | --- |
-| `header.css` | all 5 pages | the floating pill header and mobile menu — self-contained, depends on neither token set |
-| `style.css` | `index.html` | the landing page design system, from the Figma variables |
+| `tokens.css` | all 5 pages, first | **every design token, declared once.** The only `:root` in the repo |
+| `header.css` | all 5 pages | the floating pill header and mobile menu — self-contained, uses no tokens |
+| `style.css` | `index.html` | the landing page rules, from the Figma variables |
 | `docs.css` | the 4 doc pages | the previous stylesheet, minus its old header rules |
+
+`style.css` and `docs.css` each carried their own `:root` until 2026-08-11. They
+shared 29 token names and eight of those held different values, so `--maxw`,
+`--s-9`, `--dur` and `--border` all meant different things depending on which
+page you were on. Both were emptied into `tokens.css` and `docs.css` was moved
+onto the landing page's vocabulary (`--surface` → `--bg-card`, `--accent-text` →
+`--accent-solid`, and so on). **Do not give either file a `:root` again** —
+`DESIGN.md` has the full mapping and the reasoning.
 
 Supporting files: `konode.js`, `assets/` (12 brand SVGs exported from Figma),
 `fonts/` (3 woff2, 99 KB total), `icon.svg`, `icon128.png`, `wordmark.svg`,
@@ -101,13 +110,13 @@ the data path".
 
 ### Known gaps
 
-- **Two token systems.** `style.css` and `docs.css` each carry their own
-  `:root`, sharing 29 token names of which **eight hold different values**:
-  `--fs-h3` (18px vs 15px), `--fs-h2`, `--maxw`, `--s-7`, `--s-9`, `--dur`,
-  `--border` and `--border-strong`. Copying a rule from one stylesheet to the
-  other silently resizes or recolors it. `DESIGN.md` now documents `style.css`
-  and lists the conflicts, which makes the hazard visible but does not remove
-  it. Unifying them is the actual fix and has not been done.
+- **Literal type sizes bypass the scale.** The tokens are unified now, but
+  `docs.css` still hardcodes `0.8125rem` (13px) in six places and pins
+  `.doc h2` / `.doc h3` at `1.5rem` / `1.0625rem`. `style.css` has a handful of
+  its own (`18px`, `15px`, `13px`, `1.75rem`, `1.25rem`). So a 13px step exists
+  on the page without existing in the scale, and the doc-page headings do not
+  respond to `--fs-h2` / `--fs-h3` at all. Decide whether 13px earns a token or
+  those call sites move to `--fs-sm`, then remove the literals.
 
 **[`DESIGN.md`](DESIGN.md) is the design system** — every color, type step,
 radius and spacing value the site uses. Read it before changing anything visual,

@@ -4,41 +4,53 @@ The single source of truth for type, color, radius and spacing on this site.
 **If you need a value that isn't in this file, add it here deliberately rather
 than inventing a one-off.**
 
-**Scope: this file documents `style.css`, the landing page.** Reconciled against
-it on 2026-08-11. If you rename or retune a token there, edit this file in the
-same commit.
+**Every token below is declared in `tokens.css`, and nowhere else.** All five
+pages load it first, ahead of `style.css` or `docs.css`. Neither of those has a
+`:root` any more, and neither should get one back.
 
-## Two token systems, one repository
+## Why there is a separate tokens file
 
-The four doc pages do not run on `style.css`. They run on `docs.css`, which is
-the previous stylesheet kept intact through the landing-page redesign, and it
-carries its own `:root`. Until this reconciliation, **this document actually
-described `docs.css`** and had simply never been moved over.
+Until 2026-08-11 the landing page and the doc pages each carried their own
+`:root`. The two shared 29 token names and **eight of them held different
+values**, so the same name meant different things depending on which page you
+were looking at: `--maxw` was 1216px or 1152px, `--s-9` was 120px or 96px,
+`--dur` was 180ms or 160ms, `--border` was `#e6e8eb` or `#ececef`. Copying a
+rule from one stylesheet to the other silently resized or recolored it.
 
-That matters more than a stale table would, because the two sets are not
-disjoint. They share 29 token names, and **eight of those hold different values
-depending on which stylesheet is in scope**:
+`docs.css` also used a different vocabulary for the same ideas. Those names were
+folded into the landing page's, which is what the merged set uses:
 
-| Token | `style.css` (landing) | `docs.css` (doc pages) |
-| --- | --- | --- |
-| `--fs-h3` | `1.125rem` → 18px | `0.9375rem` → 15px |
-| `--fs-h2` | `clamp(1.75rem, 3.2vw, 2.5rem)` | `clamp(1.875rem, 3.4vw, 2.5rem)` |
-| `--maxw` | 1216px | 1152px |
-| `--s-7` | 40px | 48px |
-| `--s-9` | 120px | 96px |
-| `--dur` | 180ms | 160ms |
-| `--border` | `#e6e8eb` | `#ececef` |
-| `--border-strong` | `#d7dbe0` | `#dfe1e6` |
+| Was, in `docs.css` | Now |
+| --- | --- |
+| `--surface` | `--bg-card` |
+| `--surface-2` | `--bg-subtle` |
+| `--accent-text` | `--accent-solid` |
+| `--accent-tint` | `--bg-card-sel` |
+| `--fs-label` | `--fs-xs` |
+| `--fs-card` | `--fs-sm` |
+| `--r-md` / `--r-lg` | `--r-btn` / `--r-card` |
+| `--lift` / `--lift-lg` | `--shadow-lm-lg` / `--shadow-lg` |
+| `--s-10` | dropped, it was never used |
 
-`--fs-h3` is the one to watch: the same token name is a 18px card heading on the
-landing page and a 15px one on the doc pages. **Copying a rule between the two
-stylesheets will silently resize it.** `docs.css` also keeps names that
-`style.css` dropped entirely, including `--surface`, `--fg-subtle`, `--r-lg`,
-`--lift`, `--fs-display`, `--fs-lead`, `--fs-card`, `--fs-label`,
-`--accent-text` and `--accent-tint`. Those are real and in use; they are just
-not part of the system below.
+Four names survived the merge because they name something the landing page has
+no equivalent for: `--fg-subtle`, `--danger-text`, `--fs-display` and
+`--fs-lead`. `--fs-display` in particular is **not** a duplicate of `--fs-hero`:
+a landing hero tops out at 72px and a document title at 60px, and collapsing
+them would make one of the two wrong.
 
-Unifying the two is worth doing and is not what this reconciliation did.
+The merged set is 57 tokens, every one of them used.
+
+### What this did not fix
+
+Both stylesheets still set some type sizes as literals that bypass the scale
+entirely: `0.8125rem` (13px) appears six times in `docs.css`, and `.doc h2` and
+`.doc h3` are hardcoded at `1.5rem` and `1.0625rem`. That last one is why the
+doc-page headings barely moved when the token values merged, and it means a
+13px step exists in practice without existing in the scale. Deciding whether
+13px becomes a token or those call sites move to `--fs-sm` is still open.
+
+Reviewed against <https://impeccable.style/slop/>; the deviations that were made
+on purpose are listed at the bottom.
 
 Reviewed against <https://impeccable.style/slop/>; the deviations that were made
 on purpose are listed at the bottom.
@@ -75,25 +87,24 @@ and pinning them here just produces a table that drifts.
 
 | Token | Size | Used for |
 | --- | --- | --- |
-| `--fs-hero` | `clamp(2.5rem, 5.6vw, 4.5rem)` → 40–72px | Hero `h1` (weight 900, `-0.025em`, leading 1) |
+| `--fs-hero` | `clamp(2.5rem, 5.6vw, 4.5rem)` → 40–72px | Landing `h1` (weight 900, `-0.025em`, leading 1) |
+| `--fs-display` | `clamp(2.5rem, 5.4vw, 3.75rem)` → 40–60px | Doc-page `h1` (600, `-0.03em`, 1.05) |
 | `--fs-h2` | `clamp(1.75rem, 3.2vw, 2.5rem)` → 28–40px | Section headings (600, `-0.8px`, 1.1) |
 | `--fs-h3` | `1.125rem` → 18px | Card and block headings (600) |
+| `--fs-lead` | `clamp(0.9375rem, 1.3vw, 1rem)` → 15–16px | Doc-page intros |
 | `--fs-body` | `1rem` → 16px | Body copy, section leads |
 | `--fs-sm` | `0.875rem` → 14px | Copy inside cards, table cells, doc prose |
-| `--fs-xs` | `0.75rem` → 12px | Eyebrows, footnotes, code-window filename |
+| `--fs-xs` | `0.75rem` → 12px | Mono labels, eyebrows, footnotes |
 
 Negative tracking is applied only at 28px and up, where it's optical correction.
 Wide letter-spacing appears only on uppercase mono labels.
 
-**There is one un-tokenised size: a literal `11px`**, used in nine places for
-uppercase mono labels (`.eyebrow` on cards, `.pd-node-tag`, `.pd-seal`,
-`.pd-limits-head`, `.e2ee-tag`, and the rest). It is below the 12px floor this
-document used to claim the site held to, so the claim is gone rather than the
-size: nine call sites is a convention, not an accident. All nine clear 4.5 : 1
-on their backgrounds, which is what actually matters at that size. If you want
-them at 12px, raise all nine together.
-
-No prose is below 14px anywhere.
+**12px is the floor, and `--fs-xs` is the only thing at it.** Nine mono labels
+sat at a literal `11px` until 2026-08-11 (`.pd-node-tag`, `.pd-seal`,
+`.pd-limits-head`, `.e2ee-tag` and the rest); they were raised together and now
+go through the token. No prose is below 14px anywhere. Note the caveat in "What
+this did not fix" above: some literal sizes remain in `docs.css`, and one of
+them is 13px.
 
 ## Color
 

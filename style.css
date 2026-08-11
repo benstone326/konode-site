@@ -36,76 +36,9 @@
 }
 
 /* --------------------------------------------------------------- tokens -- */
-
-:root {
-  /* Light surfaces — Figma: Background/*, Border/border */
-  --bg: #f7f8fa;
-  --bg-card: #ffffff;
-  --bg-panel: #ffffff;
-  --bg-card-sel: #e7f7ef;
-  --border: #e6e8eb;
-  --border-hair: #ececef;
-  --border-strong: #d7dbe0;
-
-  /* Light text — Figma: Text/* */
-  --fg: #11151a;
-  --fg-muted: #5b6470;
-
-  /* Accent — Figma: Accent/* */
-  --accent: #12b76a;         /* fills, dots, the Konode table column */
-  --accent-solid: #0b8348;   /* accent as text and as the primary button fill */
-  --accent-link: #0e9d5a;    /* the highlighted words in the hero headline */
-  --on-accent: #ffffff;
-
-  /* Dark panel — Figma: the Code section */
-  --d-bg: #0f1216;
-  --d-card: #161a20;
-  --d-border: #2a2f37;
-  --d-fg: #e6e9ee;
-  --d-fg-muted: #97a0ad;
-  --d-accent: #34d399;
-  /* Was #68707d, borrowed from the light palette where it is the *darkest*
-     passing tone on a white background. On --d-card it runs the other way and
-     measures 3.49:1, failing AA for the 12px filename in the code bar. This
-     value is 5.01:1 there, and still reads as quieter than --d-fg-muted. */
-  --d-subtle: #828a97;
-
-  /* Type */
-  --font-display: "Schibsted Grotesk", system-ui, sans-serif;
-  --font-body: system-ui, "Segoe UI Variable Text", -apple-system, "Segoe UI",
-    Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
-
-  --fs-hero: clamp(2.5rem, 5.6vw, 4.5rem);   /* 40 → 72 */
-  --fs-h2: clamp(1.75rem, 3.2vw, 2.5rem);    /* 28 → 40 */
-  --fs-h3: 1.125rem;                         /* 18 */
-  --fs-body: 1rem;
-  --fs-sm: 0.875rem;                         /* 14 */
-  --fs-xs: 0.75rem;                          /* 12 */
-
-  /* Radius — Figma: 12 buttons, 16 cards, 40 section shells, 999 pills */
-  --r-sm: 8px;
-  --r-btn: 12px;
-  --r-card: 16px;
-  --r-panel: 40px;
-  --r-pill: 999px;
-
-  /* Spacing */
-  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
-  --s-5: 24px; --s-6: 32px; --s-7: 40px; --s-8: 64px;
-  --s-9: 120px;
-
-  --maxw: 1216px;
-  --gutter: 24px;
-
-  /* Elevation — Figma: shadow-lm, shadow-lm-lg */
-  --shadow-lm: 0 1px 2px rgb(17 21 26 / 0.05), 0 0 0 1px rgb(17 21 26 / 0.06);
-  --shadow-lm-lg: 0 1px 2px rgb(17 21 26 / 0.04), 0 8px 24px -12px rgb(17 21 26 / 0.12);
-  --shadow-tile: 0 1px 1px rgb(17 21 26 / 0.04), 0 8px 12px -6px rgb(17 21 26 / 0.12);
-
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur: 180ms;
-}
+/* Declared in tokens.css, which every page loads first. Do not add a :root
+   here: a second one is how the landing page and the doc pages drifted into
+   meaning different things by the same token name. */
 
 /* ---------------------------------------------------------------- reset -- */
 
@@ -559,7 +492,7 @@ p { margin: 0; }
   background: var(--bg-card);
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -694,7 +627,7 @@ p { margin: 0; }
   margin: 0 0 var(--s-5);
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -718,7 +651,7 @@ p { margin: 0; }
   left: 0;
   color: var(--accent-solid);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
 }
 .e2ee-steps h3 {
   margin: 0 0 var(--s-1);
@@ -743,7 +676,7 @@ p { margin: 0; }
   margin: 0 0 var(--s-2);
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -857,7 +790,7 @@ p { margin: 0; }
 .pd-state-label {
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -907,7 +840,7 @@ p { margin: 0; }
   margin: 0 0 var(--s-3);
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -998,7 +931,7 @@ p { margin: 0; }
   background: var(--accent-solid);
   color: var(--on-accent);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1078,7 +1011,7 @@ p { margin: 0; }
   margin: 0 0 var(--s-3);
   color: var(--fg-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1126,7 +1059,7 @@ p { margin: 0; }
   background: var(--fg);
   color: #fff;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1332,7 +1265,7 @@ table.compare thead .col-konode { background: var(--accent-solid); color: var(--
 }
 
 @media (max-width: 640px) {
-  :root { --gutter: 20px; --s-9: 80px; }
+  /* The token step-down at this width lives in tokens.css. */
   .hero { padding-top: 132px; }
   .hero-copy { gap: 32px; }
   .hairline-grid { grid-template-columns: minmax(0, 1fr); }

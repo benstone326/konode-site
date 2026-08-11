@@ -1,0 +1,101 @@
+/* Konode site — the design tokens, and the only place they are declared.
+
+   Loaded by all five pages, ahead of style.css and docs.css. Those two carry
+   the rules; this file carries the values, so the landing page and the doc
+   pages cannot drift into meaning different things by the same name.
+
+   They did exactly that until 2026-08-11: each stylesheet had its own :root,
+   the two shared 29 token names, and eight of them held different values.
+   --fs-h3 was an 18px card heading on the landing page and a 15px one on the
+   doc pages. DESIGN.md documents the merged set. Add new values there too. */
+
+:root {
+  /* ------------------------------------------------------------ surfaces -- */
+  --bg: #f7f8fa;            /* page base */
+  --bg-card: #ffffff;       /* cards, tiles, windows */
+  --bg-panel: #ffffff;      /* the rounded .panel shells */
+  --bg-subtle: #fbfbfc;     /* hover fills, inline code, the doc-page proof strip */
+  --bg-card-sel: #e7f7ef;   /* table header row, the sealed sample row, tinted callouts */
+
+  --border: #e6e8eb;        /* default borders */
+  --border-hair: #ececef;   /* hairlines and the table shell */
+  --border-strong: #d7dbe0; /* button outlines, dashed boundaries */
+
+  /* ---------------------------------------------------------------- text -- */
+  --fg: #11151a;            /* 17.2:1 on --bg */
+  --fg-muted: #5b6470;      /* 5.6:1 on --bg */
+  --fg-subtle: #68707d;     /* 4.6:1 on --bg. The lightest tone that still clears AA
+                               on a LIGHT background. Never reuse it on --d-*. */
+
+  /* -------------------------------------------------------------- accent -- */
+  --accent: #12b76a;        /* non-text only: 2.5:1 as text, 2.6:1 behind white */
+  --accent-solid: #0b8348;  /* accent as text (4.5:1 on --bg) and as a fill under white */
+  --accent-link: #0e9d5a;   /* 3.3:1, large text only: the hero h1 highlight, nothing else */
+  --on-accent: #ffffff;
+  --danger-text: #b42318;   /* the counterpart for "no" on the doc pages, 6.2:1 on --bg */
+
+  /* ---------------------------------------------------------- dark panel -- */
+  --d-bg: #0f1216;
+  --d-card: #161a20;
+  --d-border: #2a2f37;
+  --d-fg: #e6e9ee;
+  --d-fg-muted: #97a0ad;
+  --d-accent: #34d399;
+  --d-subtle: #828a97;      /* 5.0:1 on --d-card. See --fg-subtle above. */
+
+  /* ---------------------------------------------------------------- type -- */
+  --font-display: "Schibsted Grotesk", system-ui, sans-serif;
+  --font-body: system-ui, "Segoe UI Variable Text", -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  /* Two top sizes on purpose: a landing hero and a document title are
+     different jobs, and collapsing them would make one of the two wrong. */
+  --fs-hero: clamp(2.5rem, 5.6vw, 4.5rem);     /* 40 → 72, the landing h1 */
+  --fs-display: clamp(2.5rem, 5.4vw, 3.75rem); /* 40 → 60, the doc-page h1 */
+  --fs-h2: clamp(1.75rem, 3.2vw, 2.5rem);      /* 28 → 40 */
+  --fs-h3: 1.125rem;                           /* 18 */
+  --fs-lead: clamp(0.9375rem, 1.3vw, 1rem);    /* 15 → 16, doc-page intros */
+  --fs-body: 1rem;                             /* 16 */
+  --fs-sm: 0.875rem;                           /* 14 */
+  --fs-xs: 0.75rem;                            /* 12, the floor. Mono labels only. */
+
+  /* -------------------------------------------------------------- radius -- */
+  --r-sm: 8px;      /* inline code, small tags, menu items, cipher samples */
+  --r-btn: 12px;    /* buttons, dashed strip, menu panel */
+  --r-card: 16px;   /* cards, tiles, code window, table shell */
+  --r-panel: 40px;  /* full-width .panel shells only */
+  --r-pill: 999px;  /* chips, the menu toggle, the AES-256-GCM seal */
+
+  /* ------------------------------------------------------------- spacing -- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 40px; --s-8: 64px;
+  --s-9: 120px;
+
+  /* -------------------------------------------------------------- layout -- */
+  --maxw: 1216px;    /* page container */
+  --maxw-text: 80ch; /* prose measure on the doc pages */
+  --gutter: 24px;    /* horizontal page padding */
+
+  /* ----------------------------------------------------------- elevation -- */
+  /* --shadow-lm carries its own hairline in the second layer, so anything
+     using it already has an edge and must not also declare a border. */
+  --shadow-lm:    0 1px 2px rgb(17 21 26 / 0.05), 0 0 0 1px rgb(17 21 26 / 0.06);
+  --shadow-lm-lg: 0 1px 2px rgb(17 21 26 / 0.04), 0 8px 24px -12px rgb(17 21 26 / 0.12);
+  --shadow-lg:    0 1px 2px rgb(17 21 26 / 0.04), 0 20px 50px -30px rgb(17 21 26 / 0.25);
+  --shadow-tile:  0 1px 1px rgb(17 21 26 / 0.04), 0 8px 12px -6px rgb(17 21 26 / 0.12);
+
+  /* -------------------------------------------------------------- motion -- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint */
+  --dur: 180ms;
+}
+
+/* The only responsive step-down, and the only other place a token is set.
+   style.css narrowed the gutter at 640px and docs.css at 480px; sharing one
+   :root means sharing one breakpoint, and 640px is the earlier of the two. */
+@media (max-width: 640px) {
+  :root {
+    --gutter: 20px;
+    --s-9: 80px;
+  }
+}
