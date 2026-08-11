@@ -555,6 +555,52 @@ p { margin: 0; }
 .faq-grid p { color: var(--fg-muted); font-size: var(--fs-sm); line-height: 1.65; }
 .faq-grid a { color: var(--accent-solid); text-underline-offset: 2px; }
 
+/* -------------------------------------------------------------- helpout -- */
+/* Quieter than the CTA that follows it on purpose: this is a secondary ask
+   aimed at a small slice of readers, and the green panel has to stay the
+   last word on the page. */
+
+.helpout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.helpout-intro h2 {
+  margin: var(--s-2) 0 var(--s-3);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+.helpout-intro p {
+  color: var(--fg-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.65;
+}
+
+.helpout-rows { margin: 0; padding: 0; list-style: none; }
+.helpout-rows li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+.helpout-rows li:first-child { padding-top: 0; }
+.helpout-rows li:last-child { border-bottom: 0; padding-bottom: 0; }
+.helpout-rows p { font-size: var(--fs-body); font-weight: 600; }
+.helpout-rows .btn { flex: none; }
+
+@media (max-width: 900px) {
+  .helpout-grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-6); }
+}
+@media (max-width: 520px) {
+  .helpout-rows li { flex-direction: column; align-items: flex-start; gap: var(--s-3); }
+}
+
 /* ---------------------------------------------------------- closing cta -- */
 
 .cta-panel {
