@@ -70,7 +70,7 @@ p { margin: 0; }
 
 :focus-visible {
   outline: 2px solid var(--accent-solid);
-  outline-offset: 3px;
+  outline-offset: 4px;
   border-radius: 4px;
 }
 
@@ -109,7 +109,7 @@ p { margin: 0; }
   letter-spacing: -0.45px;
   text-decoration: none;
 }
-.brand img { width: 26px; height: 26px; border-radius: 7px; }
+.brand img { width: 26px; height: 26px; border-radius: var(--r-sm); }
 
 /* --------------------------------------------------------------- button -- */
 
@@ -118,7 +118,7 @@ p { margin: 0; }
   align-items: center;
   justify-content: center;
   gap: var(--s-2);
-  padding: 13px 25px;
+  padding: var(--s-3) var(--s-5);
   border: 1px solid transparent;
   border-radius: var(--r-btn);
   font-family: var(--font-body);
@@ -150,7 +150,7 @@ p { margin: 0; }
 }
 .btn-secondary:hover { background: #fff; border-color: #d5d9df; color: var(--fg); }
 
-.btn-sm { padding: 9px 16px; font-size: 14px; }
+.btn-sm { padding: var(--s-2) var(--s-4); font-size: 14px; }
 .btn-sm img { width: 18px; height: 18px; }
 .btn-sm .ext { width: 14px; height: 14px; }
 
@@ -285,7 +285,7 @@ p { margin: 0; }
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  padding: 6px 13px;
+  padding: 6px var(--s-3);
   border: 1px solid var(--border-hair);
   border-radius: var(--r-pill);
   background: var(--bg);
@@ -297,7 +297,7 @@ p { margin: 0; }
 }
 .dot {
   width: 6px; height: 6px;
-  border-radius: 3px;
+  border-radius: 50%;
   background: var(--accent);
   flex: none;
 }
@@ -435,7 +435,7 @@ p { margin: 0; }
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  font-size: 15px;
+  font-size: var(--fs-h3);
   font-weight: 600;
   letter-spacing: -0.15px;
 }
@@ -807,10 +807,10 @@ p { margin: 0; }
 /* Three pips = how much this actor can see. Deliberately not a red/green
    scale: "everything" is correct for you and wrong for your provider, so
    colour would have to mean two opposite things at once. */
-.pd-pips { display: flex; gap: 3px; flex: none; }
+.pd-pips { display: flex; gap: var(--s-1); flex: none; }
 .pd-pips i {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 2px;
   background: var(--border-hair);
   box-shadow: inset 0 0 0 1px var(--border);
@@ -880,10 +880,10 @@ p { margin: 0; }
 .pd-packet {
   position: absolute;
   top: 50%;
-  width: 9px;
-  height: 9px;
-  margin: -5px 0 0 -5px;
-  border-radius: 3px;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 2px;
   background: var(--accent);
   box-shadow: 0 0 0 4px rgb(18 183 106 / 0.13);
   animation: pd-travel 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
@@ -923,7 +923,7 @@ p { margin: 0; }
   position: relative;
   z-index: 1;
   flex: none;
-  padding: 5px 11px;
+  padding: 6px var(--s-3);
   border: 1px solid var(--accent-solid);
   border-radius: var(--r-pill);
   /* Solid, not tinted: --accent-solid text on --bg-card-sel measures 4.35:1,
@@ -966,7 +966,7 @@ p { margin: 0; }
 .pd-switch span { font-size: var(--fs-sm); font-weight: 600; }
 .pd-switch small {
   display: block;
-  margin-top: 1px;
+  margin-top: 2px;
   color: var(--fg-muted);
   font-size: var(--fs-xs);
   font-weight: 400;
@@ -976,8 +976,8 @@ p { margin: 0; }
   appearance: none;
   -webkit-appearance: none;
   flex: none;
-  width: 38px;
-  height: 22px;
+  width: 40px;
+  height: 24px;
   margin: 0;
   border-radius: var(--r-pill);
   background: #d7dbe0;
@@ -988,8 +988,8 @@ p { margin: 0; }
 .pd-switch input::after {
   content: "";
   position: absolute;
-  top: 3px;
-  left: 3px;
+  top: 4px;
+  left: 4px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -1021,7 +1021,7 @@ p { margin: 0; }
   display: flex;
   align-items: flex-start;
   gap: var(--s-2);
-  padding: 5px 0;
+  padding: 6px 0;
   font-size: var(--fs-sm);
   line-height: 1.5;
 }
@@ -1031,7 +1031,7 @@ p { margin: 0; }
   width: 6px;
   height: 6px;
   margin-top: 8px;
-  border-radius: 3px;
+  border-radius: 50%;
 }
 .pd-can li::before { background: var(--accent); }
 .pd-cannot li::before { background: var(--border-strong); }
@@ -1055,7 +1055,7 @@ p { margin: 0; }
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  padding: 11px var(--s-6);
+  padding: var(--s-3) var(--s-6);
   background: var(--fg);
   color: #fff;
   font-family: var(--font-mono);
@@ -1128,13 +1128,13 @@ p { margin: 0; }
 .code-window {
   max-width: 800px;
   margin-inline: auto;
-  padding: 25px;
+  padding: var(--s-5);
   border: 1px solid var(--d-border);
   border-radius: var(--r-card);
   background: var(--d-card);
 }
 .code-bar { display: flex; align-items: center; gap: 6px; }
-.code-bar i { width: 10px; height: 10px; border-radius: 5px; flex: none; }
+.code-bar i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
 .code-bar i:nth-child(1) { background: #ff5f57; }
 .code-bar i:nth-child(2) { background: #febc2e; }
 .code-bar i:nth-child(3) { background: #28c840; }
@@ -1150,7 +1150,7 @@ p { margin: 0; }
   overflow-x: auto;
   color: var(--d-fg-muted);
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--fs-sm);
   line-height: 1.8;
 }
 .code-window .k { color: var(--d-fg-muted); }
@@ -1171,7 +1171,7 @@ p { margin: 0; }
   font-size: var(--fs-xs);
 }
 .code-siblings span {
-  padding: 3px 9px;
+  padding: var(--s-1) var(--s-2);
   border-radius: var(--r-sm);
   background: rgb(255 255 255 / 0.06);
   color: var(--d-fg);

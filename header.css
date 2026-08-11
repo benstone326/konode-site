@@ -21,7 +21,7 @@ html {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 26px;
-  padding: 7px 12px 7px 17px;
+  padding: 8px 12px 8px 16px;
   border: 1px solid rgb(17 21 26 / 0.10);
   border-radius: 999px;
   background: rgb(247 248 250 / 0.62);
@@ -43,7 +43,7 @@ html {
   letter-spacing: -0.45px;
   text-decoration: none;
 }
-.site-header .brand img { width: 26px; height: 26px; border-radius: 7px; }
+.site-header .brand img { width: 26px; height: 26px; border-radius: 8px; }
 
 .primary-nav {
   display: flex;
@@ -55,12 +55,12 @@ html {
 .primary-nav a {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   height: 44px;
   padding: 0 14px;
   border-radius: 999px;
   color: rgb(17 21 26 / 0.62);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
@@ -108,7 +108,7 @@ html {
   list-style: none;
 }
 .mobile-nav summary::-webkit-details-marker { display: none; }
-.mobile-nav summary svg { width: 19px; height: 19px; stroke: #11151a; }
+.mobile-nav summary svg { width: 20px; height: 20px; stroke: #11151a; }
 .mobile-nav[open] summary { background: #11151a; }
 .mobile-nav[open] summary svg { stroke: #fff; }
 .mobile-nav nav {

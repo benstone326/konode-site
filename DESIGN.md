@@ -40,17 +40,57 @@ them would make one of the two wrong.
 
 The merged set is 57 tokens, every one of them used.
 
-### What this did not fix
+Merging the two exposed a set of literal sizes that bypassed the scale
+entirely: `0.8125rem` (13px) seven times in `docs.css`, `.doc h2` and `.doc h3`
+pinned at `1.5rem` and `1.0625rem`, and a scatter of odd paddings. Those were
+folded into the scale in the same pass, under the rule below.
 
-Both stylesheets still set some type sizes as literals that bypass the scale
-entirely: `0.8125rem` (13px) appears six times in `docs.css`, and `.doc h2` and
-`.doc h3` are hardcoded at `1.5rem` and `1.0625rem`. That last one is why the
-doc-page headings barely moved when the token values merged, and it means a
-13px step exists in practice without existing in the scale. Deciding whether
-13px becomes a token or those call sites move to `--fs-sm` is still open.
+## Every pixel is even, except borders
 
-Reviewed against <https://impeccable.style/slop/>; the deviations that were made
-on purpose are listed at the bottom.
+**No value on this site is an odd number of pixels.** Sizes, padding, margins,
+gaps, offsets and radii all land on a 2px grid. The one exception is the border,
+which is 1px because that is what a hairline is, and no browser will thank you
+for a 2px one.
+
+The rule holds through `rem` too: `0.8125rem` is 13px and is therefore not
+allowed, however even it looks written down. Check the resolved pixel value, not
+the decimal.
+
+Three idioms are excused because the number is a sentinel rather than a
+measurement, and rounding it would break what it is for:
+
+| Value | What it is |
+| --- | --- |
+| `999px` | `--r-pill`, meaning "fully round", not a radius |
+| `-9999px` | the off-screen position of the skip link before focus |
+| `1px` / `-1px` | the visually-hidden clip idiom in `.vh` and `.sr-only` |
+
+Sub-pixel letter-spacing (`-0.8px`, `-0.15px`) is optical tracking rather than
+layout, and is not covered.
+
+Where a value has a token, use the token: `padding: var(--s-3)` rather than
+`padding: 12px`. The scale is even throughout, so staying on it satisfies the
+rule for free.
+
+This is checkable, and the check returns **nothing** on a clean tree. The three
+filters are, in order: only real declarations (a line with a `;`, which drops
+prose in comments that happens to mention a size), then borders and tracking,
+then the three sentinels.
+
+```bash
+grep -nE "[^0-9.-]-?[0-9]*[13579]px" *.css | grep ';' \
+  | grep -vE "border[^-]|border-(top|right|bottom|left|width)|letter-spacing|[^0-9.-]-?(1|999|9999)px"
+```
+
+Verified against injected violations: it catches `font-size: 13px` and
+`padding: 7px`, and correctly ignores `border: 1px solid red`.
+
+Two rounding notes worth keeping, because both had a right answer and a wrong
+one. **A circle is `border-radius: 50%`**, never half the box width, which is how
+`3px` on a 6px dot and `5px` on a 10px one used to sneak in. And the permission
+toggle went from a 38×22 track with a 3px inset to **40×24 with a 4px inset**,
+because that keeps the knob centred *and* keeps its travel at exactly 16px;
+nudging only the inset would have decentred it.
 
 Reviewed against <https://impeccable.style/slop/>; the deviations that were made
 on purpose are listed at the bottom.
@@ -102,9 +142,13 @@ Wide letter-spacing appears only on uppercase mono labels.
 **12px is the floor, and `--fs-xs` is the only thing at it.** Nine mono labels
 sat at a literal `11px` until 2026-08-11 (`.pd-node-tag`, `.pd-seal`,
 `.pd-limits-head`, `.e2ee-tag` and the rest); they were raised together and now
-go through the token. No prose is below 14px anywhere. Note the caveat in "What
-this did not fix" above: some literal sizes remain in `docs.css`, and one of
-them is 13px.
+go through the token. No prose is below 14px anywhere.
+
+Every step in the table is an even number of pixels, which is not a coincidence:
+see "Every pixel is even, except borders" above. A few literal sizes survive in
+`style.css` and `header.css` (`14px`, `16px`, `18px`, `1.25rem`, `1.75rem`), all
+of them even and most of them equal to a token. `header.css` is deliberately
+token-free so it can stay self-contained, so its literals are by design.
 
 ## Color
 

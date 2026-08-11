@@ -110,13 +110,11 @@ the data path".
 
 ### Known gaps
 
-- **Literal type sizes bypass the scale.** The tokens are unified now, but
-  `docs.css` still hardcodes `0.8125rem` (13px) in six places and pins
-  `.doc h2` / `.doc h3` at `1.5rem` / `1.0625rem`. `style.css` has a handful of
-  its own (`18px`, `15px`, `13px`, `1.75rem`, `1.25rem`). So a 13px step exists
-  on the page without existing in the scale, and the doc-page headings do not
-  respond to `--fs-h2` / `--fs-h3` at all. Decide whether 13px earns a token or
-  those call sites move to `--fs-sm`, then remove the literals.
+- Nothing open here right now. The two token systems were merged into
+  `tokens.css`, and the odd-pixel values that merge exposed were folded onto the
+  2px grid at the same time. **Both of those are rules, not one-off cleanups** —
+  no second `:root`, and no odd pixel outside a border. `DESIGN.md` has the
+  reasoning and a `grep` that checks the second one.
 
 **[`DESIGN.md`](DESIGN.md) is the design system** — every color, type step,
 radius and spacing value the site uses. Read it before changing anything visual,

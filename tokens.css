@@ -55,7 +55,7 @@
   --fs-display: clamp(2.5rem, 5.4vw, 3.75rem); /* 40 → 60, the doc-page h1 */
   --fs-h2: clamp(1.75rem, 3.2vw, 2.5rem);      /* 28 → 40 */
   --fs-h3: 1.125rem;                           /* 18 */
-  --fs-lead: clamp(0.9375rem, 1.3vw, 1rem);    /* 15 → 16, doc-page intros */
+  --fs-lead: clamp(0.875rem, 1.3vw, 1rem);     /* 14 → 16, doc-page intros */
   --fs-body: 1rem;                             /* 16 */
   --fs-sm: 0.875rem;                           /* 14 */
   --fs-xs: 0.75rem;                            /* 12, the floor. Mono labels only. */
