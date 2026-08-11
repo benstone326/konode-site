@@ -139,23 +139,25 @@ headers there.
 
 ## Canonical domain
 
-Currently **`https://konode.vercel.app`**. Every `<link rel="canonical">`, every
-`og:url`, the JSON-LD `url`, `sitemap.xml`, and `robots.txt` point there. A
+**`https://konode.org`**, and the site is served there today. Every
+`<link rel="canonical">`, every `og:url`, the JSON-LD `url`, `sitemap.xml`, and
+`robots.txt` point at it, with no `konode.vercel.app` left in the HTML. A
 canonical must match where the site is actually served, or search engines will
 not index it.
 
-### Moving to konode.app later
+Vercel 308-redirects the `.vercel.app` name to the production domain on its own,
+so there is no duplicate-content window to manage.
 
-Add the domain in Vercel and set it as the **production** domain — Vercel then
-308-redirects `konode-site.vercel.app` to it automatically, so there's no
-duplicate-content window. Then repoint the plumbing:
+### If the domain ever moves again
+
+Repoint the plumbing in one pass:
 
 ```bash
-grep -rl 'konode\.vercel\.app' --include='*.html' --include='*.xml' --include='*.txt' . | xargs sed -i 's|konode\.vercel\.app|konode.app|g'
+grep -rl 'konode\.org' --include='*.html' --include='*.xml' --include='*.txt' . | xargs sed -i 's|konode\.org|the-new-domain|g'
 ```
 
-That deliberately leaves `mailto:` addresses alone, since the contact address is
-not necessarily on the same domain. Check it separately.
+Check `mailto:` addresses separately — that command rewrites them too, and the
+contact address is not necessarily on the same domain as the site.
 
 Afterwards, update the **Google OAuth consent screen** and the **Chrome Web Store
 listing**, both of which point at the privacy-policy URL, and resubmit the
@@ -168,14 +170,18 @@ for search; a real domain is what actually matters.
 
 Tracked against `SITE-REVIEW.md`. Open items only:
 
-- [ ] **Contact email `hello@konode.org`.** `konode.org` is not the live domain, so
-      this mailbox may not resolve. GitHub issues is now offered alongside it in the
-      policy, but the address itself still needs confirming or changing.
+- [ ] **Contact email `hello@konode.org`.** The domain is live now, so the address
+      at least looks right, but that says nothing about MX records. Send a test mail
+      to it and confirm something arrives. GitHub issues is offered alongside it in
+      the policy, so a dead mailbox is not a dead end, but it is still a broken
+      promise on the privacy policy.
 - [ ] **OG image** — add a self-hosted image plus `og:image` / `twitter:image`, and
       switch `twitter:card` to `summary_large_image`. Previews are text-only today.
 - [ ] Replace the hand-built popup replica in `index.html` with real screenshots
       (see the `PRODUCT VISUAL` comment in that file).
-- [ ] Add `includeSubDomains` to the HSTS header once on the real domain.
+- [ ] Add `includeSubDomains` to the HSTS header. The real domain is live, so this
+      is now actionable — but it commits every `konode.org` subdomain to HTTPS for a
+      year, so add it only once you know nothing plain-HTTP needs to live under one.
 - [ ] Re-check the comparison table periodically; it is dated in the page itself.
 
 Decided, for the record:
