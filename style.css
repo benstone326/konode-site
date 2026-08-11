@@ -294,10 +294,16 @@ p { margin: 0; }
 
 /* ----------------------------------------------------------------- hero -- */
 
+/* The hero is a filled shell like the other panels, not a bare section:
+   Figma 59:66 is white, inset 16px, rounded 40, with --shadow-lm. It has no
+   bottom padding because the dial runs off the bottom edge. */
 .hero {
   position: relative;
-  padding-top: 176px;
-  padding-bottom: 0;
+  margin: 16px;
+  padding: var(--s-9) 16px 0;
+  border-radius: var(--r-panel);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-lm);
   overflow: hidden;
 }
 
@@ -539,12 +545,11 @@ p { margin: 0; }
 
 /* ------------------------------------------------------------------ faq -- */
 
+/* Same container width as the storage grid above it, not a narrower one. */
 .faq-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s-6) var(--s-7);
-  max-width: 1000px;
-  margin-inline: auto;
 }
 .faq-grid h3 {
   margin-bottom: var(--s-2);
@@ -574,7 +579,9 @@ p { margin: 0; }
   line-height: 1.15;
   letter-spacing: -0.5px;
 }
-.helpout-intro p {
+/* Must exclude .eyebrow: a bare `.helpout-intro p` outranks `.eyebrow` on
+   specificity and was repainting it muted grey at 14px. */
+.helpout-intro p:not(.eyebrow) {
   color: var(--fg-muted);
   font-size: var(--fs-sm);
   line-height: 1.65;
@@ -1180,6 +1187,8 @@ table.compare thead .col-konode { background: var(--accent); color: var(--on-acc
   .hairline-grid { grid-template-columns: minmax(0, 1fr); }
   .card-grid { grid-template-columns: minmax(0, 1fr); }
   .panel { margin: 0 8px; border-radius: 28px; }
+  /* The hero carries its own shell rules, so it needs the same step down. */
+  .hero { margin: 8px; border-radius: 28px; }
   .dial { --k: 0.44; }
   .hero-actions .btn,
   .cta-actions .btn { width: 100%; }
