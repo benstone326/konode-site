@@ -44,6 +44,7 @@
   --fg-subtle: #68707d;   /* darkened for AA: 4.64:1 on --bg */
   --accent: #12b76a;      /* fills, dots, rules — never text */
   --accent-text: #0a7a43; /* the accent for text: 5.1:1 on --bg */
+  --danger-text: #b42318; /* the counterpart for "no": 6.2:1 on --bg */
   --accent-tint: #e7f8f0; /* accent at ~14% over white */
   --on-accent: #ffffff;
 
@@ -436,6 +437,9 @@ code.inline { background: var(--surface-2); border: 1px solid var(--border); bor
 .st-shipped { color: var(--accent-text); }
 .st-beta { color: var(--fg); }
 .st-planned { color: var(--fg-subtle); }
+/* "No" reads as the counterpart to "Shipped", so it gets the same treatment
+   in the opposite colour rather than the neutral grey of "Planned". */
+.st-no { color: var(--danger-text); }
 
 /* ---------- Comparison table ---------- */
 .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface); }

@@ -96,31 +96,18 @@
       Then pin Konode to your toolbar so the popup is one click away.
     </p>
     <p>
-      On Firefox, there is a dedicated build but no Add-ons listing yet, so you will
-      need to build it and load it yourself:
+      On Firefox, and on Firefox-derived browsers such as Waterfox, install from
+      <a href="https://addons.mozilla.org/firefox/addon/konode/">Firefox Add-ons</a>. Both stores serve the same version.
     </p>
-    <pre class="code"><code><span class="c"># clone and install</span>
-git clone https://github.com/konabe-studio/konode
-cd Konode
-npm install
-
-<span class="c"># build the Firefox bundle into dist-firefox/</span>
-npm run build:firefox</code></pre>
     <p>
-      Open <code>about:debugging</code>, choose <strong>This Firefox</strong>, click
-      <strong>Load Temporary Add-on</strong>, and select
-      <code>dist-firefox/manifest.json</code>. For Chromium, run
-      <code>npm run build</code> instead, then load the <code>dist/</code> folder
-      through <code>chrome://extensions</code> with Developer mode enabled.
+      If you would rather build it yourself, the repository is public. Run
+      <code>npm run build:firefox</code> for the Firefox bundle in
+      <code>dist-firefox/</code>, or <code>npm run build</code> for the Chromium one
+      in <code>dist/</code>, then load it through <code>about:debugging</code> or
+      <code>chrome://extensions</code> respectively. Note that a temporary add-on
+      loaded this way is discarded when Firefox restarts, which is why the store
+      listing is the easier route.
     </p>
-    <div class="callout">
-      <p>
-        <strong>A temporary add-on in Firefox is removed when you restart the
-        browser.</strong> That is a Firefox restriction on unsigned extensions, not a
-        Konode setting. Until the Add-ons listing is live, you will need to load it
-        again after each restart.
-      </p>
-    </div>
 
     <h2 id="choose">2. Choose a backend</h2>
     <p>

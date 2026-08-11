@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roadmap. What's shipped and what's next | Konode</title>
-  <meta name="description" content="What works in Konode today, what's in beta, and what's planned: Chromium support, Google Drive, GitHub and WebDAV backends, the Firefox build, and the planned Mega backend." />
+  <meta name="description" content="What works in Konode today and what is planned. Version 1.2.0 is live on the Chrome Web Store and on Firefox Add-ons, with Google Drive, GitHub and WebDAV backends." />
   <link rel="canonical" href="https://konode.org/roadmap.html" />
   <link rel="icon" href="icon.svg?v=2" type="image/svg+xml" />
   <link rel="icon" href="icon128.png?v=2" sizes="128x128" />
@@ -18,7 +18,7 @@
   <meta property="og:site_name" content="Konode" />
   <meta property="og:url" content="https://konode.org/roadmap.html" />
   <meta property="og:title" content="Roadmap. What's shipped and what's next | Konode" />
-  <meta property="og:description" content="What works in Konode today, what's in beta, and what's planned." />
+  <meta property="og:description" content="What works in Konode today and what is planned." />
   <script src="konode.js" defer></script>
 </head>
 <body>
@@ -80,123 +80,143 @@
       <li>
         <span class="st st-shipped">Shipped</span>
         <div>
-          <h3>Chromium browsers</h3>
-          <p>Chrome, Brave, Helium, and ungoogled-chromium, via the Chrome Web Store.</p>
+          <h3>Live on both stores</h3>
+          <p>Version 1.2.0 serves the <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a> listing, published 2026-07-20, and <a href="https://addons.mozilla.org/firefox/addon/konode/">Firefox Add-ons</a>, published 2026-08-04. Nothing is waiting on a submission.</p>
         </div>
       </li>
       <li>
         <span class="st st-shipped">Shipped</span>
         <div>
-          <h3>Three storage backends</h3>
-          <p>Google Drive with the narrow <code>drive.file</code> scope, GitHub with a fine-grained token on a single private repository, and WebDAV against any compliant server.</p>
+          <h3>Chromium browsers and Firefox</h3>
+          <p>Chrome, Brave, Helium and ungoogled-chromium, plus Firefox. Verified across Firefox, Brave and Helium sharing one sync folder. History arrives on its original visit dates on Firefox, the only engine that permits it.</p>
         </div>
       </li>
       <li>
         <span class="st st-shipped">Shipped</span>
         <div>
-          <h3>Four data types</h3>
-          <p>Bookmarks with two-way sync and tombstoned deletions, open tabs and sessions, de-duplicated history, and the installed-extension list.</p>
+          <h3>Three backends, seven ways in</h3>
+          <p>Google Drive with the narrow <code>drive.file</code> scope, GitHub with a fine-grained token on a single private repository, and WebDAV against any compliant server. Nextcloud, ownCloud, pCloud, Koofr and Fastmail each get a card of their own. Synology, kDrive and everything else go through the generic WebDAV card.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Four data types, merged across every device</h3>
+          <p>Bookmarks with two-way sync, tombstoned deletions, and renames, moves and folder reorders propagating. Open tabs and sessions, de-duplicated history, and the installed-extension list. Every type folds in each peer file on every sync, so three or more devices converge rather than overwriting one another.</p>
         </div>
       </li>
       <li>
         <span class="st st-shipped">Shipped</span>
         <div>
           <h3>Optional end-to-end encryption</h3>
-          <p>AES-256-GCM with PBKDF2-SHA256 key derivation over 600,000 iterations, available on every backend.</p>
+          <p>AES-256-GCM with PBKDF2-SHA256 key derivation over 600,000 iterations, available on every backend, plus a SHA-256 checksum verified on download.</p>
         </div>
       </li>
       <li>
         <span class="st st-shipped">Shipped</span>
         <div>
-          <h3>Configurable conflict resolution</h3>
+          <h3>Bookmark restore points</h3>
+          <p>Timestamped copies of the bookmark tree on your own storage, the newest ten kept. Saved by hand, or automatically when Konode refuses an unusual mass deletion. A restore only ever adds bookmarks back, never removes any.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Conflict resolution you choose</h3>
           <p>Newest change wins, always prefer this device, always prefer the other, or resolve each conflict yourself.</p>
         </div>
       </li>
-    </ul>
-
-    <h2>In progress</h2>
-    <ul class="rm">
       <li>
-        <span class="st st-beta">Beta</span>
+        <span class="st st-shipped">Shipped</span>
         <div>
-          <h3>Firefox</h3>
-          <p>
-            A dedicated Firefox build exists and works, including original history
-            visit times, which Chromium cannot do. The Add-ons listing is still in
-            progress, so for now it has to be built and loaded as a temporary add-on.
-            The <a href="setup.html#install">setup guide</a> covers how.
-          </p>
+          <h3>Activity, statistics and devices</h3>
+          <p>One tab in Settings covering what synced and when, alongside the device list and the option to forget a device you no longer use.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped</span>
+        <div>
+          <h3>Interface translation</h3>
+          <p>English, Hungarian and German, through the browser own <code>chrome.i18n</code>, so there is no library and no bundle cost. The popup and the setup wizard are translated.</p>
         </div>
       </li>
     </ul>
 
     <h2>Planned</h2>
+    <p>
+      Nothing here has a date. Konode is a small independent project and
+      a date would be a guess.
+    </p>
     <ul class="rm">
       <li>
         <span class="st st-planned">Planned</span>
         <div>
-          <h3>Mega backend</h3>
-          <p>A fourth storage option. Not available yet, and not started in any usable form.</p>
+          <h3>Settings translated</h3>
+          <p>The popup and the setup wizard already read through <code>chrome.i18n</code>. Settings is the one surface left in English.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
+          <h3>More backends, cheapest sign-in first</h3>
+          <p>Token and basic-auth backends come first, because they are the same class of work as WebDAV and GitHub: a Dropbox token, S3-compatible storage, Backblaze B2. OAuth backends follow, Dropbox and OneDrive among them, each needing its own app registration, redirect and refresh handling per browser.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
+          <h3>MEGA</h3>
+          <p>The heaviest of the backends, and the reason it is not simply another WebDAV card: MEGA has no plain HTTPS endpoint a browser can write to, so it needs its own client library, and that library carries MEGA client-side crypto. Not started in any usable form.</p>
         </div>
       </li>
       <li>
         <span class="st st-planned">Planned</span>
         <div>
           <h3>Diffs between restore points</h3>
-          <p>
-            See what actually changed between two restore points, rather than only that a
-            sync ran. A restore point already holds a full bookmark tree, and the extension
-            already reads one back and decrypts it in order to restore it, so this is a
-            comparison view over data that exists rather than new plumbing. It would work
-            the same on every backend, because restore points are ordinary files Konode
-            writes itself and not a versioning feature borrowed from the provider.
-            Bookmarks only, and only across the ten most recent restore points.
-          </p>
+          <p>See what actually changed between two restore points, rather than only that a sync ran. A restore point already holds a full bookmark tree, and the extension already reads one back and decrypts it in order to restore it, so this is a comparison view over data that exists. Bookmarks only, and only across the ten most recent restore points.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
+          <h3>Faster history sync</h3>
+          <p>The full-history dedup scan that runs on every import is what is left after the per-page writes were overlapped in 1.2.0. An incremental diff for very large bookmark trees, past ten thousand or so, sits in the same bucket.</p>
         </div>
       </li>
     </ul>
 
-    <!-- Add further roadmap items here as they become real. Keep the three
-         buckets (Working today / In progress / Planned) and keep the honest
-         framing: no dates on anything unstarted. -->
-
     <h2>Not planned</h2>
     <p>
-      Some things get asked for regularly and are not coming, for reasons worth
-      stating plainly:
+      Some things get asked for regularly and are not coming, for reasons
+      worth stating plainly:
     </p>
     <ul class="rm">
       <li>
-        <span class="st st-planned">No</span>
+        <span class="st st-no">No</span>
         <div>
           <h3>Password sync</h3>
-          <p>
-            Browser extensions cannot read the browser's native password store. That
-            is a security boundary the browser enforces, so this is not something
-            Konode can choose to add. Use a dedicated password manager.
-          </p>
+          <p>Browser extensions cannot read the browser native password store. That is a security boundary the browser enforces, so this is not something Konode can choose to add. Use a dedicated password manager.</p>
         </div>
       </li>
       <li>
-        <span class="st st-planned">No</span>
+        <span class="st st-no">No</span>
         <div>
           <h3>A hosted Konode backend</h3>
-          <p>
-            Running a server would undo the entire point. Your data goes to storage
-            you already control, which is only true as long as there is nothing in the
-            middle.
-          </p>
+          <p>Running a server would undo the entire point. Your data goes to storage you already control, which is only true as long as there is nothing in the middle.</p>
         </div>
       </li>
       <li>
-        <span class="st st-planned">No</span>
+        <span class="st st-no">No</span>
         <div>
           <h3>Analytics or telemetry</h3>
-          <p>
-            Not now and not later, including the anonymous, aggregated kind. Bug
-            reports through <a href="https://github.com/konabe-studio/konode/issues">GitHub issues</a>
-            are how Konode finds out what is broken.
-          </p>
+          <p>Not now and not later, including the anonymous, aggregated kind. Bug reports through <a href="https://github.com/konabe-studio/konode/issues">GitHub issues</a> are how Konode finds out what is broken.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-no">No</span>
+        <div>
+          <h3>iOS and WebKit browsers</h3>
+          <p>Orion on iOS, for instance. Sync itself has run there, and three WebKit-specific bugs were fixed that way in 1.0.2, so this is not untested ground. But the first-run page never opens on WebKit, and Google Drive sign-in fails inside the browser own API bridge, so Drive is gated off there with a plain message. A real iOS target is its own scoped effort rather than a quick fix.</p>
         </div>
       </li>
     </ul>

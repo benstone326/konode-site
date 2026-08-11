@@ -68,10 +68,20 @@ step. If any of these change, the section changes with them:
 The permission toggles are the second half of `konode.js`. They bail out on any
 page without the form, so the doc pages pay nothing for them.
 
+### Where the product facts come from
+
+`roadmap.html` is a rendering of **`ROADMAP.md` in the extension repo**, and the
+Firefox and backend claims on `setup.html`, `troubleshooting.html` and the
+landing page follow it. When that file changes, re-read it and update all four
+pages together, or they drift apart. They already did once: the site was still
+telling Firefox users to build from source and load a temporary add-on months
+after 1.2.0 went live on AMO.
+
+MEGA has no storage card on purpose. It is on the roadmap, not shipped, and a
+card in that grid reads as an available option no matter what badge it carries.
+
 ### Known gaps
 
-- **MEGA** is shown in the storage grid with a `Planned` badge, because
-  `roadmap.html` lists it as not started. Do not let that badge fall off.
 - The **Konode column** in the comparison table uses `#12b76a` with white text,
   as the Figma specifies. That measures 2.6 : 1 and fails WCAG AA. Switching the
   fill to `--accent-solid` (`#0b8348`) clears it at 4.8 : 1.
