@@ -70,7 +70,7 @@
   --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
 
   --maxw: 1152px;
-  --maxw-text: 68ch;
+  --maxw-text: 80ch;
   --gutter: 24px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -377,8 +377,15 @@ footer.site .links a:hover { color: var(--fg); text-decoration: underline; }
 footer.site .links .lic { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--fg-subtle); }
 
 /* ---------- Long-form pages (privacy, setup, troubleshooting, roadmap) ---------- */
-.doc { padding: var(--s-8) 0 var(--s-9); }
-.doc > * { max-width: var(--maxw-text); }
+/* The container itself carries the measure, so prose, code blocks and boxes
+   all share one edge. Constraining the children instead left the black code
+   blocks running out past the text they belonged to. The gutter is added on
+   top so the text measure is a true --maxw-text rather than that minus the
+   padding. */
+main.doc { max-width: calc(var(--maxw-text) + 2 * var(--gutter)); }
+/* The three-value shorthand here used to zero the horizontal padding that
+   .wrap sets, so the text ran edge to edge on phones. Keep the gutter. */
+.doc { padding: var(--s-8) var(--gutter) var(--s-9); }
 .doc h1 { font-size: clamp(2rem, 4.4vw, 2.75rem); letter-spacing: -0.025em; }
 .doc .updated { margin-top: var(--s-3); font-family: var(--font-mono); font-size: var(--fs-label); color: var(--fg-subtle); }
 .doc .lead { margin-top: var(--s-5); font-size: var(--fs-lead); line-height: 1.7; color: var(--fg-muted); }
@@ -389,7 +396,7 @@ footer.site .links .lic { font-family: var(--font-mono); font-size: var(--fs-lab
 .doc li::marker { color: var(--fg-subtle); }
 .doc code { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 1px 5px; font-size: 0.8125rem; }
 .steps { padding-left: 1.4em; }
-.steps li { margin-bottom: var(--s-3); max-width: 62ch; }
+.steps li { margin-bottom: var(--s-3); }
 .steps li::marker { color: var(--fg-subtle); }
 .doc .small { font-size: var(--fs-sm); }
 .doc .muted { color: var(--fg-muted); }
