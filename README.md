@@ -101,14 +101,13 @@ the data path".
 
 ### Known gaps
 
-- **`DESIGN.md` has drifted from `style.css`.** The doc claims to be the single
-  source of truth for every token, but the names and several values no longer
-  match what the stylesheet actually declares: `--surface` / `--fg-subtle` /
-  `--r-lg` / `--lift` are documented and do not exist, the shipped names are
-  `--bg-card` / `--fg-muted` / `--r-card` / `--shadow-lm`, and `--maxw` (1152 vs
-  1216), `--s-9` (96 vs 120) and `--dur` (160 vs 180) all disagree. The design
-  reasoning in it is still sound and worth reading; the token table is not
-  reliable. Reconcile it against `style.css` in one pass.
+- **Two token systems.** `style.css` and `docs.css` each carry their own
+  `:root`, sharing 29 token names of which **eight hold different values**:
+  `--fs-h3` (18px vs 15px), `--fs-h2`, `--maxw`, `--s-7`, `--s-9`, `--dur`,
+  `--border` and `--border-strong`. Copying a rule from one stylesheet to the
+  other silently resizes or recolors it. `DESIGN.md` now documents `style.css`
+  and lists the conflicts, which makes the hazard visible but does not remove
+  it. Unifying them is the actual fix and has not been done.
 
 **[`DESIGN.md`](DESIGN.md) is the design system** — every color, type step,
 radius and spacing value the site uses. Read it before changing anything visual,

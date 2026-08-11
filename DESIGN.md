@@ -1,8 +1,44 @@
 # Konode site — design system
 
 The single source of truth for type, color, radius and spacing on this site.
-Every value used in `style.css` is declared here. **If you need a value that
-isn't in this file, add it here deliberately rather than inventing a one-off.**
+**If you need a value that isn't in this file, add it here deliberately rather
+than inventing a one-off.**
+
+**Scope: this file documents `style.css`, the landing page.** Reconciled against
+it on 2026-08-11. If you rename or retune a token there, edit this file in the
+same commit.
+
+## Two token systems, one repository
+
+The four doc pages do not run on `style.css`. They run on `docs.css`, which is
+the previous stylesheet kept intact through the landing-page redesign, and it
+carries its own `:root`. Until this reconciliation, **this document actually
+described `docs.css`** and had simply never been moved over.
+
+That matters more than a stale table would, because the two sets are not
+disjoint. They share 29 token names, and **eight of those hold different values
+depending on which stylesheet is in scope**:
+
+| Token | `style.css` (landing) | `docs.css` (doc pages) |
+| --- | --- | --- |
+| `--fs-h3` | `1.125rem` → 18px | `0.9375rem` → 15px |
+| `--fs-h2` | `clamp(1.75rem, 3.2vw, 2.5rem)` | `clamp(1.875rem, 3.4vw, 2.5rem)` |
+| `--maxw` | 1216px | 1152px |
+| `--s-7` | 40px | 48px |
+| `--s-9` | 120px | 96px |
+| `--dur` | 180ms | 160ms |
+| `--border` | `#e6e8eb` | `#ececef` |
+| `--border-strong` | `#d7dbe0` | `#dfe1e6` |
+
+`--fs-h3` is the one to watch: the same token name is a 18px card heading on the
+landing page and a 15px one on the doc pages. **Copying a rule between the two
+stylesheets will silently resize it.** `docs.css` also keeps names that
+`style.css` dropped entirely, including `--surface`, `--fg-subtle`, `--r-lg`,
+`--lift`, `--fs-display`, `--fs-lead`, `--fs-card`, `--fs-label`,
+`--accent-text` and `--accent-tint`. Those are real and in use; they are just
+not part of the system below.
+
+Unifying the two is worth doing and is not what this reconciliation did.
 
 Reviewed against <https://impeccable.style/slop/>; the deviations that were made
 on purpose are listed at the bottom.
@@ -33,22 +69,31 @@ most over-used face on the web and reads as a template default.
 
 ## Type scale
 
-| Token | Size | Weight | Tracking | Leading | Used for |
-| --- | --- | --- | --- | --- | --- |
-| `--fs-display` | `clamp(2.5rem, 5.4vw, 3.75rem)` → 40–60px | 600 | `-0.03em` | 1.05 | Hero `h1` |
-| `--fs-h2` | `clamp(1.875rem, 3.4vw, 2.5rem)` → 30–40px | 600 | `-0.02em` | 1.1 | Section headings |
-| `--fs-h3` | `0.9375rem` → 15px | 600 | `-0.01em` | 1.35 | Card headings |
-| `--fs-lead` | `clamp(0.9375rem, 1.3vw, 1rem)` → 15–16px | 400 | `0` | 1.65 | Hero and section intros |
-| `--fs-body` | `1rem` → 16px | 400 | `0` | 1.65 | Body copy |
-| `--fs-card` | `0.875rem` → 14px | 400 | `0` | 1.65 | Copy inside cards |
-| `--fs-label` | `0.75rem` → 12px | 400 | `0.1–0.18em` | — | Mono labels, eyebrows, proof strip |
+Only the size is tokenised. Weight, tracking and leading are set per component,
+because they legitimately differ between a 72px hero and an 18px card heading,
+and pinning them here just produces a table that drifts.
 
-Nothing on this site is below 12px, and 12px is used only for mono labels, never
-for prose. Negative tracking is applied only at 30px and up, where it's optical
-correction. Wide letter-spacing appears only on uppercase mono labels.
+| Token | Size | Used for |
+| --- | --- | --- |
+| `--fs-hero` | `clamp(2.5rem, 5.6vw, 4.5rem)` → 40–72px | Hero `h1` (weight 900, `-0.025em`, leading 1) |
+| `--fs-h2` | `clamp(1.75rem, 3.2vw, 2.5rem)` → 28–40px | Section headings (600, `-0.8px`, 1.1) |
+| `--fs-h3` | `1.125rem` → 18px | Card and block headings (600) |
+| `--fs-body` | `1rem` → 16px | Body copy, section leads |
+| `--fs-sm` | `0.875rem` → 14px | Copy inside cards, table cells, doc prose |
+| `--fs-xs` | `0.75rem` → 12px | Eyebrows, footnotes, code-window filename |
 
-The reference mockup set eyebrows and the proof strip at 11px; both were raised
-to 12px, which is the floor the guidelines allow.
+Negative tracking is applied only at 28px and up, where it's optical correction.
+Wide letter-spacing appears only on uppercase mono labels.
+
+**There is one un-tokenised size: a literal `11px`**, used in nine places for
+uppercase mono labels (`.eyebrow` on cards, `.pd-node-tag`, `.pd-seal`,
+`.pd-limits-head`, `.e2ee-tag`, and the rest). It is below the 12px floor this
+document used to claim the site held to, so the claim is gone rather than the
+size: nine call sites is a convention, not an accident. All nine clear 4.5 : 1
+on their backgrounds, which is what actually matters at that size. If you want
+them at 12px, raise all nine together.
+
+No prose is below 14px anywhere.
 
 ## Color
 
@@ -59,46 +104,80 @@ Cool near-white base, near-black text, one green accent.
 | Token | Value | Contrast on `--bg` | Use |
 | --- | --- | --- | --- |
 | `--bg` | `#f7f8fa` | — | Page base |
-| `--surface` | `#ffffff` | — | Cards, tiles, windows |
-| `--surface-2` | `#fbfbfc` | — | Proof strip, hover fills, inline code |
-| `--border` | `#ececef` | — | Default borders and hairlines |
-| `--border-strong` | `#dfe1e6` | — | Button outlines, hover borders |
-| `--fg` | `#11151a` | 16.1 : 1 | Body and headings |
-| `--fg-muted` | `#5b6470` | 5.6 : 1 | Secondary copy |
-| `--fg-subtle` | `#68707d` | 4.6 : 1 | Mono labels, metric values, footer fine print |
+| `--bg-card` | `#ffffff` | — | Cards, tiles, windows |
+| `--bg-panel` | `#ffffff` | — | The rounded `.panel` shells |
+| `--bg-card-sel` | `#e7f7ef` | — | Table header row, the sealed sample row |
+| `--border` | `#e6e8eb` | — | Default borders |
+| `--border-hair` | `#ececef` | — | Hairlines and the table shell |
+| `--border-strong` | `#d7dbe0` | — | Button outlines, dashed boundaries |
+| `--fg` | `#11151a` | 17.2 : 1 | Body and headings |
+| `--fg-muted` | `#5b6470` | 5.6 : 1 | Secondary copy, mono labels, footnotes |
 
-**`--fg-subtle` is deliberately darker than the reference mockup's `#8a929e`.**
-That value measures 2.96 : 1, which fails WCAG AA for the small text it was used
-on (proof strip, device-card values, auth labels, footer). `#68707d` is the
-lightest value that still clears 4.5 : 1.
+There are two text tones, not three. `--fg-muted` is deliberately darker than
+the reference mockup's `#8a929e`, which measures 2.96 : 1 and fails WCAG AA for
+the small text it was used on. `#5b6470` clears 4.5 : 1 everywhere it lands:
+5.64 : 1 on `--bg`, 6.00 : 1 on `--bg-card`, 5.41 : 1 on `--bg-card-sel`.
+
+### The dark panel
+
+| Token | Value | Contrast on `--d-card` | Use |
+| --- | --- | --- | --- |
+| `--d-bg` | `#0f1216` | — | The Code panel base |
+| `--d-card` | `#161a20` | — | The code window inside it |
+| `--d-border` | `#2a2f37` | — | Its edges |
+| `--d-fg` | `#e6e9ee` | 14.4 : 1 | Headings and code |
+| `--d-fg-muted` | `#97a0ad` | 6.6 : 1 | Secondary copy on dark |
+| `--d-accent` | `#34d399` | 9.4 : 1 | The eyebrow on dark |
+| `--d-subtle` | `#828a97` | 5.0 : 1 | The code-window filename |
+
+**`--d-subtle` used to be `#68707d`**, borrowed straight from the light palette,
+where that value was chosen as the *darkest* tone that still passes on white. On
+a dark background the requirement runs the other way, and it measured 3.49 : 1
+behind the 12px filename in the code bar. Do not reuse a light-palette tone on
+the dark panel without re-measuring it; the two ramps move in opposite
+directions.
 
 ### Accent
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--accent` | `#12b76a` | **Non-text only** — dots, the orbit arc, the callout rule, shield icons |
-| `--accent-text` | `#0a7a43` | Any accent-colored **text**: eyebrows, links, `Planned`, the E2EE badge |
-| `--accent-tint` | `#e7f8f0` | Tinted backgrounds behind the badge and the `self` table column |
+| `--accent` | `#12b76a` | **Non-text, non-background-for-text only.** Dots, the travelling packet, the dial glyphs |
+| `--accent-solid` | `#0b8348` | Any accent-colored **text**, and any fill that carries white text |
+| `--accent-link` | `#0e9d5a` | The highlighted words in the hero `h1`, and nothing else |
+| `--on-accent` | `#ffffff` | Text on `--accent-solid` |
 
-The brand green fails AA as text (2.4 : 1 on white), so text uses the darkened
-variant: 5.1 : 1 on `--bg`, 5.4 : 1 on white, 4.8 : 1 on `--accent-tint`. That
-split is the entire reason both tokens exist.
+The brand green fails AA both ways: `#12b76a` as text is 2.47 : 1 on `--bg`, and
+white on `#12b76a` is 2.62 : 1. So `--accent` may never carry text and may never
+sit behind it. `--accent-solid` is the variant that can do both: 4.54 : 1 on
+`--bg`, 4.82 : 1 on white, and 4.82 : 1 the other way with white on top. That
+split is the entire reason two tokens exist, and it is the exact bug that shipped
+in the comparison table's Konode column until it was refilled with
+`--accent-solid`.
 
-Primary buttons are **near-black, not green** — white on `#12b76a` is 2.4 : 1 and
-would fail. `--fg` on white gives 16 : 1 and is the stronger choice anyway.
+**`--accent-link` is the one exception, and it is size-gated.** At 3.30 : 1 on
+`--bg` it clears AA for large text only, which is why it appears exclusively
+inside the hero `h1` at 40–72px. Do not reuse it at body size.
+
+Primary buttons are **near-black, not green**, since `--fg` on white gives
+17 : 1 and is the stronger choice anyway.
 
 ## Radius
 
-Capped at 16px. Cards never get 20px+; oversized rounding is a tell. The
-reference used 16px cards and a 24px CTA panel — the panel was brought down to
-16px for consistency. Full pills are for buttons and chips only.
+Content is capped at 16px: cards never get 20px+, because oversized rounding on
+a content box is a tell. Full pills are for buttons and chips only.
 
 ```css
---r-sm:   8px;   /* inline code, small tags, menu items */
---r-md:  12px;   /* buttons, dashed strip, menu panel */
---r-lg:  16px;   /* cards, tiles, code window, CTA panel */
---r-pill: 999px; /* chips and the menu toggle only */
+--r-sm:    8px;   /* inline code, small tags, menu items, the cipher samples */
+--r-btn:  12px;   /* buttons, dashed strip, menu panel */
+--r-card: 16px;   /* cards, tiles, code window, table shell */
+--r-panel: 40px;  /* the full-width .panel shells only */
+--r-pill: 999px;  /* chips, the menu toggle, the AES-256-GCM seal */
 ```
+
+`--r-panel` is the deliberate exception to the 16px cap. It is not a card; it is
+a section-sized shell inset 16px from the viewport, and at that scale 40px reads
+as the shape of the section rather than as a rounded box. Nothing smaller than a
+full-width section may use it.
 
 ## Spacing
 
@@ -106,19 +185,27 @@ An 8px-based scale. Items inside a group sit tight, groups separate generously.
 
 ```css
 --s-1: 4px;   --s-2: 8px;   --s-3: 12px;  --s-4: 16px;
---s-5: 24px;  --s-6: 32px;  --s-7: 48px;  --s-8: 64px;
---s-9: 96px;  --s-10: 128px;
+--s-5: 24px;  --s-6: 32px;  --s-7: 40px;  --s-8: 64px;
+--s-9: 120px;
 ```
 
 Sections use `--s-9` vertical padding; headings always get more space above than
-below.
+below. The scale stops at `--s-9`: there is no `--s-10`, and nothing on the page
+needs a gap larger than a section's own padding.
 
 ## Layout
 
+The landing page and the doc pages run on different stylesheets and do not share
+a container width. Both are correct; they are just different documents.
+
 ```css
---maxw: 1152px;    /* page container */
---maxw-text: 68ch; /* prose on the doc pages — keeps lines in the 65–75ch range */
---gutter: 24px;    /* horizontal page padding, 20px below 480px */
+/* style.css, the landing page */
+--maxw: 1216px;    /* page container */
+--gutter: 24px;    /* horizontal page padding */
+
+/* docs.css, the four doc pages */
+--maxw: 1152px;
+--maxw-text: 80ch; /* prose measure on the doc pages */
 ```
 
 `--gutter` is a token rather than a literal because the mobile menu panel has to
@@ -144,9 +231,13 @@ The reference mockup gave its logo tiles both a border and a wide shadow; the
 border was dropped.
 
 ```css
---lift:    0 1px 2px rgb(17 21 26 / 0.04), 0 8px 24px -12px rgb(17 21 26 / 0.12);
---lift-lg: 0 1px 2px rgb(17 21 26 / 0.04), 0 20px 50px -30px rgb(17 21 26 / 0.25);
+--shadow-lm:    0 1px 2px rgb(17 21 26 / 0.05), 0 0 0 1px rgb(17 21 26 / 0.06);
+--shadow-lm-lg: 0 1px 2px rgb(17 21 26 / 0.04), 0 8px 24px -12px rgb(17 21 26 / 0.12);
+--shadow-tile:  0 1px 1px rgb(17 21 26 / 0.04), 0 8px 12px -6px rgb(17 21 26 / 0.12);
 ```
+
+`--shadow-lm` carries its own hairline in the second layer, so anything using it
+already has an edge and must not also declare a `border`.
 
 ## Motion
 
@@ -155,7 +246,7 @@ Interaction only. Transitions touch `transform`, `opacity`, `background-color`,
 
 ```css
 --ease: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint */
---dur: 160ms;
+--dur: 180ms;
 ```
 
 No spring or elastic easing. No entrance animations: **all content is visible at

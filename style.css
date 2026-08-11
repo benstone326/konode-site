@@ -64,7 +64,11 @@
   --d-fg: #e6e9ee;
   --d-fg-muted: #97a0ad;
   --d-accent: #34d399;
-  --d-subtle: #68707d;
+  /* Was #68707d, borrowed from the light palette where it is the *darkest*
+     passing tone on a white background. On --d-card it runs the other way and
+     measures 3.49:1, failing AA for the 12px filename in the code bar. This
+     value is 5.01:1 there, and still reads as quieter than --d-fg-muted. */
+  --d-subtle: #828a97;
 
   /* Type */
   --font-display: "Schibsted Grotesk", system-ui, sans-serif;
@@ -282,6 +286,17 @@ p { margin: 0; }
   letter-spacing: -0.8px;
 }
 .panel-dark .section-head h2 { color: var(--d-fg); }
+
+/* An optional paragraph between a .section-head and the section's content, for
+   the short version of what follows. Wider than the head so it does not
+   compete with the h2 for line breaks. */
+.section-lead {
+  max-width: 640px;
+  margin: 0 auto var(--s-7);
+  color: var(--fg-muted);
+  line-height: 1.65;
+  text-align: center;
+}
 
 .footnote {
   max-width: 592px;
@@ -650,14 +665,6 @@ p { margin: 0; }
    Deliberately not a second browser-to-storage diagram. The data path in
    Privacy already draws that route, so this one draws the boundary instead:
    what happens inside the browser, and what crosses out of it. */
-
-.e2ee-lead {
-  max-width: 640px;
-  margin: 0 auto var(--s-7);
-  color: var(--fg-muted);
-  line-height: 1.65;
-  text-align: center;
-}
 
 /* Stretched, not start-aligned: the two cards sit side by side and unequal
    bottom edges read as unfinished rather than as deliberate. */
