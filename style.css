@@ -293,8 +293,15 @@ p { margin: 0; }
   font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 1px;
+  line-height: 1.5;
   text-transform: uppercase;
 }
+/* Each claim is a nowrap unit, so a narrow screen breaks between them rather
+   than orphaning "source." on a line of its own. Centred, because a pill that
+   has wrapped needs to look deliberate rather than broken. */
+.chip-text { text-align: center; }
+.chip-text > span { white-space: nowrap; }
+
 .dot {
   width: 6px; height: 6px;
   border-radius: 50%;
@@ -709,6 +716,13 @@ p { margin: 0; }
 
 @media (max-width: 900px) {
   .e2ee-stage { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* On a phone the plaintext sample is wider than the card, and a line clipped
+   mid-token reads as a bug even though the container scrolls. Let it wrap at
+   spaces instead; the ciphertext row is short enough to be unaffected. */
+@media (max-width: 640px) {
+  .e2ee-sample code { white-space: normal; }
 }
 
 

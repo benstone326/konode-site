@@ -152,8 +152,34 @@ What `vercel.json` does, and why:
 - **`Strict-Transport-Security: max-age=31536000`** — one year, no
   `includeSubDomains`, no `preload`. Browsers will refuse plain HTTP on the
   domain for a year after a visit.
-- **Immutable caching on `fonts/`**, one-day revalidation on CSS and images, and
-  `max-age=0, must-revalidate` on HTML so content edits go live immediately.
+- **Immutable caching on `fonts/`**, five-minute revalidation on CSS and images,
+  and `max-age=0, must-revalidate` on HTML so content edits go live immediately.
+
+### Bump `?v=` when you change a stylesheet
+
+Every page loads its CSS with a version query: `tokens.css?v=2`, `header.css?v=2`,
+`style.css?v=2`, `docs.css?v=2`. **Raise that number on every CSS change, in all
+five pages at once.**
+
+This is not housekeeping, it is the fix for a live breakage. HTML revalidates on
+every request while CSS did not, so the first deploy after the landing-page
+rework served returning visitors **new markup against their cached old
+stylesheet**: no green pill on the data path (the class had been renamed
+`pd-gap` to `pd-seal`), the whole Encryption section unstyled and running
+together with native list markers, no gap under the Storage lead, and the
+Features headings a size off from the Storage ones. Every one of those was the
+same stale file, not four bugs.
+
+Two things now guard it. The version query gives changed CSS a new URL, and the
+five-minute revalidation means a forgotten bump costs minutes rather than the
+full day it used to. Check them with:
+
+```bash
+grep -o '[a-z]*\.css?v=[0-9]*' *.html | sort -u
+```
+
+All lines should show the same number. If one page lags, that page is the one
+that will break.
 
 Note that `vercel.json` is schema-validated on deploy and rejects unknown
 properties, so it can't carry `//` comment keys. Explanations live here instead.
