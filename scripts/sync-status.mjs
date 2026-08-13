@@ -95,9 +95,14 @@ const changed = nextHtml !== html || withoutDate !== before;
 
 const releaseVersion = status.latestRelease.replace(/^v/, "");
 if (cr.version !== releaseVersion) {
+  // Standing reminder, not an error. It fires on every run until the listing catches
+  // up, and the right response is often "nothing yet", so say that rather than
+  // reading as an instruction to edit.
   console.warn(
-    `note: the Chrome Web Store still serves ${cr.version}, and ${releaseVersion} is released. ` +
-      `That number is hand-maintained: update chrome.version and chrome.inReview in data/status.json.`,
+    `note: data/status.json says the Chrome Web Store serves ${cr.version}, and ${releaseVersion} is released.\n` +
+      `      That listing cannot be read automatically, so check it: ${cr.url}\n` +
+      `      If it has published since, set chrome.version to "${releaseVersion}" and chrome.inReview to false.\n` +
+      `      If it is still in review, there is nothing to do and this note is expected.`,
   );
 }
 if (fx.version !== releaseVersion) {
