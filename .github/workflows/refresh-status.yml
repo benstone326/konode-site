@@ -1,16 +1,18 @@
 # Refreshes the version numbers on roadmap.html from Firefox Add-ons and the GitHub
 # releases API, and pushes the result — which redeploys the live site.
 #
-# The schedule is deliberately commented out. Run this by hand from the Actions tab
-# first, read the commit it produces, and enable the cron once you trust it. Nothing
-# here writes prose: scripts/sync-status.mjs only rewrites the fenced paragraph, and
-# fails loudly if that fence has gone missing rather than guessing where it went.
+# Nothing here writes prose: scripts/sync-status.mjs only rewrites the fenced
+# paragraph, and fails loudly if that fence has gone missing rather than guessing
+# where it went. The job commits only when something actually moved, so a quiet day
+# leaves no trace and triggers no deploy.
+#
+# 06:17 UTC, off the hour because scheduled runs at :00 queue behind everyone else's.
 name: Refresh store status
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "17 6 * * *"
+  schedule:
+    - cron: "17 6 * * *"
 
 permissions:
   contents: write

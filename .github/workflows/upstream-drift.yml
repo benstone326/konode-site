@@ -6,17 +6,18 @@
 # landed on main, user-facing versus internal — is not a thing to automate onto a
 # live domain.
 #
-# The schedule is commented out until you have watched a manual run. The
-# repository_dispatch trigger is for the notify workflow in the extension repo, and
-# is harmless while that does not exist yet.
+# The daily run is the floor. repository_dispatch is the fast path, sent by a notify
+# workflow in the extension repo; while that does not exist, or its token has expired,
+# drift is caught within a day instead of within a push, which is a soft failure
+# rather than a silent one.
 name: Upstream docs drift
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types: [upstream-docs-changed]
-  # schedule:
-  #   - cron: "23 6 * * *"
+  schedule:
+    - cron: "23 6 * * *"
 
 permissions:
   contents: read
