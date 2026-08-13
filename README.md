@@ -86,8 +86,44 @@ pages together, or they drift apart. They already did once: the site was still
 telling Firefox users to build from source and load a temporary add-on months
 after 1.2.0 went live on AMO.
 
+Read that file from **`origin/main` over the network**, never from a local clone.
+That checkout has been 33 commits behind with uncommitted hand-edits describing an
+older release; updating the site from it writes the roadmap backwards.
+
 MEGA has no storage card on purpose. It is on the roadmap, not shipped, and a
 card in that grid reads as an available option no matter what badge it carries.
+
+### Keeping it in step, mostly automatically
+
+The split is between **data** (a version number, which is mechanical and safe to
+publish unattended) and **prose** (what a changelog entry means for a public page,
+which is a judgment call). Only the first is automated.
+
+| Piece | What it does |
+| --- | --- |
+| `data/status.json` | The store facts. The Firefox half is refetched; the Chrome half, including `inReview`, is hand-maintained |
+| `scripts/sync-status.mjs` | Refetches Firefox Add-ons + the newest release tag, rewrites the fenced paragraph in `roadmap.html`. `--check` exits 1 instead of writing |
+| `scripts/check-upstream.mjs` | Diffs upstream `ROADMAP.md` / `CHANGELOG.md` against `.upstream/`. `--accept` stores the current pair as the new baseline |
+| `.github/workflows/refresh-status.yml` | Runs the first script and pushes if anything moved. Manual until you enable the cron |
+| `.github/workflows/upstream-drift.yml` | Runs the second and files **one** issue with the diff. Never edits the site |
+| `.claude/commands/roadmap-sync.md` | `/roadmap-sync` — reads upstream, rewrites the pages, refreshes the baseline |
+
+Version numbers live in **`roadmap.html` only**, inside a `<!-- status:start -->`
+fence, and nothing hand-edits that paragraph. The other pages describe the stores
+without a number, because the two listings routinely sit a patch apart while a
+Chrome Web Store review clears, and repeating a number on four pages meant four
+places to go stale. `sync-status.mjs` throws rather than guessing if the fence is
+missing.
+
+The Chrome Web Store has no public read API. Scraping a listing whose markup is not
+a contract, to state which version users are running, is worse than being a day
+late, so that number stays manual and the script only reports when it has fallen
+behind the newest release.
+
+Not wired up yet: a `repository_dispatch` from the extension repo, so drift is
+noticed on push rather than on the next scheduled run. It needs a fine-grained PAT
+with **Contents: read and write** on this repository, stored as `SITE_DISPATCH_TOKEN`
+in `konabe-studio/konode`. The drift workflow already listens for it.
 
 ### The Encryption section
 

@@ -1,0 +1,15 @@
+{
+  "firefox": {
+    "version": "1.2.1",
+    "listedSince": "2026-08-04",
+    "url": "https://addons.mozilla.org/firefox/addon/konode/"
+  },
+  "chrome": {
+    "version": "1.2.0",
+    "publishedOn": "2026-07-20",
+    "inReview": true,
+    "url": "https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa"
+  },
+  "latestRelease": "v1.2.1",
+  "checkedOn": "2026-08-11"
+}

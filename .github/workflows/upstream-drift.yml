@@ -1,0 +1,61 @@
+# Watches ROADMAP.md and CHANGELOG.md in the extension repo, because roadmap.html is
+# a rendering of them and has drifted from them before.
+#
+# This never edits the site. It files one issue with the diff and stops, because
+# deciding what a changelog entry means for a public page — shipped versus merely
+# landed on main, user-facing versus internal — is not a thing to automate onto a
+# live domain.
+#
+# The schedule is commented out until you have watched a manual run. The
+# repository_dispatch trigger is for the notify workflow in the extension repo, and
+# is harmless while that does not exist yet.
+name: Upstream docs drift
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [upstream-docs-changed]
+  # schedule:
+  #   - cron: "23 6 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-drift
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Compare against the stored baseline
+        id: drift
+        run: node scripts/check-upstream.mjs
+
+      - name: File one issue, not one a day
+        if: steps.drift.outputs.drifted == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create upstream-drift \
+            --repo "$GITHUB_REPOSITORY" \
+            --color FBCA04 \
+            --description "ROADMAP.md or CHANGELOG.md moved in the extension repo" \
+            --force
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --label upstream-drift --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            echo "An upstream-drift issue is already open. Not filing another."
+            exit 0
+          fi
+          gh issue create \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Upstream docs changed — roadmap.html needs a pass" \
+            --label upstream-drift \
+            --body-file drift.md

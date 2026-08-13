@@ -1,0 +1,4 @@
+# The stored upstream copies are compared byte for byte against what
+# raw.githubusercontent.com serves, which is always LF. Letting Git hand them to a
+# Windows checkout as CRLF would report drift on every run, forever.
+.upstream/** text eol=lf

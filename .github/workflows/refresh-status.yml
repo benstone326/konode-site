@@ -1,0 +1,44 @@
+# Refreshes the version numbers on roadmap.html from Firefox Add-ons and the GitHub
+# releases API, and pushes the result — which redeploys the live site.
+#
+# The schedule is deliberately commented out. Run this by hand from the Actions tab
+# first, read the commit it produces, and enable the cron once you trust it. Nothing
+# here writes prose: scripts/sync-status.mjs only rewrites the fenced paragraph, and
+# fails loudly if that fence has gone missing rather than guessing where it went.
+name: Refresh store status
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "17 6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-status
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Rewrite the status paragraph
+        run: node scripts/sync-status.mjs
+
+      - name: Commit only if something moved
+        run: |
+          git config user.name "konode-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/status.json roadmap.html
+          if git diff --cached --quiet; then
+            echo "Nothing moved."
+            exit 0
+          fi
+          git commit -m "chore(site): store status refreshed from Firefox Add-ons"
+          git push

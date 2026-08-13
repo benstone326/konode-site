@@ -2,6 +2,10 @@
 # .claude/launch.json is intentionally tracked — it drives the local preview.
 .claude/settings.local.json
 
+# Written by scripts/check-upstream.mjs for the workflow to file as an issue body.
+# Ephemeral by design: it describes one run, not a state worth keeping.
+drift.md
+
 # OS cruft
 .DS_Store
 Thumbs.db

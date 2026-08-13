@@ -173,9 +173,25 @@
           Not something you can change in settings. Orion's WebKit engine exposes the
           OAuth bridge Konode needs, but throws a native error the moment it is called
           instead of opening Google's consent screen. Konode disables the Drive option
-          there rather than letting setup fail halfway through. GitHub and WebDAV both
-          work in Orion, and a device set up with either joins the same sync group as
-          the rest of your devices.
+          there rather than letting setup fail halfway through. WebDAV is the verified
+          way in on Orion, and a device set up with it joins the same sync group as the
+          rest of your devices. GitHub should work the same way, but has not been tried
+          there.
+        </p>
+      </div>
+      <div>
+        <h3>In Orion, bookmarks arrived split in two, or a session restored one tab</h3>
+        <p>
+          Both are known, and both are WebKit rather than your setup. Orion has a
+          Bookmarks Bar and a Favorites, and Konode treated both as the bar, so an
+          arriving tree landed partly in each. Separately, WebKit allows one
+          programmatic tab per click, so restoring a session opened the first tab and
+          silently dropped the rest.
+        </p>
+        <p>
+          Fixes for both are written but have not been run on an Orion device yet, so
+          they are not in a release. Until then, on Orion treat a restore as opening the
+          first tab, and check both bookmark roots after a large first sync.
         </p>
       </div>
       <div>
