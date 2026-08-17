@@ -271,8 +271,15 @@ Tracked against `SITE-REVIEW.md`. Open items only:
       exists. The policy now offers GitHub issues first and `konabe@proton.me`
       second, matching the extension's own `PRIVACY.md` word for word. There is no
       mailbox on the `konode.org` domain, so no MX record to test.
-- [ ] **OG image** — add a self-hosted image plus `og:image` / `twitter:image`, and
-      switch `twitter:card` to `summary_large_image`. Previews are text-only today.
+- [x] ~~**OG image.**~~ `og.png`, 1200x630, self-hosted, on all five pages, with
+      `twitter:card` switched to `summary_large_image`. Verified rendering in
+      Facebook's debugger. No `twitter:image` needed: X falls back to `og:image`.
+      Two things to know before touching it. The URL carries `?v=1` because
+      LinkedIn and Slack cache the picture by URL for weeks, so a re-export means
+      bumping that in all five pages or the old one keeps serving. And the artwork
+      must be **flattened**: the first export had a 9px transparent margin and
+      rounded corners, which a feed card composites onto its own background, black
+      on the platforms that flatten alpha that way. It now sits on `--bg`.
 - [ ] **Real product screenshots.** The page currently shows no picture of the
       extension anywhere. The hero is the dial plate, and the hand-built popup
       replica this item used to point at was removed in the redesign, along with
@@ -286,6 +293,10 @@ Tracked against `SITE-REVIEW.md`. Open items only:
 
 Decided, for the record:
 
+- **No `fb:app_id`.** Facebook's debugger warns that it is missing. It is only
+  needed to attach the page to a Facebook app for their Insights, which is
+  analytics, and `privacy.html` promises there is none. The preview renders
+  correctly without it, so the warning stays unfixed on purpose.
 - **Canonical GitHub URL is `konabe-studio/konode`.** Both that and
   `benstone326/Konode` exist and are public; the site was moved onto
   `konabe-studio/konode` (26 links) because the extension repo, its store listing
