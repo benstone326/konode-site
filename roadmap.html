@@ -77,6 +77,10 @@
     </p>
 
     <h2>Working today</h2>
+    <p>
+      Four data types, across Chromium and Firefox, onto storage you already
+      own, with optional end-to-end encryption on every backend. Entry by entry:
+    </p>
     <ul class="rm">
       <li>
         <span class="st st-shipped">Shipped</span>
@@ -88,7 +92,7 @@
         </div>
       </li>
       <li>
-        <span class="st st-shipped">Shipped</span>
+        <span class="st st-shipped">Shipped<b>1.2.0</b></span>
         <div>
           <h3>Chromium browsers and Firefox</h3>
           <p>Chrome, Brave, Helium and ungoogled-chromium, plus Firefox and Waterfox. Verified across Firefox, Brave and Helium sharing one sync folder. History arrives on its original visit dates on Firefox, the only engine that permits it. Firefox for Android runs it too, with open tabs only: that browser has no bookmarks API and will not grant the history permission on request, so Konode marks both unavailable there and skips them rather than failing the sync.</p>
@@ -98,11 +102,18 @@
         <span class="st st-beta">Works</span>
         <div>
           <h3>Orion, on the WebKit engine</h3>
-          <p>Not a supported target, and the reason is no longer that it fails. A field session in August 2026 had Orion and Brave sharing one WebDAV folder with encryption on, and all four data types synced. What it also showed is that WebKit breaks assumptions the Chromium code rests on, invisibly to the test suite. In the released build, expect arriving bookmarks to split across Orion's two bookmark roots, a saved session to restore as one tab rather than all of them, and a first install to show no setup wizard, because the engine never fires the event that opens it. Fixes for all three are written and none has run on the device yet. Google Drive sign-in is the one thing that stays broken: the browser own OAuth bridge throws instead of opening Google's consent screen, so Drive is switched off there with a plain message. WebDAV is the verified way in and GitHub has not been tried. Safari itself would need a native app wrapper, which Konode does not ship.</p>
+          <p>Not a supported target, and the reason is no longer that it fails. A field session in August 2026 had Orion and Brave sharing one WebDAV folder with encryption on, and all four data types synced.</p>
+          <p>What it also showed is that WebKit breaks assumptions the Chromium code rests on, invisibly to the test suite. In the released build, expect:</p>
+          <ul>
+            <li>arriving bookmarks to split across Orion's two bookmark roots</li>
+            <li>a saved session to restore as one tab rather than all of them</li>
+            <li>a first install to show no setup wizard, because the engine never fires the event that opens it</li>
+          </ul>
+          <p>Fixes for all three are written, and none has run on the device yet. Google Drive sign-in is the one thing that stays broken: the browser's own OAuth bridge throws instead of opening Google's consent screen, so Drive is switched off there with a plain message. WebDAV is the verified way in, GitHub has not been tried, and Safari itself would need a native app wrapper that Konode does not ship.</p>
         </div>
       </li>
       <li>
-        <span class="st st-shipped">Shipped</span>
+        <span class="st st-shipped">Shipped<b>1.1.0</b></span>
         <div>
           <h3>Three backends, seven ways in</h3>
           <p>Google Drive with the narrow <code>drive.file</code> scope, GitHub with a fine-grained token on a single private repository, and WebDAV against any compliant server. Nextcloud, ownCloud, pCloud, Koofr and Fastmail each get a card of their own. Synology, kDrive and everything else go through the generic WebDAV card.</p>
@@ -112,18 +123,18 @@
         <span class="st st-shipped">Shipped</span>
         <div>
           <h3>Four data types, merged across every device</h3>
-          <p>Bookmarks with two-way sync, tombstoned deletions, and renames, moves and folder reorders propagating. Open tabs and sessions, de-duplicated history, and the installed-extension list. Every type folds in each peer file on every sync, so three or more devices converge rather than overwriting one another.</p>
+          <p>Bookmarks with two-way sync, tombstoned deletions, and renames, moves and folder reorders propagating. Open tabs and sessions, de-duplicated history, and the installed-extension list. Every type folds in each peer's file on every sync, so three or more devices converge rather than overwriting one another.</p>
         </div>
       </li>
       <li>
         <span class="st st-shipped">Shipped</span>
         <div>
           <h3>Optional end-to-end encryption</h3>
-          <p>AES-256-GCM with PBKDF2-SHA256 key derivation over 600,000 iterations, available on every backend, plus a SHA-256 checksum verified on download.</p>
+          <p>Turn it on and your storage provider holds ciphertext it cannot read. The key is derived on your device from a passphrase that never leaves it: AES-256-GCM, with PBKDF2-SHA256 over 600,000 iterations. Every download is checked against a SHA-256 sum before it is applied, on every backend.</p>
         </div>
       </li>
       <li>
-        <span class="st st-shipped">Shipped</span>
+        <span class="st st-shipped">Shipped<b>1.1.0</b></span>
         <div>
           <h3>Bookmark restore points</h3>
           <p>Timestamped copies of the bookmark tree on your own storage, the newest ten kept. Saved by hand, or automatically when Konode refuses an unusual mass deletion. A restore only ever adds bookmarks back, never removes any.</p>
@@ -137,17 +148,17 @@
         </div>
       </li>
       <li>
-        <span class="st st-shipped">Shipped</span>
+        <span class="st st-shipped">Shipped<b>1.1.0</b></span>
         <div>
           <h3>Activity, statistics and devices</h3>
           <p>One tab in Settings covering what synced and when, alongside the device list and the option to forget a device you no longer use.</p>
         </div>
       </li>
       <li>
-        <span class="st st-shipped">Shipped</span>
+        <span class="st st-shipped">Shipped<b>1.2.0</b></span>
         <div>
           <h3>Interface translation</h3>
-          <p>English, Hungarian and German, all three complete, through the browser own <code>chrome.i18n</code>, so there is no library and no bundle cost. In the released build the popup and the setup wizard read from it. Translating is open to anyone on <a href="https://hosted.weblate.org/projects/konode/">Hosted Weblate</a>: no git, no pull request, nothing to install.</p>
+          <p>English, Hungarian and German, all three complete, through the browser's own <code>chrome.i18n</code>, so there is no library and no bundle cost. In the released build the popup and the setup wizard read from it. Translating is open to anyone on <a href="https://hosted.weblate.org/projects/konode/">Hosted Weblate</a>: no git, no pull request, nothing to install.</p>
         </div>
       </li>
     </ul>
@@ -176,7 +187,7 @@
         <span class="st st-planned">Planned</span>
         <div>
           <h3>MEGA</h3>
-          <p>The heaviest of the backends, and the reason it is not simply another WebDAV card: MEGA has no plain HTTPS endpoint a browser can write to, so it needs its own client library, and that library carries MEGA client-side crypto. Not started in any usable form.</p>
+          <p>The heaviest of the backends, and the reason it is not simply another WebDAV card: MEGA has no plain HTTPS endpoint a browser can write to, so it needs its own client library, and that library carries MEGA's client-side crypto. Not started in any usable form.</p>
         </div>
       </li>
       <li>
@@ -205,7 +216,7 @@
         <span class="st st-no">No</span>
         <div>
           <h3>Password sync</h3>
-          <p>Browser extensions cannot read the browser native password store. That is a security boundary the browser enforces, so this is not something Konode can choose to add. Use a dedicated password manager.</p>
+          <p>Browser extensions cannot read the browser's native password store. That is a security boundary the browser enforces, so this is not something Konode can choose to add. Use a dedicated password manager.</p>
         </div>
       </li>
       <li>

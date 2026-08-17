@@ -127,7 +127,21 @@ main.doc { max-width: calc(var(--maxw-text) + 2 * var(--gutter)); }
 @media (min-width: 700px) { .rm > li { grid-template-columns: 9rem 1fr; align-items: baseline; } }
 .rm h3 { margin: 0; }
 .rm p { margin: 0; color: var(--fg-muted); }
+/* An entry can need a second paragraph, or a list of caveats under one. */
+.rm p + p, .rm p + ul { margin-top: var(--s-3); }
+.rm ul { margin: 0; padding-left: 1.2em; }
+.rm ul li { margin: 0 0 var(--s-1); color: var(--fg-muted); }
+.rm ul li::marker { color: var(--fg-subtle); }
+
 .rm .st { font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.1em; }
+/* The release an entry landed in, under its badge. Grid blockifies .st, so a
+   block child here is fine. Quieter than the badge: it is a footnote to the
+   status, not a second status. */
+.rm .st b {
+  display: block; margin-top: var(--s-1);
+  font-weight: 400; letter-spacing: 0; text-transform: none;
+  color: var(--fg-subtle);
+}
 .st-shipped { color: var(--accent-solid); }
 .st-beta { color: var(--fg); }
 .st-planned { color: var(--fg-subtle); }
