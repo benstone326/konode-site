@@ -70,10 +70,6 @@ img, svg { max-width: 100%; display: block; }
 
 :focus-visible { outline: 2px solid var(--accent-solid); outline-offset: 2px; border-radius: var(--r-sm); }
 
-.sr-only {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-}
 .skip {
   position: absolute; left: var(--s-4); top: -100px; z-index: 100;
   background: var(--fg); color: #fff; padding: var(--s-3) var(--s-4);
@@ -98,190 +94,6 @@ body { padding-top: 96px; }
   letter-spacing: -0.02em; color: var(--fg); text-decoration: none;
 }
 .brand svg, .brand img { width: 26px; height: 26px; border-radius: 6px; flex: none; }
-
-/* ---------- Buttons ---------- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
-  border: 1px solid transparent; border-radius: var(--r-btn);
-  font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 500;
-  line-height: 1.2; text-decoration: none; cursor: pointer; white-space: nowrap;
-  padding: var(--s-3) var(--s-5);
-  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease),
-              color var(--dur) var(--ease), transform var(--dur) var(--ease);
-}
-.btn:active { transform: translateY(1px); }
-.btn svg { width: 18px; height: 18px; flex: none; }
-.btn-sm { padding: var(--s-2) var(--s-3); border-radius: var(--r-sm); }
-.btn-sm svg { width: 16px; height: 16px; }
-
-.btn-dark { background: var(--fg); color: #fff; }
-.btn-dark:hover { background: #23282f; text-decoration: none; }
-.btn-outline { background: var(--bg-card); color: var(--fg); border-color: var(--border-strong); }
-.btn-outline:hover { background: var(--bg-subtle); text-decoration: none; }
-
-/* ---------- Hero ---------- */
-.hero { position: relative; overflow: hidden; padding: var(--s-7) 0 var(--s-9); }
-.hero .wrap { position: relative; }
-
-/* Concentric orbit rings behind the hero. Decorative, so aria-hidden. */
-.orbit { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.orbit-inner { position: relative; width: min(920px, 95%); aspect-ratio: 1; }
-.orbit-inner span {
-  position: absolute; border: 1px solid var(--border); border-radius: 50%;
-}
-.orbit-inner span:nth-child(1) { width: 35%; height: 35%; top: 32.5%; left: 32.5%; }
-.orbit-inner span:nth-child(2) { width: 55%; height: 55%; top: 22.5%; left: 22.5%; }
-.orbit-inner span:nth-child(3) { width: 78%; height: 78%; top: 11%;   left: 11%; }
-.orbit-inner span:nth-child(4) { width: 100%; height: 100%; top: 0;   left: 0; }
-.orbit-arc { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-/* Integration tiles sitting on the rings. Shadow, no border: they float.
-   Positions are classes, not inline styles, so the strict CSP can forbid
-   inline styles outright. */
-.orbit-tiles { position: absolute; inset: 0; pointer-events: none; }
-.orbit-tiles > div { position: absolute; transform: translate(-50%, -50%); }
-.p1 { top: 6%;  left: 22%; }
-.p2 { top: 10%; left: 78%; }
-.p3 { top: 38%; left: 6%;  }
-.p4 { top: 36%; left: 94%; }
-.p5 { top: 72%; left: 14%; }
-.p6 { top: 76%; left: 84%; }
-/* No bottom-centre tile: the device card sits there and a tile would cover it. */
-.tile {
-  display: flex; align-items: center; justify-content: center;
-  width: 56px; height: 56px; border-radius: var(--r-card);
-  background: var(--bg-card); box-shadow: var(--shadow-lm-lg);
-}
-.tile svg { width: 26px; height: 26px; }
-.tile-lg { width: 60px; height: 60px; }
-@media (max-width: 900px) { .orbit-tiles { display: none; } }
-
-.hero-center {
-  position: relative; max-width: 40rem; margin: 0 auto;
-  display: flex; flex-direction: column; align-items: center;
-  text-align: center; padding-top: var(--s-6);
-}
-.chip {
-  display: inline-flex; align-items: center; gap: var(--s-2);
-  border: 1px solid var(--border); background: var(--bg-card);
-  border-radius: var(--r-pill); padding: 6px var(--s-3);
-  font-size: var(--fs-sm); color: var(--fg-muted);
-}
-.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
-
-.hero h1 { margin-top: var(--s-6); text-wrap: balance; }
-.hero-lead {
-  margin-top: var(--s-5); max-width: 36rem;
-  font-size: var(--fs-lead); line-height: 1.65; color: var(--fg-muted);
-}
-.hero-cta { margin-top: var(--s-7); display: flex; flex-wrap: wrap; gap: var(--s-3); justify-content: center; }
-
-/* ---------- Proof strip ---------- */
-.proof { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-subtle); }
-.proof .wrap {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  gap: var(--s-3) var(--s-7); padding: var(--s-5) var(--gutter);
-}
-.proof span {
-  font-family: var(--font-mono); font-size: var(--fs-xs);
-  text-transform: uppercase; letter-spacing: 0.14em; color: var(--fg-subtle);
-}
-
-/* ---------- Sections ---------- */
-section.band { padding: var(--s-9) 0; }
-.sec-head { max-width: 40rem; margin: 0 auto; text-align: center; }
-.eyebrow {
-  display: block; margin-bottom: var(--s-3);
-  font-family: var(--font-mono); font-size: var(--fs-xs);
-  text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent-solid);
-}
-.sec-head h2 { text-wrap: balance; }
-.sec-body { margin-top: var(--s-7); }
-.sec-note {
-  margin: var(--s-6) auto 0; max-width: 36rem; text-align: center;
-  font-size: var(--fs-sm); color: var(--fg-muted);
-}
-
-/* ---------- Hairline grid (what syncs) ----------
-   1px gaps over a border-coloured backdrop give exact hairline dividers. */
-.hairgrid {
-  display: grid; gap: 1px; background: var(--border);
-  border: 1px solid var(--border); border-radius: var(--r-card); overflow: hidden;
-}
-@media (min-width: 760px) { .hairgrid { grid-template-columns: 1fr 1fr; } }
-.hairgrid > div { background: var(--bg-card); padding: var(--s-6); }
-.hairgrid h3 { display: flex; align-items: center; gap: var(--s-2); }
-.hairgrid p { margin-top: var(--s-3); font-size: var(--fs-sm); line-height: 1.65; color: var(--fg-muted); }
-
-/* ---------- Cards ---------- */
-.cards { display: grid; gap: var(--s-4); }
-@media (min-width: 760px) { .cards-3 { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 760px) { .cards-2 { grid-template-columns: repeat(2, 1fr); } }
-
-/* Border only, no shadow: cards sit on the page, they don't float. */
-.card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: var(--s-5);
-  transition: border-color var(--dur) var(--ease);
-}
-.card:hover { border-color: var(--border-strong); }
-.card p { font-size: var(--fs-sm); line-height: 1.65; color: var(--fg-muted); }
-
-/* Storage backend card: tile and auth label share a row, so the heading sits
-   below in flow rather than under a stacked icon block. */
-.card-top { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
-.card-top .tile { width: 44px; height: 44px; border-radius: var(--r-btn); }
-.card-top .tile svg { width: 22px; height: 22px; }
-.auth {
-  font-family: var(--font-mono); font-size: var(--fs-xs);
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-subtle);
-  text-align: right;
-}
-.card-name { margin-top: var(--s-5); font-size: 1rem; font-weight: 600; font-family: var(--font-display); letter-spacing: -0.01em; }
-.card-name + p { margin-top: var(--s-2); }
-
-.planned {
-  margin-top: var(--s-4); border: 1px dashed var(--border-strong);
-  background: var(--bg-subtle); border-radius: var(--r-btn);
-  padding: var(--s-3) var(--s-5); text-align: center;
-  font-size: var(--fs-sm); color: var(--fg-muted);
-}
-.planned b { font-family: var(--font-mono); font-weight: 400; color: var(--accent-solid); }
-
-/* ---------- Code window ---------- */
-.window {
-  max-width: 48rem; margin: 0 auto;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: var(--s-5);
-}
-.window-bar { display: flex; align-items: center; gap: 6px; margin-bottom: var(--s-4); }
-.window-bar i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-.window-bar i:nth-child(1) { background: #ff5f57; }
-.window-bar i:nth-child(2) { background: #febc2e; }
-.window-bar i:nth-child(3) { background: #28c840; }
-.window-bar span {
-  margin-left: var(--s-3); font-family: var(--font-mono); font-size: var(--fs-xs);
-  letter-spacing: 0.1em; color: var(--fg-subtle); overflow-wrap: anywhere;
-}
-.window pre {
-  font-size: var(--fs-sm); line-height: 1.8; color: var(--fg);
-  overflow-x: auto; white-space: pre;
-}
-.window pre .k { color: var(--fg-muted); }
-.window pre .v { color: var(--accent-solid); }
-
-/* ---------- Final CTA ---------- */
-.final { padding: 0 0 var(--s-9); }
-.final-card {
-  max-width: 56rem; margin: 0 auto; text-align: center;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: var(--s-8) var(--s-5);
-}
-@media (min-width: 760px) { .final-card { padding: var(--s-9) var(--s-8); } }
-.final-card > svg { width: 44px; height: 44px; margin: 0 auto; border-radius: 10px; }
-.final-card h2 { margin: var(--s-5) auto 0; max-width: 34rem; text-wrap: balance; }
-.final-card p { margin: var(--s-4) auto 0; max-width: 28rem; font-size: var(--fs-lead); color: var(--fg-muted); }
-.final-card .hero-cta { justify-content: center; }
 
 /* ---------- Footer ---------- */
 footer.site { border-top: 1px solid var(--border); padding: var(--s-7) 0; }
@@ -325,15 +137,6 @@ main.doc { max-width: calc(var(--maxw-text) + 2 * var(--gutter)); }
 .doc .small { font-size: var(--fs-sm); }
 .doc .muted { color: var(--fg-muted); }
 
-pre.code {
-  background: var(--fg); color: #e9ecef; border-radius: var(--r-btn);
-  padding: var(--s-5); overflow-x: auto; font-size: var(--fs-sm); line-height: 1.8;
-  margin-bottom: var(--s-5); max-width: 100%;
-}
-pre.code .c { color: #98a0ab; }
-pre.code code { background: none; border: 0; padding: 0; color: inherit; font-size: inherit; }
-code.inline { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 2px 6px; font-size: var(--fs-sm); }
-
 .callout {
   background: var(--bg-card); border: 1px solid var(--border);
   border-left: 3px solid var(--accent); border-radius: var(--r-sm);
@@ -364,17 +167,6 @@ code.inline { background: var(--bg-subtle); border: 1px solid var(--border); bor
    in the opposite colour rather than the neutral grey of "Planned". */
 .st-no { color: var(--danger-text); }
 
-/* ---------- Comparison table ---------- */
-.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-card); background: var(--bg-card); }
-table.cmp { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); min-width: 760px; }
-table.cmp th, table.cmp td { text-align: left; padding: var(--s-4); border-bottom: 1px solid var(--border); vertical-align: top; }
-table.cmp thead th { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); white-space: nowrap; }
-table.cmp tbody th { font-weight: 500; color: var(--fg-muted); white-space: nowrap; }
-table.cmp tr:last-child th, table.cmp tr:last-child td { border-bottom: 0; }
-table.cmp .self { background: var(--bg-card-sel); }
-table.cmp thead .self { font-weight: 700; }
-.table-hint { margin-top: var(--s-3); font-size: var(--fs-sm); color: var(--fg-muted); }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -384,7 +176,8 @@ table.cmp thead .self { font-weight: 700; }
 }
 
 @media print {
-  .site-header, footer.site, .skip, .hero-cta, .orbit, .orbit-tiles { display: none; }
-  body { background: #fff; color: #000; }
+  .site-header, footer.site, .skip { display: none; }
+  /* padding-top clears the fixed header on screen; in print there is none. */
+  body { background: #fff; color: #000; padding-top: 0; }
   .doc { padding: 0; }
 }
