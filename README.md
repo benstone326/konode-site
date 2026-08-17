@@ -74,6 +74,11 @@ step. If any of these change, the section changes with them:
 | Credentials live in local extension storage | `privacy.html`, "Your credentials" |
 | A lost passphrase is unrecoverable | `troubleshooting.html`, "Encryption" |
 
+`privacy.html` is a second published policy alongside the extension's own
+`PRIVACY.md`, and the two are read by the same people. Keep the contact details
+identical: GitHub issues first, `konabe@proton.me` second. There is no mailbox on
+`konode.org`, so any address at that domain is a dead end by construction.
+
 The permission toggles are the second half of `konode.js`. They bail out on any
 page without the form, so the doc pages pay nothing for them.
 
@@ -262,11 +267,10 @@ for search; a real domain is what actually matters.
 
 Tracked against `SITE-REVIEW.md`. Open items only:
 
-- [ ] **Contact email `hello@konode.org`.** The domain is live now, so the address
-      at least looks right, but that says nothing about MX records. Send a test mail
-      to it and confirm something arrives. GitHub issues is offered alongside it in
-      the policy, so a dead mailbox is not a dead end, but it is still a broken
-      promise on the privacy policy.
+- [x] ~~**Contact email `hello@konode.org`.**~~ Settled by using an address that
+      exists. The policy now offers GitHub issues first and `konabe@proton.me`
+      second, matching the extension's own `PRIVACY.md` word for word. There is no
+      mailbox on the `konode.org` domain, so no MX record to test.
 - [ ] **OG image** — add a self-hosted image plus `og:image` / `twitter:image`, and
       switch `twitter:card` to `summary_large_image`. Previews are text-only today.
 - [ ] **Real product screenshots.** The page currently shows no picture of the
