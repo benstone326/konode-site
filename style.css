@@ -485,25 +485,6 @@ p { margin: 0; }
 .card-dark p { color: var(--d-fg-muted); }
 .card-dark a { color: var(--d-accent); text-underline-offset: 2px; }
 
-/* Eight backends leave a hole in the last row of a three-up grid. Rather
-   than filling it with a provider we do not support, the closing card takes
-   the space. */
-.card-wide { grid-column: span 2; }
-
-/* A backend that is on the roadmap but not shipped says so on the card. */
-.card-head { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
-.badge {
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-pill);
-  background: var(--bg-card);
-  color: var(--fg-muted);
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 /* ------------------------------------------------------------------ faq -- */
 
 /* Same container width as the storage grid above it, not a narrower one. */
@@ -1284,7 +1265,6 @@ table.compare thead .col-konode { background: var(--accent-solid); color: var(--
   .hero-copy { gap: 32px; }
   .hairline-grid { grid-template-columns: minmax(0, 1fr); }
   .card-grid { grid-template-columns: minmax(0, 1fr); }
-  .card-wide { grid-column: span 1; }
   .panel { margin: 0 8px; border-radius: 28px; }
   /* The hero carries its own shell rules, so it needs the same step down. */
   .hero { margin: 8px; border-radius: 28px; }
