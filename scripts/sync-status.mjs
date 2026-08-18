@@ -51,26 +51,57 @@ const cr = status.chrome;
 const fxLink = `<a href="${esc(fx.url)}">Firefox Add-ons</a>`;
 const crLink = `<a href="${esc(cr.url)}">Chrome Web Store</a>`;
 
-let sentence;
-if (cr.version === fx.version) {
-  sentence =
-    `Version ${esc(fx.version)} serves both stores: the ${crLink} listing, published ` +
-    `${esc(cr.publishedOn)}, and ${fxLink}, listed since ${esc(fx.listedSince)}. ` +
-    `Nothing is waiting on a submission.`;
-} else if (cr.inReview) {
-  sentence =
-    `Version ${esc(fx.version)} serves ${fxLink}, listed there since ${esc(fx.listedSince)}. ` +
-    `The ${crLink} listing, published ${esc(cr.publishedOn)}, serves ${esc(cr.version)} until ` +
-    `${esc(fx.version)} clears review, and Chrome updates itself once it does. ` +
-    `Nothing is waiting on us.`;
-} else {
-  // Behind and not submitted is a different sentence, because "clears review"
-  // would be a claim about work that has not been started.
-  sentence =
-    `Version ${esc(fx.version)} serves ${fxLink}, listed there since ${esc(fx.listedSince)}. ` +
-    `The ${crLink} listing, published ${esc(cr.publishedOn)}, serves ${esc(cr.version)}: ` +
-    `${esc(fx.version)} has not been submitted there yet.`;
-}
+/* A row per store, because the question a reader has is "what will I get if I
+   install right now", and that is a version number per store rather than a
+   paragraph. `serving` is what the listing hands out today; `state` is whether
+   anything is behind it. The prose that used to live here said the same thing
+   in four clauses and buried the numbers. */
+const rows = [
+  {
+    name: "Firefox Add-ons",
+    url: fx.url,
+    serving: fx.version,
+    // AMO auto-approves, so what is listed is what is live.
+    state: "Live",
+    kind: "live",
+  },
+  {
+    name: "Chrome Web Store",
+    url: cr.url,
+    serving: cr.version,
+    state:
+      cr.version === fx.version
+        ? "Live"
+        : cr.inReview
+          ? `${esc(fx.version)} in review`
+          : `${esc(fx.version)} not submitted`,
+    kind: cr.version === fx.version ? "live" : cr.inReview ? "pending" : "behind",
+  },
+];
+
+const strip =
+  `<ul class="stores">` +
+  rows
+    .map(
+      (r) =>
+        `<li>` +
+        `<a href="${esc(r.url)}">${esc(r.name)}</a>` +
+        `<b>${esc(r.serving)}</b>` +
+        `<span class="store-state store-${r.kind}">${r.state}</span>` +
+        `</li>`,
+    )
+    .join("") +
+  `</ul>`;
+
+// One line of nuance under the strip, only when there is nuance to give.
+const note =
+  cr.version === fx.version
+    ? ""
+    : cr.inReview
+      ? `<p class="stores-note">Chrome updates itself once the review clears. Nothing is waiting on us.</p>`
+      : `<p class="stores-note">${esc(fx.version)} has not been submitted to the Chrome Web Store yet.</p>`;
+
+const block = strip + note;
 
 const html = await readFile(PAGE_FILE, "utf8");
 const fence = /(<!-- status:start[^>]*-->)[\s\S]*?(<!-- status:end -->)/;
@@ -85,7 +116,7 @@ if (!fence.test(html)) {
 const eol = html.includes("\r\n") ? "\r\n" : "\n";
 const nextHtml = html.replace(
   fence,
-  (_match, open, close) => `${open}${eol}          <p>${sentence}</p>${eol}          ${close}`,
+  (_match, open, close) => `${open}${eol}          ${block}${eol}          ${close}`,
 );
 
 // checkedOn is written only when something else moved, so an unchanged day does

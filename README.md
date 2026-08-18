@@ -79,6 +79,16 @@ step. If any of these change, the section changes with them:
 identical: GitHub issues first, `konabe@proton.me` second. There is no mailbox on
 `konode.org`, so any address at that domain is a dead end by construction.
 
+`roadmap.html`'s **Working today** list runs newest release first. A shipped
+version's entries go to the top, not the bottom: someone scanning that page
+wants the recent work. The generated store strip stays pinned above them and
+the Orion entry pinned below, since one is the current state and the other is a
+caveat. The rule is written out in a comment above the list.
+
+That strip is generated too, by `scripts/sync-status.mjs`, and is now a row per
+store rather than a paragraph: what each listing serves today, and whether
+anything is behind it. Edit `data/status.json`, run the script, never the markup.
+
 The permission toggles are the second half of `konode.js`. They bail out on any
 page without the form, so the doc pages pay nothing for them.
 

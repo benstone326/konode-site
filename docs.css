@@ -149,6 +149,35 @@ main.doc { max-width: calc(var(--maxw-text) + 2 * var(--gutter)); }
    in the opposite colour rather than the neutral grey of "Planned". */
 .st-no { color: var(--danger-text); }
 
+
+/* ---------- Store status strip (generated into roadmap.html) ---------- */
+/* A row per store. The version is the answer to "what do I get if I install
+   now", so it is the element that reads first after the store name. */
+.stores { list-style: none; margin: 0; padding: 0; }
+.stores li {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--s-2) var(--s-3);
+  padding: var(--s-2) 0;
+}
+.stores li + li { border-top: 1px solid var(--border); }
+.stores a { flex: 1 1 12rem; }
+.stores b {
+  font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-sm);
+  color: var(--fg);
+}
+/* Coloured text rather than a pill, matching .st-shipped and .st-planned
+   above: the page already has a vocabulary for status and this is the same
+   kind of thing. A tinted pill also cost contrast, --accent-solid on
+   --bg-card-sel is 4.35:1 and fails AA at this size. */
+.store-state {
+  font-family: var(--font-mono); font-size: var(--fs-xs);
+  text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap;
+}
+/* Green for what you can install today, grey for what is still moving.
+   Not red: a review in progress is the normal shape of a release here. */
+.store-live { color: var(--accent-solid); }
+.store-pending, .store-behind { color: var(--fg-subtle); }
+.stores-note { margin-top: var(--s-3); font-size: var(--fs-sm); color: var(--fg-muted); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
