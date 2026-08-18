@@ -77,6 +77,10 @@ html {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* The label has to stay wrapped in a single <span> in the markup. Bare
+     text next to <span class="js-browser"> becomes its own anonymous flex
+     item, so this gap lands between "Add to" and "Chrome" as well and the
+     header button reads wider than the hero one, which is wrapped. */
   gap: 8px;
   height: 42px;
   padding: 0 16px;
