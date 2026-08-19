@@ -231,6 +231,14 @@
       <li>
         <span class="st st-no">No</span>
         <div>
+          <h3>iCloud Drive</h3>
+          <p>Apple publishes no third-party API for iCloud Drive and no WebDAV, so there is no supported way for an extension to put a file there. What circulates as iCloud over WebDAV is a relay service that copies your files through its own servers, which is the arrangement Konode exists to avoid.</p>
+          <p>The sanctioned route, CloudKit, writes into a container the developer registers rather than into your iCloud Drive. You could not open those files in Finder, copy them out, or hand them to another tool. Being able to do exactly that is what "storage you own" means here, so an iCloud card would be the one backend that makes the promise untrue. On Apple hardware, any WebDAV provider works today, and so does a private GitHub repository.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-no">No</span>
+        <div>
           <h3>Password sync</h3>
           <p>Browser extensions cannot read the browser's native password store. That is a security boundary the browser enforces, so this is not something Konode can choose to add. Use a dedicated password manager.</p>
         </div>

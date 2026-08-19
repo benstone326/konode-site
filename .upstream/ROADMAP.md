@@ -97,10 +97,39 @@ keeps the two from being confused.
 - **Backend expansion**, cheapest sign-in first. See *Platform priority* item 3 below.
 - **History sync performance**: the full-history dedup scan every import runs.
 - **More languages.** Japanese, Italian and Estonian are open volunteer work on Weblate
-  with no target date. A language joins `SHIPPED` in `i18n.test.ts` once it is complete,
-  which is the last step of shipping it. Completeness is the whole bar: the translators
+  with no target date. A language joins `shipped-languages.json` once it is complete, which
+  is the last step of shipping it: that one list is what both the packaging scripts and
+  `i18n.test.ts` read, so what we ship and what we hold to a completeness check cannot
+  drift apart. Completeness is the whole bar: the translators
   are native speakers and Weblate is where their work gets reviewed, so a language no
   maintainer here reads is not thereby held back.
+- **Scoped in the tracker, not here.** Three issues carry design work that belongs on this
+  list, with the API checks and the reasoning written out where contributors can read them
+  rather than in a local file. No dates and no version targets, the same as everything else
+  under *Next*: #11 and #10 were gated on the translations release, which shipped
+  2026-08-17, and that is the only timing claim either of them supports.
+  - [#11 What Konode can and cannot sync](https://github.com/konabe-studio/konode/issues/11)
+    measures us against Brave Sync's list and answers it with a principle instead of a
+    backlog: Konode can only sync what means the same thing in every browser. Two real
+    candidates fall out. **Reading list** (`chrome.readingList`, Chrome 120+) is the
+    cheaper of them, because `capabilities.ts` already handles a data type a browser does
+    not implement, so it would report itself unavailable on Firefox and the sync would skip
+    it with no engine change. **Live tab groups** (`chrome.tabGroups`, live groups only,
+    since Brave's *saved* groups are not exposed to extensions) is structurally the same
+    problem as #6 and belongs in the same design.
+  - [#10 Device identity is per install, not per machine](https://github.com/konabe-studio/konode/issues/10),
+    split from #7. The rule it lands on: never merge identities automatically, ask, and ask
+    with the only two facts that let a human decide, how recently the device uploaded and
+    what data it holds. Default to keeping both, because Forget is reversible while taking
+    over an identity overwrites. The structural half is worth more than the duplicate row:
+    **nothing ages out a peer**, so a device that never syncs again is merged every cycle,
+    forever, until somebody hits Forget.
+  - [#6 Sync a tab's container](https://github.com/konabe-studio/konode/issues/6), matched
+    by NAME, because `cookieStoreId` is per profile and means nothing on another machine.
+    Firefox only: Chromium has no container concept at all, and whether Brave 1.92's
+    containers reach extensions is unverified rather than settled. Needs `cookies` and
+    `contextualIdentities`, both as optional permissions, which `capabilities.ts` is
+    already the right place to gate.
 
 ## Not supported, but closer than it was: iOS / WebKit
 
@@ -258,10 +287,42 @@ pitch.
   MEGA backend exists. The Firefox build itself is runtime-verified as of 1.2.0, so the open
   question is the new backend, not the build.
 
+## iCloud: asked for, and not on our terms
+
+Requested on Reddit, 2026-08-17. The answer is no, and the reason is not effort.
+
+- **iCloud Drive has no public API for third parties, and no WebDAV.** What circulates as
+  "iCloud over WebDAV" is a relay service that proxies the files through its own server,
+  which is precisely what this project exists to avoid. Routing someone's bookmarks
+  through a third party on the way to storage they own is worse than not supporting it.
+- **The one sanctioned route is CloudKit**, which needs a paid Apple Developer membership
+  and writes into a container the *developer* registers, not into the user's iCloud Drive.
+  The data lands in a private database they cannot open in Finder, cannot copy files out
+  of, and cannot hand to another tool. They can delete it wholesale through Apple's
+  storage settings, and that is the whole of their control over it.
+
+The second point disqualifies it, not the fee. "Storage you own" means the files are
+visible, copyable and portable, and that a user can walk away from Konode without losing
+them. CloudKit would be the one backend where that stops being true, so it would buy an
+Apple logo on a card in the setup wizard at the cost of the only claim the project makes.
+
+Apple users are served today by any WebDAV provider, and by a private GitHub repository.
+Reopen this if Apple ever ships an API that writes to the user's visible iCloud Drive.
+
 ## Later / nice-to-have
 - Incremental diff for >10k bookmarks; history sync performance (the full-history dedup
   scan every import runs is what's left, after 1.2.0 overlapped the per-page writes that
   were the bigger part of a slow first sync).
+- **Diffs between restore points.** Show what actually changed between two restore
+  points in the Activity tab, rather than only that a sync ran. Checked against the code
+  before listing it: `sync/snapshots.ts` writes a full bookmark tree per restore point
+  through the generic `IBackend` file ops, and `restoreSnapshot()` already reads one back
+  and decrypts it in order to restore it. So this is a comparison view over data that
+  already exists plus a tree diff, not new plumbing, and it behaves the same on Drive,
+  GitHub and WebDAV because restore points are ordinary files we write ourselves. The
+  provider-side route is *not* available for this: `listVersions()` returns `[]` on all
+  three backends. Two limits worth stating wherever this is described: bookmarks only
+  (`exportBookmarkPayload`), and only across the newest `MAX_SNAPSHOTS`, which is 10.
 - Optional OAuth proxy (serverless) to avoid shipping the Google client secret.
 
 ## Publishing
