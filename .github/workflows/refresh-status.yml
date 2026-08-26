@@ -1,10 +1,11 @@
-# Refreshes the version numbers on roadmap.html from Firefox Add-ons and the GitHub
-# releases API, and pushes the result — which redeploys the live site.
+# Refreshes the version numbers on roadmap.html from Firefox Add-ons, the Chrome
+# extension update endpoint and the GitHub releases API, then pushes the result —
+# which redeploys the live site.
 #
 # Nothing here writes prose: scripts/sync-status.mjs only rewrites the fenced
-# paragraph, and fails loudly if that fence has gone missing rather than guessing
-# where it went. The job commits only when something actually moved, so a quiet day
-# leaves no trace and triggers no deploy.
+# strip, and fails loudly rather than guessing if the fence has gone missing or a
+# store answers with something that is not a version. The job commits only when
+# something actually moved, so a quiet day leaves no trace and triggers no deploy.
 #
 # 06:17 UTC, off the hour because scheduled runs at :00 queue behind everyone else's.
 name: Refresh store status
@@ -47,5 +48,5 @@ jobs:
             echo "Nothing moved."
             exit 0
           fi
-          git commit -m "chore(site): store status refreshed from Firefox Add-ons"
+          git commit -m "chore(site): store versions refreshed"
           git push

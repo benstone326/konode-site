@@ -164,19 +164,6 @@ main.doc { max-width: calc(var(--maxw-text) + 2 * var(--gutter)); }
   font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-sm);
   color: var(--fg);
 }
-/* Coloured text rather than a pill, matching .st-shipped and .st-planned
-   above: the page already has a vocabulary for status and this is the same
-   kind of thing. A tinted pill also cost contrast, --accent-solid on
-   --bg-card-sel is 4.35:1 and fails AA at this size. */
-.store-state {
-  font-family: var(--font-mono); font-size: var(--fs-xs);
-  text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap;
-}
-/* Green for what you can install today, grey for what is still moving.
-   Not red: a review in progress is the normal shape of a release here. */
-.store-live { color: var(--accent-solid); }
-.store-pending, .store-behind { color: var(--fg-subtle); }
-.stores-note { margin-top: var(--s-3); font-size: var(--fs-sm); color: var(--fg-muted); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

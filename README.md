@@ -116,24 +116,27 @@ which is a judgment call). Only the first is automated.
 
 | Piece | What it does |
 | --- | --- |
-| `data/status.json` | The store facts. The Firefox half is refetched; the Chrome half, including `inReview`, is hand-maintained |
-| `scripts/sync-status.mjs` | Refetches Firefox Add-ons + the newest release tag, rewrites the fenced paragraph in `roadmap.html`. `--check` exits 1 instead of writing |
+| `data/status.json` | The store facts. Both store versions are refetched; nothing in it is hand-maintained |
+| `scripts/sync-status.mjs` | Refetches both store versions + the newest release tag, rewrites the fenced strip in `roadmap.html`. `--check` exits 1 instead of writing |
 | `scripts/check-upstream.mjs` | Diffs upstream `ROADMAP.md` / `CHANGELOG.md` against `.upstream/`. `--accept` stores the current pair as the new baseline |
-| `.github/workflows/refresh-status.yml` | Runs the first script and pushes if anything moved. Manual until you enable the cron |
+| `.github/workflows/refresh-status.yml` | Runs the first script and pushes if anything moved. Daily at 06:17 UTC, plus on demand |
 | `.github/workflows/upstream-drift.yml` | Runs the second and files **one** issue with the diff. Never edits the site |
 | `.claude/commands/roadmap-sync.md` | `/roadmap-sync` — reads upstream, rewrites the pages, refreshes the baseline |
 
 Version numbers live in **`roadmap.html` only**, inside a `<!-- status:start -->`
-fence, and nothing hand-edits that paragraph. The other pages describe the stores
+fence, and nothing hand-edits that strip. The other pages describe the stores
 without a number, because the two listings routinely sit a patch apart while a
 Chrome Web Store review clears, and repeating a number on four pages meant four
 places to go stale. `sync-status.mjs` throws rather than guessing if the fence is
 missing.
 
-The Chrome Web Store has no public read API. Scraping a listing whose markup is not
-a contract, to state which version users are running, is worse than being a day
-late, so that number stays manual and the script only reports when it has fallen
-behind the newest release.
+The Chrome Web Store has no public read API, but it does not need scraping either:
+every Chrome install asks the update endpoint which version it should be running,
+and that answer is a protocol rather than page markup. It is also the number worth
+publishing, being what a browser would install right now. That endpoint answers HTTP
+200 for an extension that no longer exists, and its own XML declaration carries a
+`version="1.0"`, so the script checks both the shape and the value, and exits
+non-zero rather than writing a number it is unsure of.
 
 Not wired up yet: a `repository_dispatch` from the extension repo, so drift is
 noticed on push rather than on the next scheduled run. It needs a fine-grained PAT

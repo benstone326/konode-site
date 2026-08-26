@@ -45,8 +45,9 @@ claims.
    about browsers, backends or store state changed, they change together, or they drift
    apart. They already did once: the site told Firefox users to build from source for
    months after the add-on was live on AMO.
-3. **`data/status.json`** if a store version moved. The Chrome half is hand-maintained,
-   including `inReview`; the Firefox half is refetched by the script.
+3. **`data/status.json`** needs nothing from you. Both store versions are refetched by
+   `scripts/sync-status.mjs`, which then rewrites the strip on `roadmap.html`. Run it if
+   you want the numbers current now rather than after the next scheduled run.
 
 ## House style
 
