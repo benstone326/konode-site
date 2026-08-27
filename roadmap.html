@@ -202,6 +202,14 @@
       <li>
         <span class="st st-planned">Planned</span>
         <div>
+          <h3>Filen</h3>
+          <p>Asked for on Reddit, and a closer fit than it looks. Filen encrypts everything on your device before it leaves, and unlike MEGA its API can be reached straight from a browser, so Konode would write to it with nothing sitting in between. What Filen does not offer is a hosted WebDAV address, so it cannot become one more preset on the WebDAV card. It needs a backend of its own, carrying Filen's own encryption, written here rather than pulled in as a library.</p>
+          <p>There is a route today for anyone already running Filen's command line tool. It can serve your drive over WebDAV from your own machine, and the generic WebDAV card takes a local address for exactly that kind of setup. Nobody has tried that combination with Konode yet, so treat it as worth an experiment rather than as supported. Reports are welcome.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
           <h3>MEGA</h3>
           <p>The heaviest of the backends, and the reason it is not simply another WebDAV card: MEGA has no plain HTTPS endpoint a browser can write to, so it needs its own client library, and that library carries MEGA's client-side crypto. Not started in any usable form.</p>
         </div>
