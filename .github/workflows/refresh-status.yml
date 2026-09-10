@@ -12,6 +12,22 @@ name: Refresh store status
 
 on:
   workflow_dispatch:
+  # The same knock upstream-drift.yml listens for, sent by the extension repo. That
+  # one only ever files an issue, by design, so until this was here the fast path
+  # could not move a version number: a release went out and the strip kept saying
+  # the old one until the next scheduled run, which in practice lands four to six
+  # hours after the time below rather than at it.
+  #
+  # Safe to fire often. The job rewrites the fence only when a store answers with a
+  # version that differs from the one on the page, and commits only when something
+  # actually moved, so an extra run on an ordinary docs push leaves no trace.
+  #
+  # It cannot run AHEAD of the stores, which is the limit worth remembering: the
+  # numbers are read from Firefox Add-ons and the Chrome update endpoint, so this
+  # reports what they serve, not what was uploaded. AMO takes minutes, the Chrome
+  # Web Store takes days, and the schedule below is what eventually catches it.
+  repository_dispatch:
+    types: [upstream-docs-changed]
   schedule:
     - cron: "17 6 * * *"
 
