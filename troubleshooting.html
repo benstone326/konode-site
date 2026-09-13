@@ -181,6 +181,27 @@
         </p>
       </div>
       <div>
+        <h3>Google Drive sign-in returns "redirect_uri_mismatch" on Orion or Quetta</h3>
+        <p>
+          Try the sign-in again first. This was a redirect address missing from our
+          OAuth client, registered in September 2026, so there is nothing for you to
+          update or reinstall. Both browsers support the call Konode uses to ask the
+          browser for its own redirect address, but hand it back with the path dropped,
+          so Google was sent a form of it our client did not list. The extension ID in
+          the request was correct the whole time, which is what made this look like a
+          fault in Konode rather than a missing registration.
+        </p>
+        <p>
+          If it still fails, read the <code>Request details: redirect_uri=...</code>
+          line on Google's own error page. A different extension ID there means your
+          browser assigned Konode an ID of its own, which cannot be registered ahead of
+          time, and GitHub or WebDAV are the backends to use on that browser. The
+          Activity log will not tell you which of the two you are in: from Konode's
+          side a refused redirect looks the same as a closed window, and is recorded as
+          a cancelled sign-in.
+        </p>
+      </div>
+      <div>
         <h3>Google Drive is switched off in Orion</h3>
         <p>
           Not something you can change in settings. Orion's WebKit engine exposes the
