@@ -106,6 +106,22 @@
         </div>
       </li>
       <li>
+        <span class="st st-shipped">Shipped<b>1.3.2</b></span>
+        <div>
+          <h3>A blocked deletion that would not stop</h3>
+          <p>Konode refuses any one sync that would remove more than 60 percent of your bookmarks, and saves a restore point when it does. What it used to do next was keep that request and publish it again under its own name, so within a few cycles every device was asking every other one to delete bookmarks all of them still had. The warning returned every minute, named a different device each time, and nothing you did on any single device ended it.</p>
+          <p>Nothing was ever lost. The guard refused the deletion every time; what it could not do was stop being asked. A device now only ever asks for the deletions it made itself, and ignores that request when a peer makes it, so the warning stops on the first sync after one device updates, even while your others are still on the older build.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.3.1</b></span>
+        <div>
+          <h3>See what a held back deletion holds, and allow it</h3>
+          <p>Settings &rarr; Activity shows a card for a deletion Konode stopped: how many bookmarks of how many, which device asked for it, and how much of your tree that is, with a button that applies it. Before this the only route was a slider that stops at 95 percent, so a device asking to clear nearly all of its bookmarks stayed blocked wherever you put it.</p>
+          <p>Saying yes covers the sync that follows and nothing after it, so a deletion that turns up later is stopped and shown to you like any other. The restore point is already saved before you are asked.</p>
+        </div>
+      </li>
+      <li>
         <span class="st st-shipped">Shipped<b>1.3.0</b></span>
         <div>
           <h3>Interface translation</h3>
@@ -159,7 +175,7 @@
         <span class="st st-shipped">Shipped</span>
         <div>
           <h3>Conflict resolution you choose</h3>
-          <p>Newest change wins, always prefer this device, always prefer the other, or resolve each conflict yourself.</p>
+          <p>Newest change wins, always prefer this device, always prefer the other, or resolve each conflict yourself. The first three decide without asking and are what most people want. Resolving by hand is the weakest of the four today, and the Planned section says what it is missing.</p>
         </div>
       </li>
       <li>
@@ -217,6 +233,14 @@
       <li>
         <span class="st st-planned">Planned</span>
         <div>
+          <h3>Conflict resolution that shows you the difference</h3>
+          <p>Set conflict resolution to Manual and Konode asks which version of your bookmarks to keep, without showing you either one. Both answers act on the whole tree, so the choice is a guess. The plan is a resolve screen in Settings with room to list what actually differs, title and address for bookmarks and history, reached by a button on the popup rather than squeezed into a popup 360 pixels wide.</p>
+          <p>Underneath it is a second problem worth fixing first. Manual asks whenever two devices' files are not identical byte for byte, and they never are: each browser gives a bookmark its own internal identifier and its own date added, neither of which can survive the trip. So it asks on the first sync between any two devices even when the bookmarks on both are the same. Both are open in the tracker.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Planned</span>
+        <div>
           <h3>Diffs between restore points</h3>
           <p>See what actually changed between two restore points, rather than only that a sync ran. A restore point already holds a full bookmark tree, and the extension already reads one back and decrypts it in order to restore it, so this is a comparison view over data that exists. Bookmarks only, and only across the ten most recent restore points.</p>
         </div>
@@ -225,7 +249,7 @@
         <span class="st st-planned">Planned</span>
         <div>
           <h3>Faster history sync</h3>
-          <p>The full-history dedup scan that runs on every import is what is left after the per-page writes were overlapped in 1.2.0. An incremental diff for very large bookmark trees, past ten thousand or so, sits in the same bucket.</p>
+          <p>The full-history dedup scan that runs on every import. Since 1.3.1 it is built once per sync rather than once per device, which was the larger half of the cost as soon as you had more than one other device. What is left is that a sync importing any history at all still reads your whole local history once, to answer whether it already holds a newer visit for a page. An incremental diff for very large bookmark trees, past ten thousand or so, sits in the same bucket.</p>
         </div>
       </li>
     </ul>

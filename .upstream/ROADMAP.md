@@ -39,12 +39,19 @@ on any Chromium browser and on Firefox.
   with the manifest `key` stripped (the CWS rejects `key` on a first upload) while
   `dist/` keeps it for unpacked dev; pushing a `v*` tag runs a GitHub Actions release
   that attaches both packaged zips, Chrome and Firefox (source builds, no client secret).
-  Released through v1.3.0. **One folder per destination**, because the two variants of a
+  Released through v1.3.1. **One folder per destination**, because the two variants of a
   version are otherwise indistinguishable once zipped: `web-ext-artifacts/chrome/` and
   `.../firefox/` hold the store uploads, with Konode's OAuth secret compiled in;
   `.../source/` holds what goes on the release page, with no secret. Each package run
   declares which it means to build, reads the bundle back, and refuses to write the zip
-  when the two disagree, in either direction. See `scripts/build-variant.mjs`.
+  when the two disagree, in either direction. See `scripts/build-variant.mjs`. That check
+  reads EVERY built `.js`, not just `background.js` (1.3.1): the secret is inlined into a
+  UI chunk as well, because Settings and the wizard both import from `gdrive-oauth.ts`, so
+  reading the worker alone could certify a source build that still carried it.
+- **The tag must match `package.json`** (1.3.1), checked as the first step of the release
+  workflow. The tag names the release and `package.json` names the zips inside it, and
+  nothing tied them together: tagging before the release commit landed would have produced
+  a release titled v1.3.1 holding `konode-chrome-1.3.0.zip`.
 - **Pre-submission hardening**: a peer's extension `storeUrl` is rebuilt locally
   from the id (a forged URL was a phishing vector); onboarding requests all optional
   permissions in one call (a second request lost the user gesture); the dead
@@ -73,29 +80,84 @@ on any Chromium browser and on Firefox.
 - **A full review pass** (1.2.0): correctness fixes across the sync engine, the storage
   backends and the interface, including bookmark renames, moves and folder reorders now
   propagating. See `CHANGELOG.md`.
+- **A review pass before the tag** (1.3.1), four of them, each over what the last could not
+  see: the queued diff, then the whole source, then the code those two passes had written
+  plus the release machinery, then the tooling. Every one found something, and the
+  severity fell each time: a mass deletion that could be applied silently with no restore
+  point, then a history scan paid per peer instead of per sync, then a sync that could
+  strand its own lock, then a packaging guard reading one of the two files it had to. Three
+  of the last six findings were in code the review itself had just written, which is the
+  argument for stopping at four rather than a fifth: each pass adds code that needs a pass.
+  The stopping rule used was "no live data loss and no reachable security defect", not "no
+  findings", because the second one never arrives.
 
 ## Now live
-Konode is live on both stores. Both served **1.2.1** going into this release, after the
-Chrome Web Store's review of 1.2.1 cleared and closed the one-patch gap that had been open
-since 2026-08-07.
+Konode is live on both stores, **both serving 1.3.2** as of 2026-09-13, and 1.3.1 was
+withdrawn before it ever cleared.
 
-- [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/konode/): **serving 1.3.0**
-  since 2026-08-17, listed since 2026-08-04. AMO auto-approved and signed the upload, so
-  it went out within minutes; the source submission a bundled add-on requires is reviewed
-  afterwards rather than before.
-- Chrome Web Store: **1.3.0 submitted, in review**, so the listing serves 1.2.1 until it
-  clears. First published 2026-07-20, item ID `mmlfiiimnpnjcjhhbldenpcmnibedkfa`.
+**The four fixes merged on 2026-09-11 are NOT in what either store serves.** The package was
+built before them, so the options list, the single payload build, the stream colouring and
+the Drive redirect note all wait for the next version. None is a data-loss fix, and pulling
+the submission to add them would have put the deletion-relay fix that 1.3.2 exists for back
+at the end of the queue, so it went out without them.
 
-The two therefore sit a version apart again for a few days, which is the normal shape of a
-release here rather than anything going wrong. Both store uploads are built by hand with
-Konode's own OAuth client compiled in and live in `web-ext-artifacts/chrome/` and
+**1.3.2 shipped on 2026-09-10**, tagged `v1.3.2` at `7e2ae38`, an hour and a half after
+1.3.1 and for one fix. A device that refused a peer's bookmark deletion absorbed the request
+and republished it as its own, so one blocked deletion became a demand every device made of
+every other one, for bookmarks all of them still had, unkillable from any single device.
+Nothing was ever lost: the guard refused it every time, and what it could not do was stop
+being asked. Half the fix works one-sided, and that is what made shipping it alone worth a
+fresh review queue rather than waiting: one updated device stops being asked even while the
+rest of the group is still on the old build. **The 1.3.1 Web Store submission was withdrawn
+in favour of it**, which cost a few hours of queue position and bought the fix a place in
+the same review instead of one a full review cycle behind it.
+
+**1.3.1 shipped on 2026-09-10**, tagged `v1.3.1` at `d7e1ac5`. A release of fixes only, and
+most of what is in it was never reported by anyone: four review passes were run against
+the release itself before tagging, and each found something (see *A review pass before the
+tag* above). Three of the fixes did come from a report, #16, filed by someone who had been
+stuck on the same blocked deletion for weeks; the comment on that thread when 1.3.1 went
+out says which half of his problem the release solves and which half it does not.
+
+- [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/konode/): **serving 1.3.2**
+  since 2026-09-10, listed since 2026-08-04. 1.3.1 went out the same morning and was
+  superseded within two hours. AMO auto-approved and signed the upload, so it went out
+  within minutes; the source submission a bundled add-on requires is reviewed afterwards
+  rather than before.
+- Chrome Web Store: **serving 1.3.2** since 2026-09-13, after a second review. 1.3.1 was
+  submitted on 2026-09-10 and withdrawn the same day in favour of 1.3.2, so it never reached
+  the store at all: Chromium went from 1.3.0 straight to 1.3.2, carrying both releases'
+  fixes.
+  First published 2026-07-20, item ID `mmlfiiimnpnjcjhhbldenpcmnibedkfa`.
+  - **The listing copy was rewritten on 2026-09-11** and the item went back in the queue
+    the same day. The Web Store reads a run of brand names in a description as keyword
+    stuffing, so the "Choose your storage" section named seven storage providers where it
+    now names the three backends and nothing else. Metadata only: the package never
+    changed. The copy used to live in the dashboard and nowhere else, which is why it could
+    not be reviewed here before it went out; it now lives in `store-listing/`, one file per
+    language per field, and `store-listing.test.ts` holds it to the rules that matter.
+  - **The screenshots and the onboarding video were replaced in the same pass**, which is the
+    half of #32 that could be fixed. A store screenshot was still advertising Gitea and
+    GitLab long after the text inside the extension stopped, and someone installed Konode on
+    the strength of it and filed the issue. Screenshots are the part of a listing no test can
+    read, so a backend claim changing means checking them by eye.
+
+The two ran three days and two versions apart before the Web Store caught up, and that is
+the shape of every release here rather than anything going wrong: AMO signs on upload and
+reviews the source afterwards, the Web Store reviews first. It is worth planning around,
+because it is also how long a mistake in a Chrome build stays out there. Both store uploads
+are built by hand with Konode's own OAuth client compiled in and live in
+`web-ext-artifacts/chrome/` and
 `.../firefox/`; the zips attached to the GitHub release are source builds without it, from
 `.../source/`. See the packaging note under *Store packaging + releases* above for what
 keeps the two from being confused.
 
 ## Next
 - **Backend expansion**, cheapest sign-in first. See *Platform priority* item 3 below.
-- **History sync performance**: the full-history dedup scan every import runs.
+- **History sync performance**: the full-history dedup scan. It is now built once per
+  SYNC rather than once per peer (1.3.1), which was the larger half of the cost with more
+  than one other device; what remains is that a sync which imports any history at all
+  still reads the whole local history once to answer "is the peer's visit newer".
 - **More languages.** Japanese, Italian and Estonian are open volunteer work on Weblate
   with no target date. A language joins `shipped-languages.json` once it is complete, which
   is the last step of shipping it: that one list is what both the packaging scripts and
@@ -103,7 +165,7 @@ keeps the two from being confused.
   drift apart. Completeness is the whole bar: the translators
   are native speakers and Weblate is where their work gets reviewed, so a language no
   maintainer here reads is not thereby held back.
-- **Scoped in the tracker, not here.** Three issues carry design work that belongs on this
+- **Scoped in the tracker, not here.** Five issues carry design work that belongs on this
   list, with the API checks and the reasoning written out where contributors can read them
   rather than in a local file. No dates and no version targets, the same as everything else
   under *Next*: #11 and #10 were gated on the translations release, which shipped
@@ -130,6 +192,25 @@ keeps the two from being confused.
     containers reach extensions is unverified rather than settled. Needs `cookies` and
     `contextualIdentities`, both as optional permissions, which `capabilities.ts` is
     already the right place to gate.
+  - [#34 Manual asks about every pair of devices on the first sync](https://github.com/konabe-studio/konode/issues/34)
+    is filed as a bug and is one, but the fix is a decision rather than a correction.
+    `manual` compares the transport checksum, and for bookmarks that covers this device's
+    own IDs, its `dateAdded` values and its deletion, move and rename logs, so two devices
+    never match even when the trees on screen are identical. What it needs is a **content
+    identity** for bookmarks — canonical URL, title, structural position — cheap enough to
+    compute every sync, and it must NOT replace the transport checksum, which
+    `uploadIfChanged` and the E2EE dedup both need over the exact bytes. Until then the
+    setting asks whether two files are byte-identical while the screen says it is asking
+    whether two devices disagree.
+  - [#35 A conflict card asks which version to keep without showing what differs](https://github.com/konabe-studio/konode/issues/35),
+    from #33. Both buttons are whole-tree operations and neither says what it would change,
+    which leaves the user guessing. The data is already at hand where the question is asked,
+    since the peer's full packet is parked in storage for "Use remote" to decrypt. The design
+    half is where it goes: the popup is 360px wide and 1.3.1 had to cap the conflict list at
+    200px to stop it pushing the rest off the bottom, so this is a Resolve button and a full
+    tab in Settings — next to the held-back deletion card from #23, which asks the user to
+    approve something they cannot see in the same way. Worth taking after #34, which shrinks
+    the job.
 
 ## Not supported, but closer than it was: iOS / WebKit
 
@@ -258,7 +339,8 @@ Implement `MEGABackend implements IBackend` (`src/lib/backends/mega-backend.ts`)
   WebDAV backend has for partial writes).
 - `testConnection()`: attempt login + list the folder; map bad-credential / 2FA
   errors to friendly messages.
-- `listVersions()`: return `[]` (we don't use it; all three existing backends stub it).
+- No `listVersions()`: the `IBackend` method was removed in 1.3.1. All three backends
+    stubbed it with `[]` and nothing ever called it.
 
 ### Wiring (mirrors the other backends)
 - `types.ts`: add `"mega"` to `BackendType`; add a `mega?: { email; session?;
@@ -310,9 +392,9 @@ Apple users are served today by any WebDAV provider, and by a private GitHub rep
 Reopen this if Apple ever ships an API that writes to the user's visible iCloud Drive.
 
 ## Later / nice-to-have
-- Incremental diff for >10k bookmarks; history sync performance (the full-history dedup
-  scan every import runs is what's left, after 1.2.0 overlapped the per-page writes that
-  were the bigger part of a slow first sync).
+- Incremental diff for >10k bookmarks; history sync performance (one full-history scan
+  per sync is what's left, after 1.2.0 overlapped the per-page writes that were the
+  bigger part of a slow first sync and 1.3.1 stopped repeating the scan per peer).
 - **Diffs between restore points.** Show what actually changed between two restore
   points in the Activity tab, rather than only that a sync ran. Checked against the code
   before listing it: `sync/snapshots.ts` writes a full bookmark tree per restore point
@@ -320,8 +402,9 @@ Reopen this if Apple ever ships an API that writes to the user's visible iCloud 
   and decrypts it in order to restore it. So this is a comparison view over data that
   already exists plus a tree diff, not new plumbing, and it behaves the same on Drive,
   GitHub and WebDAV because restore points are ordinary files we write ourselves. The
-  provider-side route is *not* available for this: `listVersions()` returns `[]` on all
-  three backends. Two limits worth stating wherever this is described: bookmarks only
+  provider-side route is *not* available for this: file-version history is three
+  unrelated APIs across Drive, GitHub and WebDAV, which is why the `listVersions()` stub
+  was dropped from `IBackend` in 1.3.1 rather than filled in. Two limits worth stating wherever this is described: bookmarks only
   (`exportBookmarkPayload`), and only across the newest `MAX_SNAPSHOTS`, which is 10.
 - Optional OAuth proxy (serverless) to avoid shipping the Google client secret.
 
@@ -329,8 +412,8 @@ Reopen this if Apple ever ships an API that writes to the user's visible iCloud 
 
 **Chrome Web Store.** 1.0.0 submitted for review on **2026-07-19**, **published
 2026-07-20** (<https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa>).
-1.2.1 cleared review after it, and **1.3.0 is submitted on top of it and in review**,
-so the listing serves 1.2.1 meanwhile. Listing copy is
+1.2.1 cleared review after it, and **1.3.0 is live, confirmed 2026-08-26**, nine days
+after it was submitted. Listing copy is
 maintained per language in the dashboard: the name and the short description come from the
 extension's own catalogues and translate themselves, but the long description is entered by
 hand, in each of the languages Konode ships.
@@ -356,17 +439,19 @@ fails on that shape, so it surfaces as a red CI on the Weblate pull request rath
 a translation nobody can read.
 
 **Firefox Add-ons.** Live at <https://addons.mozilla.org/firefox/addon/konode/> since
-**2026-08-04**, first listed with 1.2.0, then 1.2.1, **serving 1.3.0 since 2026-08-17**.
+**2026-08-04**, first listed with 1.2.0, then 1.2.1, then 1.3.0 from 2026-08-17, **serving
+1.3.2 since 2026-09-10** (1.3.1 the same morning, superseded within two hours).
 An update to an add-on that is already listed is auto-approved and signed on upload, and
 the source review happens afterwards, which is why 1.3.0 reached users while its version
 notes were still being filled in. The source archive must be the commit the upload was
 BUILT from, not necessarily the tag: 1.3.0 was built from `efd6eb0`, two commits past
 `v1.3.0`, and an archive of the tag would have rebuilt into a package with eight locale
 directories and the old Chinese name against an upload with five and the new one. AMO
-diffs that rebuild and requires no differences. Packaged with
-`npm run package:firefox` and checked with `npm run lint:firefox`. AMO requires a source
-submission, since the build is bundled and minified, and the reviewer rebuilds and diffs
-it.
+diffs that rebuild and requires no differences. For 1.3.2 the two coincide: it was built
+from `7e2ae38`, which is `v1.3.2` itself, so an archive of the tag was the right one.
+Packaged with `npm run package:firefox` and checked with `npm run lint:firefox`. AMO
+requires a source submission, since the build is bundled and minified, and the reviewer
+rebuilds and diffs it.
 
 Done for the Chrome Web Store: keyless store package (`npm run package:chrome`), $5
 developer registration,

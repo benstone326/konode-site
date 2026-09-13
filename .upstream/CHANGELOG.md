@@ -7,6 +7,256 @@ All notable changes to Konode. Format loosely follows
 
 ### Fixed
 
+- **Cancelling Google Drive sign-in signed you out of Drive.** Pressing the Google
+  button in Settings and then closing the consent window left the device with no Drive
+  session at all, while Settings went on showing the account as connected. Sign-in used
+  to clear the stored session before it opened the window, so a cancel took the refresh
+  token with it and every sync from then on asked you to sign in again. Your session now
+  survives anything short of a sign-in that actually completes. And if Google hands back
+  no refresh token on a repeat consent, the one already stored is kept, unless you signed
+  in as a different account.
+- **Settings could list extensions you already have as missing.** When Konode loses the
+  permission it needs to read your extension list, taken away from your browser's own
+  extensions screen for example, it has no way to tell what is installed on this device.
+  Settings answered that by treating everything your other devices have as missing here,
+  with Install buttons for extensions sitting right there in the toolbar. It now shows
+  nothing at all while it cannot tell, the way the popup already did, and fills the list
+  back in as soon as the permission returns, with no reload.
+- **Every sync read your open tabs and your extension list twice.** Konode reads what it is
+  about to publish once before merging your other devices in and once after. That is right
+  for bookmarks and history, which merging changes, but open tabs and the extension list are
+  not changed by merging, so the second read produced exactly the same thing at twice the
+  cost. If it had anything to warn about, that warning also landed twice per sync in the
+  Activity log, which filled the log with duplicates.
+- **One missing permission made every sync stream look broken.** When a data type lost the
+  permission it needs, the popup turned all four Active Streams red and their tooltips said
+  the data was stale, including the streams that had just synced successfully in that same
+  cycle. The colors now follow the data type the problem actually belongs to. A failure that
+  is nobody's type in particular, such as a storage backend Konode cannot reach, still marks
+  every stream, because then every one of them really has stopped.
+
+## [1.3.2] - 2026-09-10
+
+One fix, for the worst thing Konode has done to anyone's bookmarks. If you have been
+seeing "an unusual deletion was blocked" come back every minute for bookmarks that are
+still sitting there on every one of your devices, this is that. Nothing was ever lost:
+the guard that refused the deletion did its job every single time. What it could not do
+was stop being asked.
+
+### Fixed
+
+- **Your devices could end up demanding that each other delete bookmarks none of them had
+  deleted.** When one device refused an unusual deletion, it filed the request away and
+  then published it again under its own name on the next sync. The device that read it did
+  the same. Within a few cycles every device was asking every other device to delete
+  bookmarks that all of them still had, and each one refused, saved a restore point, and
+  passed the request on. That is why the warning never cleared no matter what you set, why
+  it named a different device each time, and why the counts kept changing: they were not
+  one deletion but everyone's, added together and going round. Nothing you could do on one
+  device ended it, including restoring from a restore point, because the request was no
+  longer coming from anywhere in particular.
+
+  A device now only ever asks for the deletions it made itself. It never asks you to delete
+  a bookmark it is advertising to you in the same breath, which is what the old files were
+  doing. And it ignores that request when another device makes it, so the warning should
+  stop on the first sync after you update, even while your other devices are still on the
+  old version. Update them too and they will stop making the request at all.
+
+  If you had a device set to Prefer Local to keep this at bay, you can put it back to Last
+  Write Wins.
+
+## [1.3.1] - 2026-09-10
+
+A release with nothing in it but fixes. If you use Firefox, the one to know about is that
+Konode can be set up there again: since 1.2.1 it never asked Firefox for the permissions
+it needed, and then told you that you had refused them. The other two were costing people
+something quietly. A device asking to delete nearly all of your bookmarks was blocked with
+no way to say yes, so the warning could not be cleared at any setting; and a device's open
+tabs or extension list could get stuck on an old version while every sync went on
+reporting success. Around those, a WebDAV server that refuses passwords now says so
+instead of blaming yours, history sync stops getting slower with every device you add, and
+several things that filled the Activity log with the same line a minute do not any more.
+
+### Fixed
+
+- **On Firefox, Konode never asked for the permissions it needed, and then blamed you for
+  not granting them.** Pointing Konode at a WebDAV server, or turning on history, open tabs
+  or the extension list, is something Firefox has to ask you to allow. From 1.2.1 onwards
+  it never asked: no window appeared, and setup stopped on "Konode needs permission to
+  reach your WebDAV server. Please allow them to continue" with nothing on screen to allow.
+  The data type switches in Settings did the same thing, springing back with a message
+  saying the permission had not been given. Firefox shows that window only if it is asked
+  while your click is still being handled, and Konode had taken to checking something else
+  first, which is enough to be too late. It asks first now. Chromium browsers allow a few
+  seconds rather than the one moment, so nothing there ever showed this.
+- **Conflict cards outlived the setting that made them.** With conflict resolution set to
+  Manual, Konode asks which version to keep. Switch back to Last Write Wins without
+  answering, and the questions stayed on screen: the next sync merged those devices
+  itself, exactly as Last Write Wins is supposed to, while the popup went on offering a
+  choice whose outcome had already been decided. Nothing ever cleared them, so the only
+  way to be rid of the banner was to answer questions that no longer meant anything.
+  Leaving Manual now clears them on the next sync, once the merge that replaces them has
+  actually run, and the Activity log says why they went.
+- **Conflicts are now one card per device, and the card says which device.** With
+  resolution set to Manual, Konode asks about each device that disagrees with this one,
+  separately for your bookmarks and for your history. Every one of those questions looked
+  the same: the same sentence, the same two buttons, and nothing saying who was asking. Two
+  other devices made four of them, three would have made six, and they were stacked above
+  the part of the popup that scrolls, so answering them left almost no room to see anything
+  else. Each device now gets one card that names it, with a row for bookmarks and a row for
+  history inside it. The two keep their own buttons, because keeping your bookmarks while
+  taking the other device's history is a real answer, and the list has a ceiling of its own
+  now, so no number of devices can push the rest of the popup off the bottom.
+- **The Restore button on a restore point was a size nothing else on the page used.**
+  Konode gives every standalone button one height, taken from a single value, so that
+  controls next to each other line up. The ordinary secondary button never got it and came
+  out at whatever its text happened to measure, which was fine until it stood next to the
+  delete button on a restore point, which does take it: sharing a row stretched the pair to
+  a height nothing else in Settings had. Both now state their height, so the row matches
+  every other button on the page.
+- **Updates could sit downloaded for weeks without being installed.** Your browser holds an
+  update back while an extension is running and installs it the next time it finds a quiet
+  moment, which for anyone who rarely restarts their browser can be a long wait. Konode now
+  takes the update as soon as it is offered, or the moment a sync in progress has finished,
+  so a fix reaches you in about a minute rather than whenever you next close your browser.
+  This one only helps from this version onwards, since it has to be the installed version
+  that does the asking.
+- **Giving a permission back left Settings still complaining about it.** Konode reads what
+  it is allowed to do when the page opens, and never looked again. So after granting a
+  permission from the browser's own extensions page, the rows went on saying it was missing:
+  syncing had recovered, the storage was connected, and three rows still told you it had
+  not. Switching between the tabs in Settings did not help, because they are one page.
+  Reloading was the only way. It now notices a permission being granted or taken away while
+  it is open, wherever that happens, and the rows follow.
+- **Taking a permission back said so for some data types and not others.** Every optional
+  permission can be withdrawn from the browser's own extensions page, and Konode tells you
+  when one it needs has gone. History and the extension list did. Open tabs did not, and
+  the difference was invisible from the outside: those two lose their whole API when the
+  permission goes, while the tabs API stays and simply stops telling Konode any addresses.
+  So the row looked healthy while nothing it produced was usable. Your other devices were
+  never at risk, since a session with no tabs in it is never published over a good one, but
+  nothing said why the tabs had stopped travelling. Now it says the same thing the other
+  two say.
+- **A withdrawn storage permission read as a network error.** The permission to reach your
+  storage can be taken back the same way, and it is the one on that screen that stops
+  everything at once. Konode reported it as "NetworkError when attempting to fetch
+  resource", which names neither your server nor the reason, and reads like the storage is
+  down. Your device list and your restore points said the same thing, and then told you to
+  check a connection that was fine. All of them now say the permission is missing, name the
+  server, and say where to grant it again, while still carrying the original message for
+  anyone reporting a bug.
+- **"Sync now" reported a sync it never ran.** Every data type can be switched off,
+  including the last one. With nothing left to sync, Konode still went out to your storage,
+  came back with nothing to report, and said "Synced", once a minute and again on every
+  press of Sync now. It says Ready now, which is what a device with nothing turned on
+  actually is, and Sync now tells you nothing is turned on rather than claiming to have
+  synced it, and that message is now the way to the screen it names rather than a mention
+  of it: clicking it opens Data Types. It also stops making that round trip, so a paused
+  device no longer talks to your storage to do nothing.
+- **A missing extension said it came "from Chrome" on devices that have no Chrome.** The
+  line under a missing extension names the store you can install it from, and it named it
+  by the browser's brand. Sitting a few rows under a list of devices called "Windows ·
+  Firefox" and "Windows · Helium", that reads as a device rather than a store, and it named
+  one you may well not own. It says Chrome Web Store and Firefox Add-ons now.
+- **Switching to Google Drive in Settings left Konode with nowhere to sync.** The Storage
+  tab records two things about your provider: which one is active, and the settings for
+  reaching it. Picking one of the WebDAV cards wrote both, because the second comes along
+  with the server address you type in. Google Drive has nothing to type, so only the first
+  was written. The card said ACTIVE and showed you signed in, the sign-in really had
+  worked, and every sync from then on did nothing and reported that no storage was set up.
+  Both are written now, and a device already left in that state repairs itself the next
+  time it starts, without going near the Storage tab again.
+- **A conflict button gave no sign it had been pressed.** Answering a conflict is seconds
+  of real work: keeping yours reads your whole bookmark tree, unlocks your passphrase if
+  encryption is on, and uploads it; taking theirs unlocks and merges what they sent. For
+  those two or three seconds nothing on screen changed, so the press looked like a miss and
+  the natural thing to do was press again. The button you pressed now shows it is working,
+  and the others hold still until it finishes.
+- **Answering several conflicts at once could fail on "WebDAV PUT failed: 423".** With
+  resolution set to Manual, two devices disagreeing about your bookmarks raises two
+  questions, and answering both with Keep local uploaded the same file twice in a row.
+  Some servers, Koofr among them, lock a file while a write to it is in flight and refuse
+  the second one, so the answer came back as a WebDAV error and the question stayed on
+  screen. The repeat was never doing anything, since the first upload had already put that
+  exact version on your storage, so it no longer happens. And a locked file is now treated
+  as what it is, something to come back to in a moment, rather than as a failure.
+- **Buttons in Settings could spin forever, and one screen could lie.** Every action on
+  the Activity tab talks to Konode's background worker, and if that conversation failed
+  outright rather than answering with an error, nothing was said: the spinner kept
+  turning and the click looked ignored. Worst of them was Clear log, which emptied the
+  list on screen whether or not anything had been cleared, on the one screen where being
+  told your history is gone is alarming. Settings itself could do the same thing on load,
+  showing a spinner that never resolved. All of them now say what went wrong, and the
+  load offers to try again.
+- **A sync file with an unreadable date beat everything else.** A file from another device
+  carries the moment it was written, and Konode compares those to decide which version of
+  something is newer. A file whose date could not be read did not lose that comparison, it
+  won it, every time; and it left the order Konode folds your other devices in unspecified,
+  which is what makes every device agree on the same answer. A file nobody can date is now
+  treated as the oldest thing there is.
+- **History sync got slower the more devices you had.** Before storing a page from another
+  device, Konode checks whether it already holds a newer visit for it, and answering that
+  means reading your whole local history. It was reading it again for every other device,
+  so three of them meant three full passes over your history every sync, once a minute.
+  It reads it once per sync now and shares the answer. Nothing about what gets synced
+  changes; on a large history with several devices, the work behind it drops by roughly
+  the number of devices you have.
+- **A damaged encrypted file said something nobody could act on.** A restore point or
+  sync file that had been truncated or corrupted failed with a message about an internal
+  decoding function rather than about your data. It now says the same thing a wrong
+  passphrase does, because from where you are standing those are the same problem: this
+  did not decrypt.
+- **Restoring another device's tabs is bounded.** A session is a file on your storage,
+  and Konode was willing to open however many tabs one claimed to hold. The count has
+  always been shown before you click, and now it is also the most that can open: 200,
+  which is well past any real window.
+- **A blocked deletion you had no way to allow.** Konode refuses a sync that would remove
+  more than 60% of your bookmarks at once, saves a restore point, and tells you about it.
+  What it never did was give you a way to say yes. The advice was to raise **Max bulk
+  delete from a peer**, but that setting stops at 95%, so a device asking to clear nearly
+  all of its bookmarks stayed blocked at every position of the slider, and the warning
+  never went away. **Settings → Activity** now shows what is being held back, which device
+  asked for it, and how much of your tree it is, with a button that applies it. Saying yes
+  covers the sync that follows it and nothing beyond that, so a deletion that turns up
+  later is stopped and shown to you like any other, and the restore point is already saved
+  before you are asked. Reported by @klausbreyer.
+- **The activity log said bookmarks had been deleted when they had not.** A blocked
+  deletion was logged as "Merged +0 / -48" directly above the warning explaining that
+  those 48 had been refused. It was counting what the other device asked for rather than
+  what was removed, which was nothing. It now reports what it actually applied.
+- **A blocked deletion filled the activity log.** The guard re-checks the same deletion on
+  every sync, so it wrote the same two lines every minute for as long as the situation
+  lasted, pushing everything else out of a 200-entry log. The warning is now written once
+  per incident, the same way restore points have been saved once per incident since 1.3.0.
+- **A device's open tabs or extension list could get stuck on an old version.** The popup
+  lists the tabs each of your other devices has open, and counts the extensions they have
+  that this one doesn't. For one device, either of those could stop moving and stay
+  stopped: every sync after it reported success, and nothing on that screen ever caught up.
+  There were three separate ways to get there, and all three are fixed. Two devices whose
+  data arrived in the same instant could overwrite each other's entry instead of both being
+  kept. On Google Drive, a folder that had ended up holding two files for one device could
+  read the older of them and keep it. And if you had set conflicts to be resolved by hand,
+  no device's tabs or extensions were stored at all, because they were going through the
+  same gate as bookmarks, where Konode stops and waits for you to choose. There is nothing
+  to choose between two devices' open tabs. They are both yours, and both are listed. If an
+  earlier version left you holding one of those questions, the first sync after this one
+  clears it.
+- **Turning the extension permission off emptied your extension list everywhere.** Reading
+  the list needs a permission you can withdraw at any time, from your browser's own
+  extensions page. Konode treated withdrawing it as a failure, and reported a failed sync
+  for as long as it stayed off. It now stops publishing the list and leaves what your other
+  devices already have exactly where it is.
+- **The popup's numbers stood still while you watched a sync finish.** Leaving the popup
+  open across a sync left the list of other devices' tabs, and the count of extensions
+  missing here, showing what they held before it ran. They keep up with the sync now.
+- **"Sync on change" promised more than it does.** The setting said bookmarks and tabs go
+  out the moment they change. Bookmarks do. Open tabs travel on the regular interval, the
+  same as your history and extension list, and Auto sync now says which things those are.
+- **A storage folder Konode couldn't read said nothing about it.** Once per sync Konode
+  checks that its own files are still in the folder, which is how a device notices it was
+  forgotten from somewhere else. If the folder couldn't be listed, the check gave up in
+  silence and the Activity log showed an ordinary, healthy sync. It now reports that it
+  couldn't tell.
 - **"Check your username and password", when the password was never the problem.** Some
   servers don't accept a username and password over WebDAV at all. ownCloud Infinite Scale
   is the one that came up: it arrives with HTTP Basic switched off and authenticates through
