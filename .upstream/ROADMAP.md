@@ -158,13 +158,33 @@ keeps the two from being confused.
   SYNC rather than once per peer (1.3.1), which was the larger half of the cost with more
   than one other device; what remains is that a sync which imports any history at all
   still reads the whole local history once to answer "is the peer's visit newer".
-- **More languages.** Japanese, Italian and Estonian are open volunteer work on Weblate
-  with no target date. A language joins `shipped-languages.json` once it is complete, which
-  is the last step of shipping it: that one list is what both the packaging scripts and
-  `i18n.test.ts` read, so what we ship and what we hold to a completeness check cannot
-  drift apart. Completeness is the whole bar: the translators
+- **More languages.** Traditional Chinese (`zh_TW`), Japanese, Italian and Estonian are open
+  volunteer work on Weblate with no target date. A language joins `shipped-languages.json`
+  once it is complete, which is the last step of shipping it: that one list is what both the
+  packaging scripts and `i18n.test.ts` read, so what we ship and what we hold to a
+  completeness check cannot drift apart. Completeness is the whole bar: the translators
   are native speakers and Weblate is where their work gets reviewed, so a language no
   maintainer here reads is not thereby held back.
+
+  **Traditional Chinese is the one worth chasing** (opened 2026-09-13, after a Taiwanese user
+  said so on Reddit). Konode had no `zh_TW` catalogue and `default_locale` is `en`, so a
+  browser set to 正體中文 did not fall back to the Simplified catalogue. It fell back to
+  English, and those users installed the English build because nothing else was on offer. The
+  audience is measurable and it is new: Taiwan went 0 to 21 weekly users and Hong Kong 0 to
+  20 in the week of 2026-09-11, and AMO lists 正體中文 separately.
+
+  Two notes for whoever touches this. **A character converter is not a shortcut**: 擴充功能
+  against 扩展, and 分頁 against 会话, are different words rather than different glyphs, and a
+  converted catalogue reads as mainland Chinese in Traditional characters. And **the directory
+  must be `zh_TW`**: Chrome reads exactly two Chinese locale directories, `zh_CN` and `zh_TW`,
+  while Weblate's picker offers only its canonical `zh_Hant`, which would have produced a
+  folder Chrome ignores. The directory is seeded in the repo so Weblate adopts that name
+  instead of inventing one.
+
+  **Japanese is not being chased.** 47 of 321 strings, and no measurable demand on either
+  store: 11 weekly users read the browser in Japanese, the installs from Japan during the
+  September surge came from English-language browsers, and AMO lists no Japanese at all. It
+  stays open and ships if a volunteer finishes it.
 - **Scoped in the tracker, not here.** Five issues carry design work that belongs on this
   list, with the API checks and the reasoning written out where contributors can read them
   rather than in a local file. No dates and no version targets, the same as everything else
@@ -306,8 +326,15 @@ the crypto.
   key derivation and file encryption. That's the "own crypto SDK to bundle" cost.
 
 ### The library
-- **[`megajs`](https://mega.js.org)** (npm `megajs`, MIT) is the maintained,
-  browser-capable JS SDK. It handles MEGA's auth, key handling, encryption, folder
+- **[`megajs`](https://mega.js.org)** (npm `megajs`, MIT) is the maintained JS SDK, and two
+  things about it were overstated here before they were checked (2026-09). It is
+  **unofficial**, a community project rather than MEGA's own, which for a library that would
+  hold a user's storage credentials is worth weighing rather than discovering later. And
+  "browser-capable" is doing work it has not earned: the package declares no `browser` field
+  and its two dependencies, `pumpify` and `stream-skip`, are Node stream utilities, so
+  946 KB unpacked into a service worker under `script-src 'self'` is a bundling exercise
+  before it is an integration. It is genuinely maintained (175 releases since 2017, a build
+  in April 2026). It handles MEGA's auth, key handling, encryption, folder
   handling, and networking. It deliberately does **no** file I/O. It works on
   buffers/streams, which suits us fine (our payloads are already JSON strings in
   memory).
@@ -409,19 +436,23 @@ Reopen this if Apple ever ships an API that writes to the user's visible iCloud 
   unrelated APIs across Drive, GitHub and WebDAV, which is why the `listVersions()` stub
   was dropped from `IBackend` in 1.3.1 rather than filled in. Two limits worth stating wherever this is described: bookmarks only
   (`exportBookmarkPayload`), and only across the newest `MAX_SNAPSHOTS`, which is 10.
-- **Filen, behind MEGA rather than beside it.** Asked for on Reddit, and deliberately not
-  scheduled. MEGA is the backend that has design notes written down; Filen comes after it
-  if what MEGA costs turns out to carry over, and not at all if it does not. It will not be
-  forced in ahead of that. What is established so far: Filen is zero-knowledge and encrypts
-  on the device, its CLI can serve a drive over WebDAV **or S3** locally, and there is no
-  hosted WebDAV address, so it cannot become one more preset on the WebDAV card. Unlike the
-  MEGA write-up above, this is *not* a choice between a library and nothing: `filen-sdk-ts`
-  is official and supports browsers. Whether to take that library or carry Filen's crypto
-  ourselves is precisely the question nobody has answered, which is why there is nothing
-  here to schedule. The CLI's local WebDAV server is the same arrangement as MEGAcmd, which
-  the MEGA notes call useless to build on, and that judgement has not changed: it is worth
-  mentioning to someone already running the CLI, because the generic WebDAV card takes a
-  local address, but a server the user runs is not a backend. Nobody has reported trying it.
+- **Filen: blocked on a licence, not on effort.** `@filen/sdk` is **AGPLv3**. Konode is
+  **MPL-2.0**. Bundling it and distributing the result through the Web Store puts the
+  combined work under AGPL terms, and MPL's larger-work allowance does not reach far enough
+  to relicense somebody else's AGPL code back down. That is a question for a lawyer, not for
+  this file, and it has to be answered *before* any of the engineering below matters. Until
+  it is, Filen is not scheduled and not promised.
+  The rest, for whenever that answer arrives: the SDK is official and does support browsers,
+  so a route exists; it is 2.96 MB unpacked across 15 dependencies (`axios`, `fs-extra`,
+  `crypto-js`, `node-forge`, `@noble/hashes` among them) against a 776 KB extension with
+  four runtime dependencies. Writing it by hand instead means reproducing Filen's own
+  encryption, which is the category of code where a subtle error is silent and costs the
+  user their data. Filen is zero-knowledge, and offers no hosted WebDAV address, so it can
+  never be one more preset on the WebDAV card. Its CLI can serve a drive over WebDAV **or
+  S3** locally, which is the same arrangement as MEGAcmd and gets the same judgement the
+  MEGA notes give that: worth mentioning to someone already running the CLI, because the
+  generic WebDAV card takes a local address, but a server the user runs is not a backend.
+  Nobody has reported trying it.
 - Optional OAuth proxy (serverless) to avoid shipping the Google client secret.
 
 ## Publishing
