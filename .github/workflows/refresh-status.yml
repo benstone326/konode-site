@@ -54,6 +54,13 @@ jobs:
 
       - name: Rewrite the status paragraph
         run: node scripts/sync-status.mjs
+        env:
+          # The releases call is made with this job's own token. Unauthenticated,
+          # api.github.com allows 60 requests an hour per IP, and runners share
+          # IPs: on 2026-09-26 the allowance was gone before we asked, and the run
+          # failed with "403 rate limit exceeded". The script sends the token to
+          # api.github.com only, never to the two stores.
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Commit only if something moved
         run: |

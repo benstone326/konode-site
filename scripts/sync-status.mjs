@@ -10,7 +10,12 @@
  *     update endpoint below which version it should be running. That is a
  *     versioned protocol rather than page markup, and its answer is the number
  *     that actually matters: what a browser would install right now.
- *   - The newest release tag comes from GitHub.
+ *   - The newest release tag comes from GitHub. That call is authenticated when
+ *     GITHUB_TOKEN is set, which the workflow does with its own token: without
+ *     one, api.github.com allows 60 requests an hour per IP, and Actions runners
+ *     share their IPs with everyone else's jobs. On 2026-09-26 that allowance was
+ *     already spent when our run asked, and the job failed with "403 rate limit
+ *     exceeded". The token goes to api.github.com only, never to the stores.
  *
  * That endpoint answers HTTP 200 for an extension that no longer exists, and its
  * XML declaration carries a version="1.0" of its own, so a careless read of it
@@ -42,15 +47,21 @@ const cwsUpdate = (id) =>
   `?response=updatecheck&prodversion=999.0&acceptformat=crx3&x=id%3D${id}%26uc`;
 
 const UA = { "user-agent": "konode-site status sync" };
+
+/* Sent with the GitHub request and nothing else: the two store endpoints are
+   third parties, and a token has no business leaving for them. */
+const GITHUB = process.env.GITHUB_TOKEN
+  ? { authorization: `Bearer ${process.env.GITHUB_TOKEN}`, accept: "application/vnd.github+json" }
+  : {};
 const checkOnly = process.argv.includes("--check");
 
-async function fetchText(url) {
-  const res = await fetch(url, { headers: UA });
+async function fetchText(url, extraHeaders = {}) {
+  const res = await fetch(url, { headers: { ...UA, ...extraHeaders } });
   if (!res.ok) throw new Error(`${url} answered ${res.status} ${res.statusText}`);
   return res.text();
 }
 
-const fetchJson = async (url) => JSON.parse(await fetchText(url));
+const fetchJson = async (url, extraHeaders = {}) => JSON.parse(await fetchText(url, extraHeaders));
 
 /** Everything below is interpolated into a live page, and all of it came from an API. */
 const esc = (value) =>
@@ -93,7 +104,7 @@ const status = JSON.parse(before);
 
 const [amo, release, chrome] = await Promise.all([
   fetchJson(AMO),
-  fetchJson(LATEST_RELEASE),
+  fetchJson(LATEST_RELEASE, GITHUB),
   chromeVersion(status.chrome.url),
 ]);
 status.firefox.version = version("Firefox Add-ons", amo.current_version.version);
