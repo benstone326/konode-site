@@ -77,6 +77,11 @@ on any Chromium browser and on Firefox.
 - **Translation opened to volunteers** on
   [Hosted Weblate](https://hosted.weblate.org/projects/konode/), which is where Spanish,
   Chinese (Simplified), Italian and Estonian came from.
+- **Italian, Russian and Traditional Chinese** (2026-09-17), complete at 322 strings and
+  approved on Weblate. Each was finished as one full file uploaded to Weblate for review:
+  Traditional Chinese was corrected there by a native speaker, Italian finished what a
+  volunteer had started, and Russian was added because it ranks among the most common
+  browser languages in the Firefox Add-ons statistics.
 - **A full review pass** (1.2.0): correctness fixes across the sync engine, the storage
   backends and the interface, including bookmark renames, moves and folder reorders now
   propagating. See `CHANGELOG.md`.
@@ -92,14 +97,29 @@ on any Chromium browser and on Firefox.
   findings", because the second one never arrives.
 
 ## Now live
-Konode is live on both stores, **both serving 1.3.2** as of 2026-09-13, and 1.3.1 was
-withdrawn before it ever cleared.
+Konode is live on both stores, **both serving 1.5.1** since 2026-11-02: Firefox Add-ons
+within minutes of the upload, listed for Firefox for Android too from that version, and the
+Chrome Web Store the same day, after a few hours in review. **Microsoft Edge Add-ons** is the third
+store (#43): its first submission, 1.5.1 from the same package as the Web Store, went in on
+2026-11-02 and is in review.
 
-**The four fixes merged on 2026-09-11 are NOT in what either store serves.** The package was
-built before them, so the options list, the single payload build, the stream colouring and
-the Drive redirect note all wait for the next version. None is a data-loss fix, and pulling
-the submission to add them would have put the deletion-relay fix that 1.3.2 exists for back
-at the end of the queue, so it went out without them.
+**1.5.1 shipped on 2026-11-02**, tagged `v1.5.1` at `64fcc87`, and it is the first store
+release since 1.4.0: 1.5.0 (tagged 2026-11-01 at `2c9b649`) went to neither store, so 1.5.1
+carries both. That means bookmarks kept out of sync (#54), tab groups in a session (#11),
+folders that share a name kept apart (#51), the rename loop and the renames lost during a
+sync, Edge 142's renumbered roots (#66), a deletion arriving in pieces held by the guard
+(#41), setup on Firefox for Android, and the rest of the CHANGELOG's two sections. Both
+store uploads were built from an LF `git archive` of the tag, unpacked into an empty folder,
+which is the route PUBLISHING-FIREFOX.md settled on after 1.4.0.
+
+**1.4.0 shipped on 2026-09-29**, tagged `v1.4.0` at `0acc210`, and both store uploads were
+built from that commit. It carries everything merged since 1.3.2, the four fixes of
+2026-09-11 that missed 1.3.2's package included: Italian, Russian and Traditional Chinese,
+the Nutstore card, the Norton Neo duplication from #41, deleted folders following their
+bookmarks (#26), restores that stay (#27) and keep their order (#29), the device list's real
+upload times (#30), and pages that no longer let machine translation break them (#36). The
+CHANGELOG has the full list. Neo installs from the Web Store, so #41's fix reached the
+browser it is for with the Web Store release.
 
 **1.3.2 shipped on 2026-09-10**, tagged `v1.3.2` at `7e2ae38`, an hour and a half after
 1.3.1 and for one fix. A device that refused a peer's bookmark deletion absorbed the request
@@ -119,12 +139,15 @@ tag* above). Three of the fixes did come from a report, #16, filed by someone wh
 stuck on the same blocked deletion for weeks; the comment on that thread when 1.3.1 went
 out says which half of his problem the release solves and which half it does not.
 
-- [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/konode/): **serving 1.3.2**
-  since 2026-09-10, listed since 2026-08-04. 1.3.1 went out the same morning and was
-  superseded within two hours. AMO auto-approved and signed the upload, so it went out
-  within minutes; the source submission a bundled add-on requires is reviewed afterwards
-  rather than before.
-- Chrome Web Store: **serving 1.3.2** since 2026-09-13, after a second review. 1.3.1 was
+- [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/konode/): **serving 1.5.1**
+  since 2026-11-02, for Firefox for Android too, listed since 2026-08-04. Before it 1.4.0
+  from 2026-09-29, and 1.3.2 from 2026-09-10; 1.3.1 went out
+  the same morning and was superseded within two hours. AMO auto-approves and signs an
+  update on upload, so each goes out within minutes; the source submission a bundled add-on
+  requires is reviewed afterwards rather than before.
+- Chrome Web Store: **serving 1.5.1 since 2026-11-02**, out the same day it was submitted.
+  Before it 1.4.0 from 2026-09-30, a day after it was submitted. 1.3.2
+  was served from 2026-09-13, after a second review. 1.3.1 was
   submitted on 2026-09-10 and withdrawn the same day in favour of 1.3.2, so it never reached
   the store at all: Chromium went from 1.3.0 straight to 1.3.2, carrying both releases'
   fixes.
@@ -134,13 +157,22 @@ out says which half of his problem the release solves and which half it does not
     stuffing, so the "Choose your storage" section named seven storage providers where it
     now names the three backends and nothing else. Metadata only: the package never
     changed. The copy used to live in the dashboard and nowhere else, which is why it could
-    not be reviewed here before it went out; it now lives in `store-listing/`, one file per
-    language per field, and `store-listing.test.ts` holds it to the rules that matter.
+    not be reviewed here before it went out; it now lives in `internal/store-listing/`, one
+    file per language per field, and `store-listing.test.ts` holds it to the rules that
+    matter.
   - **The screenshots and the onboarding video were replaced in the same pass**, which is the
     half of #32 that could be fixed. A store screenshot was still advertising Gitea and
     GitLab long after the text inside the extension stopped, and someone installed Konode on
     the strength of it and filed the issue. Screenshots are the part of a listing no test can
     read, so a backend claim changing means checking them by eye.
+- Microsoft Edge Add-ons ([#43](https://github.com/konabe-studio/konode/issues/43)): **first
+  submission 2026-11-02**, 1.5.1, in review (Microsoft quotes up to seven business days).
+  It takes the Web Store's zip unchanged, so every release goes to both from one file, and
+  an Edge user can still install from the Web Store as before. The listing gets its own
+  extension id (`acmngpjfommajbkfbfmdfemlheiamfoe`), which needed two more Drive redirect
+  URIs, registered before the submission. Why a third store when Edge already installs from
+  the Web Store: Edge for Android installs only from Edge Add-ons, and the Web Store is out
+  of reach from mainland China without a VPN, where most of Konode's real users are.
 
 The two ran three days and two versions apart before the Web Store caught up, and that is
 the shape of every release here rather than anything going wrong: AMO signs on upload and
@@ -153,21 +185,48 @@ are built by hand with Konode's own OAuth client compiled in and live in
 keeps the two from being confused.
 
 ## Next
+- **The next release**, set on 2026-11-04 from the issue round after 1.5.1. No date, the
+  same as everything else here:
+  - [#23](https://github.com/konabe-studio/konode/issues/23): a held-back deletion lists
+    the bookmarks it holds, title and address, capped with "and N more", and the four
+    conflict-resolution options say what each does with another device's deletions.
+  - [#10](https://github.com/konabe-studio/konode/issues/10): the device list says when a
+    device was last active in human terms ("39 days ago") and flags the ones that are
+    plainly dead, then shows the browser on each row. Taking over an identity and
+    renaming a peer wait on the open questions in the issue.
+  - [#35](https://github.com/konabe-studio/konode/issues/35): a Resolve button on the
+    conflict card opens a full tab in Settings that lists what differs, next to the
+    held-back deletion card from #23. #34, which it was waiting for, shipped in 1.5.1.
+- **[#11](https://github.com/konabe-studio/konode/issues/11): tab groups have shipped, the
+  reading list is next.** Moved ahead of backend expansion on 2026-10-01, after a Helium user
+  with dozens of grouped tabs asked whether the browser blocks it. It does not: live groups
+  are readable and creatable, only *saved* groups are out of reach. **Built on 2026-10-20,
+  released in 1.5.0 on 2026-11-01 and in the stores with 1.5.1 on 2026-11-02** (1.5.0 went
+  to neither store): each tab in the session packet can point into a list of groups, and
+  Restore puts the tabs back into them. Which tabs share a group needs no permission on
+  either engine; names and colours need `tabGroups`, which is an OPTIONAL permission
+  because Chrome warns for it ("View and manage your tab groups"), asked together with Open
+  tabs and switchable on its own in Settings. Firefox has groups from 138 and `tabGroups`
+  from 139, grants it without a prompt, and shares Chrome's nine colours. Wherever groups do
+  not exist (Firefox for Android, Safari, older Firefox), a session restores ungrouped, as
+  before. The reading list continues in [#77](https://github.com/konabe-studio/konode/issues/77).
 - **Backend expansion**, cheapest sign-in first. See *Platform priority* item 3 below.
 - **History sync performance**: the full-history dedup scan. It is now built once per
   SYNC rather than once per peer (1.3.1), which was the larger half of the cost with more
   than one other device; what remains is that a sync which imports any history at all
   still reads the whole local history once to answer "is the peer's visit newer".
-- **More languages.** Traditional Chinese (`zh_TW`), Japanese, Italian and Estonian are open
-  volunteer work on Weblate with no target date. A language joins `shipped-languages.json`
+- **More languages.** Japanese, Estonian and Arabic are open
+  volunteer work on Weblate with no target date. Arabic is the first right-to-left one, so
+  it brings the layout work under *Later* with it. A language joins `shipped-languages.json`
   once it is complete, which is the last step of shipping it: that one list is what both the
   packaging scripts and `i18n.test.ts` read, so what we ship and what we hold to a
   completeness check cannot drift apart. Completeness is the whole bar: the translators
   are native speakers and Weblate is where their work gets reviewed, so a language no
   maintainer here reads is not thereby held back.
 
-  **Traditional Chinese is the one worth chasing** (opened 2026-09-13, after a Taiwanese user
-  said so on Reddit). Konode had no `zh_TW` catalogue and `default_locale` is `en`, so a
+  **Traditional Chinese was the one worth chasing** (opened 2026-09-13, after a Taiwanese user
+  said so on Reddit, and shipped complete on 2026-09-17). Konode had no `zh_TW` catalogue
+  and `default_locale` is `en`, so a
   browser set to 正體中文 did not fall back to the Simplified catalogue. It fell back to
   English, and those users installed the English build because nothing else was on offer. The
   audience is measurable and it is new: Taiwan went 0 to 21 weekly users and Hong Kong 0 to
@@ -197,8 +256,10 @@ keeps the two from being confused.
     cheaper of them, because `capabilities.ts` already handles a data type a browser does
     not implement, so it would report itself unavailable on Firefox and the sync would skip
     it with no engine change. **Live tab groups** (`chrome.tabGroups`, live groups only,
-    since Brave's *saved* groups are not exposed to extensions) is structurally the same
-    problem as #6 and belongs in the same design.
+    since Brave's *saved* groups are not exposed to extensions) shipped in 1.5.0, as an
+    optional field on the session packet rather than a data type of its own, which is the
+    shape #6 will take too. The reading list moved to [#77](https://github.com/konabe-studio/konode/issues/77), and #11 closes
+    with the tab groups.
   - [#10 Device identity is per install, not per machine](https://github.com/konabe-studio/konode/issues/10),
     split from #7. The rule it lands on: never merge identities automatically, ask, and ask
     with the only two facts that let a human decide, how recently the device uploaded and
@@ -217,20 +278,25 @@ keeps the two from being confused.
     `manual` compares the transport checksum, and for bookmarks that covers this device's
     own IDs, its `dateAdded` values and its deletion, move and rename logs, so two devices
     never match even when the trees on screen are identical. What it needs is a **content
-    identity** for bookmarks — canonical URL, title, structural position — cheap enough to
+    identity** for bookmarks (canonical URL, title, structural position), cheap enough to
     compute every sync, and it must NOT replace the transport checksum, which
     `uploadIfChanged` and the E2EE dedup both need over the exact bytes. Until then the
     setting asks whether two files are byte-identical while the screen says it is asking
     whether two devices disagree.
+    **Fixed in 1.5.1** (2026-11-02, closed) with `bookmarkContent`: folder path by root kind,
+    canonical URL and title, with order and duplicates left out too, since the merge
+    converges neither. The transport checksum is untouched. History still compares the
+    checksum under Manual, and whether Manual should gate history at all is the open
+    question it leaves.
   - [#35 A conflict card asks which version to keep without showing what differs](https://github.com/konabe-studio/konode/issues/35),
     from #33. Both buttons are whole-tree operations and neither says what it would change,
     which leaves the user guessing. The data is already at hand where the question is asked,
     since the peer's full packet is parked in storage for "Use remote" to decrypt. The design
     half is where it goes: the popup is 360px wide and 1.3.1 had to cap the conflict list at
     200px to stop it pushing the rest off the bottom, so this is a Resolve button and a full
-    tab in Settings — next to the held-back deletion card from #23, which asks the user to
-    approve something they cannot see in the same way. Worth taking after #34, which shrinks
-    the job.
+    tab in Settings, next to the held-back deletion card from #23, which asks the user to
+    approve something they cannot see in the same way. It was waiting for #34, which shrank
+    the job and shipped in 1.5.1, so it is in the next release now.
 
 ## Not supported, but closer than it was: iOS / WebKit
 
@@ -300,14 +366,45 @@ Sequenced by where our value prop is strongest, not by raw browser size:
    - *Presets over the existing WebDAV backend*: **done in 1.1.0.** Nextcloud / ownCloud
      (host field), pCloud (EU or US), Koofr and Fastmail (fixed endpoints) each have a
      card; Synology, kDrive and anything else go through the generic WebDAV card.
+     **Nutstore (坚果云) joined them on 2026-09-13**, shipped in 1.4.0, and it is the one
+     of these that changes who can use Konode at all: Google Drive cannot be reached from
+     mainland China, so the backend the wizard leads with is unusable for that whole
+     audience, and WebDAV against a domestic provider is the only route left. Its card
+     carries an interval warning the others do not need, because a free account allows 600
+     WebDAV requests per 30 minutes, and four devices at the default interval sit on that
+     ceiling.
    - *Token / basic-auth backends* (Dropbox token, S3-compatible, Backblaze B2):
      WebDAV/GitHub-class, ~0.5-1.5 d each, and they port to Firefox trivially.
    - *OAuth (PKCE) backends* (Dropbox OAuth, OneDrive/Graph): ~2-4 d each (provider
      app registration + redirect + refresh + QA, per browser).
-   - *MEGA*: heavier (~3-5 d; own crypto SDK to bundle). See
-     *MEGA integration (design notes)* below for the how.
+   - *MEGA*: heavier (~3-5 d; own crypto SDK to bundle). **Parked on 2026-11-02**: off the
+     README's roadmap and not planned. The notes in *MEGA integration (design notes)* below
+     stay for whoever picks it up.
+
+   **Asked for in the tracker**, as of 2026-11-04. None is scheduled, and the order above
+   still decides which comes first:
+   - [#52](https://github.com/konabe-studio/konode/issues/52) **S3-compatible storage.**
+     The reporter self-hosts RustFS behind https, so a custom endpoint and path-style
+     addressing are part of it from the start rather than assuming AWS. The token tier.
+   - [#32](https://github.com/konabe-studio/konode/issues/32) **Gitea**, and with it
+     Forgejo ([#76](https://github.com/konabe-studio/konode/issues/76), closed as a
+     duplicate), whose API follows Gitea's. Gitea's contents API is shaped like GitHub's,
+     so the missing piece is a configurable API base URL on the GitHub backend rather than
+     a backend of its own. The #32 reporter offered to test against a real instance.
+     GitLab is a bigger job: different API, different auth header, project ids.
+   - [#44](https://github.com/konabe-studio/konode/issues/44) **GitHub Gist**, kept open as
+     a candidate. A secret gist is unlisted rather than private, so it needs E2EE
+     recommended in the wizard. The same issue asked for cookie sync, which Konode will not
+     do: cookies are logged-in sessions, and syncing them needs access to every site.
+   - [#49](https://github.com/konabe-studio/konode/issues/49) **Syncthing**, closed by the
+     reporter: an extension cannot reach a local folder, and a WebDAV server on the phone
+     was not worth it. They moved to GitHub.
+   - **Filen** (blocked on a licence, see *Later*) and **iCloud** (see *iCloud: asked for,
+     and not on our terms*) were asked for on Reddit.
 
 ## MEGA integration (design notes)
+**Parked since 2026-11-02, not planned.** Kept as research for whoever picks it up.
+
 Added 2026-07-13. MEGA (mega.io) as a fourth `IBackend`, alongside Drive / GitHub /
 WebDAV. Slots into the same per-device-per-type file model
 (`konode_<type>_<device_id>.json` in a `Konode` folder). Rated ~3-5 d because,
@@ -421,6 +518,16 @@ Apple logo on a card in the setup wizard at the cost of the only claim the proje
 Apple users are served today by any WebDAV provider, and by a private GitHub repository.
 Reopen this if Apple ever ships an API that writes to the user's visible iCloud Drive.
 
+## Safari: not planned
+
+Asked for in [#56](https://github.com/konabe-studio/konode/issues/56) by someone syncing
+bookmarks between Chrome and Safari, and closed as not planned on 2026-11-04. Safari runs
+only extensions packaged inside a Mac app and distributed through the App Store with a paid
+Apple developer account, so it is not one more build the way Firefox was. It is a separate
+app with its own review, signing and upkeep. On the Mac, Orion runs on the same engine and
+takes Chrome and Firefox extensions, see *Not supported, but closer than it was: iOS /
+WebKit* above.
+
 ## Later / nice-to-have
 - Incremental diff for >10k bookmarks; history sync performance (one full-history scan
   per sync is what's left, after 1.2.0 overlapped the per-page writes that were the
@@ -454,13 +561,22 @@ Reopen this if Apple ever ships an API that writes to the user's visible iCloud 
   generic WebDAV card takes a local address, but a server the user runs is not a backend.
   Nobody has reported trying it.
 - Optional OAuth proxy (serverless) to avoid shipping the Google client secret.
+- **Right-to-left languages (Arabic, Hebrew, Persian).** Due with the first one that heads
+  for `shipped-languages.json`, not before: a catalogue on its own translates the words and
+  leaves every page laid out left to right. Names users choose (devices, extensions) are
+  already isolated from the text around them, so a Hebrew device name reads correctly in
+  today's languages. What remains is the page direction itself (`dir` beside `lang`, from
+  the catalogue that answered), CSS that says left and right where it means start and end,
+  toggles that slide the other way, arrow icons that point the other way, and the Settings
+  tab strip's overflow fade, which reads `scrollLeft`.
 
 ## Publishing
 
 **Chrome Web Store.** 1.0.0 submitted for review on **2026-07-19**, **published
 2026-07-20** (<https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa>).
-1.2.1 cleared review after it, and **1.3.0 is live, confirmed 2026-08-26**, nine days
-after it was submitted. Listing copy is
+1.2.1 cleared review after it, then 1.3.0 (confirmed 2026-08-26, nine days after it was
+submitted) and 1.3.2 (2026-09-13), then 1.4.0 (2026-09-30, a day after it was submitted),
+and **1.5.1 is live since 2026-11-02**, out the same day it was submitted. Listing copy is
 maintained per language in the dashboard: the name and the short description come from the
 extension's own catalogues and translate themselves, but the long description is entered by
 hand, in each of the languages Konode ships.
@@ -486,8 +602,9 @@ fails on that shape, so it surfaces as a red CI on the Weblate pull request rath
 a translation nobody can read.
 
 **Firefox Add-ons.** Live at <https://addons.mozilla.org/firefox/addon/konode/> since
-**2026-08-04**, first listed with 1.2.0, then 1.2.1, then 1.3.0 from 2026-08-17, **serving
-1.3.2 since 2026-09-10** (1.3.1 the same morning, superseded within two hours).
+**2026-08-04**, first listed with 1.2.0, then 1.2.1, then 1.3.0 from 2026-08-17, 1.3.2 from
+2026-09-10 (1.3.1 the same morning, superseded within two hours), 1.4.0 from 2026-09-29,
+and **serving 1.5.1 since 2026-11-02**, the first version marked for Firefox for Android.
 An update to an add-on that is already listed is auto-approved and signed on upload, and
 the source review happens afterwards, which is why 1.3.0 reached users while its version
 notes were still being filled in. The source archive must be the commit the upload was
@@ -495,7 +612,11 @@ BUILT from, not necessarily the tag: 1.3.0 was built from `efd6eb0`, two commits
 `v1.3.0`, and an archive of the tag would have rebuilt into a package with eight locale
 directories and the old Chinese name against an upload with five and the new one. AMO
 diffs that rebuild and requires no differences. For 1.3.2 the two coincide: it was built
-from `7e2ae38`, which is `v1.3.2` itself, so an archive of the tag was the right one.
+from `7e2ae38`, which is `v1.3.2` itself, so an archive of the tag was the right one, and
+so it was for 1.4.0 (`0acc210`, `v1.4.0`). From 1.5.1 the upload is built FROM the archive
+(an LF `git archive` of the tag, unpacked into an empty folder), so the two agree by
+construction; a second build from the same archive matched the 1.5.1 upload in all 32
+files.
 Packaged with `npm run package:firefox` and checked with `npm run lint:firefox`. AMO
 requires a source submission, since the build is bundled and minified, and the reviewer
 rebuilds and diffs it.
