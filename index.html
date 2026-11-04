@@ -34,7 +34,7 @@
     "@type": "SoftwareApplication",
     "name": "Konode",
     "applicationCategory": "BrowserApplication",
-    "operatingSystem": "Chrome, Brave, Edge, Chromium",
+    "operatingSystem": "Chrome, Brave, Edge, Chromium, Firefox",
     "description": "Browser extension that syncs bookmarks, open tabs, history, and the installed-extension list to storage you own: Google Drive, a GitHub repository, or any WebDAV server. No account, no server, no telemetry. Optional AES-256-GCM end-to-end encryption.",
     "url": "https://konode.org/",
     "downloadUrl": "https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa",
@@ -198,11 +198,11 @@
         <div class="hairline-grid">
           <div>
             <h3><span class="dot"></span> Bookmarks</h3>
-            <p>Your whole tree lands on every device with the folders and the nesting intact. Add one on the laptop and it is on the desktop, so the organising you already did stays done.</p>
+            <p>Your whole tree lands on every device with the folders and the nesting intact. Add one on the laptop and it is on the desktop, so the organizing you already did stays done. A folder you would rather keep to one device, such as one another extension fills, can stay out of the sync.</p>
           </div>
           <div>
             <h3><span class="dot"></span> Open tabs</h3>
-            <p>Close the laptop mid-thought and pick the same tabs back up on another machine. Save a set, restore it wherever you land. Your session stops belonging to one device.</p>
+            <p>Close the laptop mid-thought and pick the same tabs back up on another machine, tab groups included. Restoring opens only the tabs you do not already have. Your session stops belonging to one device.</p>
           </div>
           <div>
             <h3><span class="dot"></span> History</h3>
@@ -286,14 +286,14 @@
             <span class="card-icon"><img src="assets/webdav.svg" alt="" /></span>
             <div>
               <h3>WebDAV</h3>
-              <p>The generic route, and the one the five above travel on. Any compliant server works, kDrive included. No provider-specific code and nothing to lock you in.</p>
+              <p>The generic route, and the one the five above travel on. Any compliant server works, kDrive included. Nutstore (坚果云) has a card of its own in the extension, the way in from mainland China, where Google Drive cannot be reached.</p>
             </div>
           </div>
           <div class="card card-dark">
             <span class="card-icon"><img src="assets/question.svg" alt="" /></span>
             <div>
               <h3>Miss your storage?</h3>
-              <p>If your provider exposes WebDAV, it already works, so try it first. If not, <a href="https://github.com/konabe-studio/konode/issues/new" target="_blank" rel="noopener noreferrer">open an issue</a> and name it. That is how MEGA got on the <a href="roadmap.html">roadmap</a>.</p>
+              <p>If your provider exposes WebDAV, it already works, so try it first. If not, <a href="https://github.com/konabe-studio/konode/issues/new" target="_blank" rel="noopener noreferrer">open an issue</a> and name it. That is how S3-compatible storage got on the <a href="roadmap.html">roadmap</a>.</p>
             </div>
           </div>
         </div>
@@ -559,52 +559,73 @@
           <h2>How it compares.</h2>
         </div>
 
+        <p class="section-lead">
+          Pick by what you need. Your browser's own sync is the least work if you use one
+          browser everywhere, and Firefox and Brave encrypt it end to end by default.
+          Floccus is the one to look at if you want your bookmarks in a phone app, or
+          synced to Nextcloud Bookmarks, Linkwarden or Karakeep. Konode is for mixing
+          browser families, Chromium and Firefox, and syncing open tabs, history and the
+          extension list along with your bookmarks, to storage you already have.
+        </p>
+
         <div class="table-shell">
           <div class="table-scroll">
             <table class="compare">
               <thead>
                 <tr>
                   <th><span class="vh">Feature</span></th>
-                  <th class="col-konode">Konode</th>
+                  <th>Konode</th>
                   <th>Floccus</th>
-                  <th>xBrowserSync</th>
                   <th>Built-in sync</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">What syncs</th>
-                  <td class="col-konode">Bookmarks, tabs, history, extension list</td>
-                  <td>Bookmarks, or open tabs</td>
-                  <td>Bookmarks</td>
-                  <td>Bookmarks, tabs, history, passwords, and more</td>
+                  <td>Bookmarks, open tabs with their groups, history, extension list</td>
+                  <td>Bookmarks, or open tabs (one per profile)</td>
+                  <td>Bookmarks, tabs, history, passwords, settings and more</td>
                 </tr>
                 <tr>
-                  <th scope="row">Where synced data is stored</th>
-                  <td class="col-konode">Your Drive, GitHub, or WebDAV</td>
-                  <td>Nextcloud, WebDAV, Git, Drive, Dropbox, Linkwarden, KaraKeep</td>
-                  <td>Its own service: official, community-run, or self-hosted</td>
-                  <td>Google's or Mozilla's servers</td>
+                  <th scope="row">Where it is stored</th>
+                  <td>Google Drive, GitHub, WebDAV</td>
+                  <td>Nextcloud Bookmarks, WebDAV, Git, Google Drive, Dropbox, Linkwarden, Karakeep</td>
+                  <td>The browser maker's servers</td>
                 </tr>
                 <tr>
-                  <th scope="row">Account needed</th>
-                  <td class="col-konode">No Konode account</td>
-                  <td>No floccus account</td>
-                  <td>No account, just a sync ID and password</td>
-                  <td>Yes, a Google or Mozilla account</td>
+                  <th scope="row">Mixes Chromium and Firefox</th>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                  <td>No, each syncs only with itself</td>
+                </tr>
+                <tr>
+                  <th scope="row">On phones</th>
+                  <td>Firefox for Android: open tabs and the extension list</td>
+                  <td>Android and iOS apps, with your bookmarks inside the app</td>
+                  <td>Everything, in the browser's own app</td>
                 </tr>
                 <tr>
                   <th scope="row">End-to-end encryption</th>
-                  <td class="col-konode">Optional, on every backend</td>
-                  <td>Optional, on WebDAV and Drive</td>
-                  <td>Always on</td>
-                  <td>Firefox by default, Chrome behind a passphrase</td>
+                  <td>Optional, on every backend</td>
+                  <td>Optional, on WebDAV, Google Drive and Dropbox</td>
+                  <td>Firefox and Brave always. Chrome only with a sync passphrase</td>
+                </tr>
+                <tr>
+                  <th scope="row">Account</th>
+                  <td>None beyond your storage</td>
+                  <td>None beyond your storage</td>
+                  <td>A Mozilla or Google account. Brave uses a sync code</td>
+                </tr>
+                <tr>
+                  <th scope="row">Around since</th>
+                  <td>2026</td>
+                  <td>Years, with a much larger user base</td>
+                  <td>As long as the browser</td>
                 </tr>
                 <tr>
                   <th scope="row">Open source</th>
-                  <td class="col-konode">Yes, MPL-2.0</td>
                   <td>Yes, MPL-2.0</td>
-                  <td>Yes, GPL-3.0</td>
+                  <td>Yes, MPL-2.0</td>
                   <td>Clients open. Firefox's server too, Chrome's not</td>
                 </tr>
               </tbody>
@@ -612,7 +633,7 @@
           </div>
         </div>
 
-        <p class="footnote">Compared in August 2026 from each project's own documentation. Check the source projects for current details.</p>
+        <p class="footnote">Floccus syncs open tabs as an alternative to bookmarks inside one profile, so doing both takes two profiles, and its phone apps keep your bookmarks inside the app rather than in the phone's browser. Chrome's sync passphrase covers everything except payment methods and addresses. xBrowserSync, which this table used to list, has had no release since 2020. Checked in November 2026 from each project's own documentation and store pages.</p>
       </div>
     </section>
 
@@ -631,11 +652,11 @@
           </div>
           <div>
             <h3>Which browsers does it run on?</h3>
-            <p>Chrome, Brave, Helium and ungoogled-chromium through the Chrome Web Store, and Firefox through Firefox Add-ons. The two can sit a patch apart while a release clears review. The <a href="roadmap.html">roadmap</a> has the detail.</p>
+            <p>Chrome, Edge, Brave, Helium and ungoogled-chromium through the Chrome Web Store, and Firefox and Firefox-based browsers through Firefox Add-ons. On Firefox for Android it syncs open tabs and the extension list, because that browser gives extensions no bookmarks or history. A Microsoft Edge Add-ons listing is in review. The <a href="roadmap.html">roadmap</a> has the detail.</p>
           </div>
           <div>
             <h3>Which storage can I point it at?</h3>
-            <p>Three backends: Google Drive, a GitHub repository, or any compliant WebDAV server. Nextcloud, ownCloud, Synology, pCloud and kDrive all qualify. The <a href="setup.html">setup guide</a> walks through each.</p>
+            <p>Three backends: Google Drive, a GitHub repository, or any compliant WebDAV server. Nextcloud, ownCloud, pCloud, Koofr, Fastmail, Nutstore, Synology and kDrive all qualify. The <a href="setup.html">setup guide</a> walks through each.</p>
           </div>
           <div>
             <h3>Where are my credentials kept?</h3>

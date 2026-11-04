@@ -97,15 +97,19 @@
 
     <h2 id="install">1. Install the extension</h2>
     <p>
-      On Chrome, Brave, Helium, ungoogled-chromium, or another Chromium browser,
+      On Chrome, Edge, Brave, Helium, ungoogled-chromium, or another Chromium browser,
       install from the
       <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>.
-      Then pin Konode to your toolbar so the popup is one click away.
+      Edge asks once to allow extensions from other stores. Then pin Konode to your
+      toolbar so the popup is one click away.
     </p>
     <p>
       On Firefox, and on Firefox-derived browsers such as Waterfox, install from
       <a href="https://addons.mozilla.org/firefox/addon/konode/">Firefox Add-ons</a>. Both stores carry the same
-      build, though they can sit a patch apart while a release clears review.
+      build, though they can sit a patch apart while a release clears review. On
+      Firefox for Android, Konode syncs open tabs and the extension list, on GitHub or
+      WebDAV storage, because that browser gives extensions no bookmarks, history or
+      Google sign-in.
     </p>
     <p>
       If you would rather build it yourself, the repository is public. Run
@@ -173,9 +177,11 @@
 
     <h2 id="webdav">5. Connect WebDAV</h2>
     <p>
-      Works with Nextcloud, ownCloud, Synology, pCloud, kDrive, and anything else
-      exposing a WebDAV endpoint. You need the endpoint URL plus a username and
-      password.
+      Works with Nextcloud, ownCloud, pCloud, Koofr, Fastmail, Nutstore (坚果云),
+      Synology, kDrive, and anything else exposing a WebDAV endpoint. Nextcloud,
+      ownCloud, pCloud, Koofr, Fastmail and Nutstore have a card of their own that
+      fills in the address. For the rest you need the endpoint URL plus a username
+      and password.
     </p>
     <ol class="steps">
       <li>Find your provider's WebDAV URL. On Nextcloud it looks like <code>https://your-server/remote.php/dav/files/USERNAME/</code>.</li>
@@ -227,15 +233,20 @@
       Bookmarks need no extra permission. History, tabs, and the extension list each
       trigger a browser permission prompt at the moment you enable them, which is why
       the install itself asks for so little. Decline one and that data type simply
-      stays off.
+      stays off. Open tabs can also ask for tab group names and colors, which you can
+      allow now or later in Settings.
+    </p>
+    <p>
+      Under Bookmarks, <strong>Exclude bookmarks from sync</strong> lets you tick
+      folders or bookmarks that stay on this device only, for example a folder another
+      extension fills.
     </p>
     <p>
       While you are here, set your conflict rule: newest change wins, always prefer
       this device, always prefer the other one, or ask you each time. "Newest wins"
       is the reasonable default for most people, and the one we would suggest today.
-      "Ask each time" has two limits worth knowing first: it names the device that
-      disagrees but not the bookmarks, and it asks on a first sync between two devices
-      whether or not anything actually differs.
+      "Ask each time" has one limit worth knowing first: it names the device that
+      disagrees but not the bookmarks that differ.
     </p>
 
     <h2 id="second">8. Add a second device</h2>

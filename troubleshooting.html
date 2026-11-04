@@ -128,9 +128,9 @@
           on again, and accept the prompt when it appears.
         </p>
         <p>
-          Firefox for Android is the exception that this will not fix. It does not grant
-          the history permission on request, so Konode marks history unavailable there and
-          syncs your open tabs only.
+          Firefox for Android is the exception that this will not fix. It gives extensions
+          no history and no bookmarks, so Konode marks both unavailable there and syncs
+          your open tabs and the extension list.
         </p>
       </div>
       <div>
@@ -271,13 +271,13 @@
       <div>
         <h3>Can I use Mega, Filen, Dropbox, or OneDrive?</h3>
         <p>
-          Mega and Filen are not available yet. Mega is the one with design work
-          behind it. Filen sits behind Mega and may not happen at all, because we would
-          rather leave a backend out than force it in. Dropbox and OneDrive are not supported
-          directly. If a provider offers a WebDAV endpoint, the WebDAV backend will
-          work with it, and Filen can serve one from your own machine if you run its
-          command line tool, which nobody has reported trying with Konode. See the
-          <a href="roadmap.html">roadmap</a>.
+          Not directly. Dropbox and OneDrive are on the roadmap, behind S3-compatible
+          storage and Backblaze B2, which sign in with a key and so come first. Mega
+          and Filen are not planned: Mega needs its own client library and encryption
+          bundled in, and Filen is blocked on a license question. If a provider offers
+          a WebDAV endpoint, the WebDAV backend will work with it, and Filen can serve
+          one from your own machine if you run its command line tool, which nobody has
+          reported trying with Konode. See the <a href="roadmap.html">roadmap</a>.
         </p>
       </div>
     </div>
@@ -371,11 +371,11 @@
       <div>
         <h3>Which Firefox-based browsers work?</h3>
         <p>
-          Firefox itself, and Firefox-derived browsers such as Waterfox. Anything that
-          installs a standard signed Firefox extension should work. Firefox for Android
-          is the exception in what it can sync: it has no bookmarks API and will not
-          grant the history permission on request, so Konode shows both as unavailable
-          there and syncs your open tabs only.
+          Firefox itself, and Firefox-derived browsers such as Waterfox and Zen. Anything
+          that installs a standard signed Firefox extension should work. Firefox for
+          Android is the exception in what it can sync: it gives extensions no bookmarks,
+          no history and no Google sign-in, so Konode syncs your open tabs and the
+          extension list there, on GitHub or WebDAV storage.
         </p>
       </div>
     </div>

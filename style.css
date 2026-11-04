@@ -1180,11 +1180,8 @@ table.compare tbody th {
 }
 table.compare td { color: var(--fg-muted); font-size: var(--fs-sm); }
 
-/* The Konode column is the accent column, header and body. Filled with
-   --accent-solid rather than --accent: white on #12b76a measures 2.6:1 and
-   fails AA for the body text in this column. White on #0b8348 is 4.8:1. */
-table.compare .col-konode { background: var(--accent-solid); color: var(--on-accent); }
-table.compare thead .col-konode { background: var(--accent-solid); color: var(--on-accent); }
+/* No column is highlighted, Konode's included. The table is there to help a
+   visitor pick, and an accent column reads as the answer before the rows do. */
 
 .compare .footnote { margin-top: var(--s-5); font-size: var(--fs-sm); max-width: none; }
 

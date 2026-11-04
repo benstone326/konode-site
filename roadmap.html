@@ -106,6 +106,59 @@
         </div>
       </li>
       <li>
+        <span class="st st-shipped">Shipped<b>1.5.1</b></span>
+        <div>
+          <h3>Keep bookmarks out of sync</h3>
+          <p>Under Bookmarks, in setup and in Settings &rarr; Data Types, <b>Exclude bookmarks from sync</b> opens your bookmark tree with a box in front of every folder and bookmark. Whatever you tick stays on this device untouched: it is never uploaded, nothing your other devices do changes it, and changes inside it no longer start a sync. It was asked for by someone whose other extension keeps a big bookmark folder of its own, which froze the browser while Konode synced every entry in it.</p>
+          <p>A ticked folder stays excluded when you rename it. Excluding deletes nothing, so copies your other devices already have stay where they are.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.5.1</b></span>
+        <div>
+          <h3>Tab groups come back with your tabs</h3>
+          <p>A synced session now carries which of its tabs share a group, and Restore puts them back together. Allow group names and colors when Konode asks for open tabs, or later in Settings, and those come back too. Chrome, Edge, Brave and the other Chromium browsers have groups, and so does Firefox from version 138. Where a browser has none, a session restores as it did before.</p>
+          <p>Restoring a session you have restored before opens only the tabs you do not already have, instead of opening the whole session again.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.5.1</b></span>
+        <div>
+          <h3>A deletion that arrives in pieces is held back</h3>
+          <p>The limit on how much of your bookmarks another device may delete used to judge each sync on its own, so a large deletion that arrived a piece at a time could go through piece by piece. Konode now adds up what other devices removed over the last 24 hours and holds back the piece that takes the total over the limit, with a restore point saved first.</p>
+          <p>The limit also counts bookmarks rather than copies of them, so a pile of duplicates no longer makes your tree look bigger than it is.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.5.1</b></span>
+        <div>
+          <h3>Manual conflict resolution asks only when bookmarks really differ</h3>
+          <p>With conflict resolution on Manual, Konode used to ask on the first sync between any two devices, because it compared files rather than the bookmarks in them, and each browser gives a bookmark its own ID and date. It now compares the bookmarks themselves: the folder each one is in, its address and its title. Two devices that hold the same bookmarks are not asked about.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.5.1</b></span>
+        <div>
+          <h3>Firefox for Android, listed on Firefox Add-ons</h3>
+          <p>Konode installs from Firefox Add-ons on Android and syncs open tabs and the extension list there, on GitHub or WebDAV storage. Firefox for Android gives extensions no bookmarks, no history and no Google sign-in, so those are marked unavailable instead of failing the sync, and Google Drive is not offered.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.4.0</b></span>
+        <div>
+          <h3>Nutstore (坚果云)</h3>
+          <p>A storage card for Nutstore: pick it, sign in with your Nutstore email and a third-party app password, and there is nothing else to set up. If you are in mainland China this is the one that matters, because Google Drive cannot be reached from there. In Simplified Chinese, Nutstore is the first card in the list.</p>
+          <p>A free Nutstore account allows 600 WebDAV requests every 30 minutes, and the card says so: with three or more devices, a sync interval of 120 seconds or more keeps well clear of it.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-shipped">Shipped<b>1.4.0</b></span>
+        <div>
+          <h3>Italian, Russian and Traditional Chinese</h3>
+          <p>Konode now speaks English, Hungarian, German, Spanish, Italian, Russian and Chinese, both Simplified and Traditional. Traditional Chinese is its own translation with the words used in Taiwan, not the Simplified files converted character by character, and a native speaker reviewed it.</p>
+        </div>
+      </li>
+      <li>
         <span class="st st-shipped">Shipped<b>1.3.2</b></span>
         <div>
           <h3>A blocked deletion that would not stop</h3>
@@ -133,7 +186,7 @@
         <span class="st st-shipped">Shipped<b>1.2.0</b></span>
         <div>
           <h3>Chromium browsers and Firefox</h3>
-          <p>Chrome, Brave, Helium and ungoogled-chromium, plus Firefox and Waterfox. Verified across Firefox, Brave and Helium sharing one sync folder. History arrives on its original visit dates on Firefox, the only engine that permits it. Firefox for Android runs it too, with open tabs only: that browser has no bookmarks API and will not grant the history permission on request, so Konode marks both unavailable there and skips them rather than failing the sync.</p>
+          <p>Chrome, Brave, Helium and ungoogled-chromium, plus Firefox and Waterfox. Verified across Firefox, Brave and Helium sharing one sync folder. History arrives on its original visit dates on Firefox, the only engine that permits it.</p>
         </div>
       </li>
       <li>
@@ -202,56 +255,57 @@
     </p>
     <ul class="rm">
       <li>
-        <span class="st st-planned">Planned</span>
+        <span class="st st-planned">In review</span>
         <div>
-          <h3>Traditional Chinese</h3>
-          <p>Konode had no Traditional Chinese at all, and the language it falls back to is English, so a browser set to 正體中文 was not quietly getting the Simplified version. It was getting English. A reader in Taiwan told us, and they were right. The language is open on <a href="https://hosted.weblate.org/projects/konode/">Hosted Weblate</a> now and ships once it is complete.</p>
-          <p>It will not be a conversion of the Simplified files. 擴充功能 and 扩展 are different words, not one word in two sets of characters, and a converted file would read as mainland Chinese wearing Traditional characters. If you read it, this is the one where help would land soonest.</p>
+          <h3>Microsoft Edge Add-ons</h3>
+          <p>Konode is submitted to Microsoft Edge Add-ons, with the same package as the Chrome Web Store, so the version is the same whichever store you install from. On desktop, Edge already installs Konode from the Chrome Web Store, after asking once to allow extensions from other stores.</p>
+          <p>Once it is listed, the next step is checking what works on Edge for Android. Microsoft decides which extensions are offered there, and its own list of extension APIs does not show bookmarks on Android, so we will report what actually works rather than promise it now.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Next</span>
+        <div>
+          <h3>A held-back deletion that names what it holds</h3>
+          <p>When Konode stops a large deletion from another device, the card in Settings &rarr; Activity says how many bookmarks it would remove, and never which ones. A number cannot answer the question the card asks, which is whether you meant it. The plan is to list the bookmarks it holds, title and address, with "and so many more" past the first few.</p>
+          <p>The four conflict-resolution options get new descriptions at the same time, because none of them says what it does with another device's deletions, and that is where they differ most.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Next</span>
+        <div>
+          <h3>A device list that says when each device was last active</h3>
+          <p>Reinstall Konode, or set it up in a second browser, and it joins as a new device, while the old one stays in the list and in the merge until you forget it. Telling the two apart today means reading timestamps. The plan is "last active 39 days ago" on every row, a clear mark on the devices that are plainly gone, and the browser each one runs in.</p>
+          <p>Konode will not merge two devices into one by itself. It cannot tell a reinstall from two browsers running side by side, and treating those two as one would lose data, so the choice stays with you.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-planned">Next</span>
+        <div>
+          <h3>Conflict resolution that shows you the difference</h3>
+          <p>Set conflict resolution to Manual and Konode asks which version of your bookmarks to keep, without showing you either one. Both answers act on the whole tree, so the choice is a guess. The plan is a resolve screen in Settings with room to list what actually differs, title and address for bookmarks and history, reached by a button on the popup rather than squeezed into a popup 360 pixels wide.</p>
+          <p>The problem underneath it is already fixed: since 1.5.1, Manual asks only when the bookmarks on two devices really differ, so the screen has a smaller and clearer job.</p>
         </div>
       </li>
       <li>
         <span class="st st-planned">Planned</span>
         <div>
-          <h3>Nutstore, in the next release</h3>
-          <p>A card for Nutstore (坚果云), so setting it up is picking it from the list and pasting an app password rather than typing a server address. It is written and due in 1.3.3. If you are in mainland China this is the one that matters, because Google Drive is not reachable from there and the storage option the setup leads with is not an option for you. GitHub and WebDAV both work in the meantime.</p>
-        </div>
-      </li>
-      <li>
-        <span class="st st-planned">Planned</span>
-        <div>
-          <h3>More languages</h3>
-          <p>Italian, Estonian and Japanese are being translated by volunteers on <a href="https://hosted.weblate.org/projects/konode/">Hosted Weblate</a>, and none of them has a date. Each ships in the first release after it is finished. Anyone who reads a language Konode does not speak yet can start it there.</p>
+          <h3>The reading list, on Chromium browsers</h3>
+          <p>Chrome has a reading list that extensions can read and write, so it can sync the same way bookmarks do. Firefox has no equivalent, so there it will show as unavailable and be skipped, the way bookmarks already are on Firefox for Android.</p>
         </div>
       </li>
       <li>
         <span class="st st-planned">Planned</span>
         <div>
           <h3>More backends, cheapest sign-in first</h3>
-          <p>Token and basic-auth backends come first, because they are the same class of work as WebDAV and GitHub: a Dropbox token, S3-compatible storage, Backblaze B2. OAuth backends follow, Dropbox and OneDrive among them, each needing its own app registration, redirect and refresh handling per browser.</p>
+          <p>Token and basic-auth backends come first, because they are the same class of work as WebDAV and GitHub: S3-compatible storage, Backblaze B2 and a Dropbox token. S3 will take your own endpoint from the start, so a self-hosted server works, not only Amazon. OAuth backends follow, Dropbox and OneDrive among them, each needing its own app registration, redirect and refresh handling per browser.</p>
+          <p>Gitea and Forgejo have been asked for too. Their API is shaped like GitHub's, so the likely route is letting you set your own server address on the GitHub card rather than writing a new backend.</p>
         </div>
       </li>
       <li>
         <span class="st st-planned">Planned</span>
         <div>
-          <h3>MEGA</h3>
-          <p>The heaviest of the backends, and the reason it is not simply another WebDAV card: MEGA's own API is the only real way in, it is only practical to drive through a client library, and that library has to carry MEGA's client-side encryption. Not started in any usable form, and still the further along of the two storage backends here: it is the one with the design work written down.</p>
-        </div>
-      </li>
-      <li>
-        <span class="st st-planned">Planned</span>
-        <div>
-          <h3>Filen, behind MEGA</h3>
-          <p>Asked for on Reddit, and deliberately not scheduled. MEGA comes first because it is the one we have thought through, and Filen follows only if what MEGA costs turns out to carry over. We would rather leave it out than force it in, so treat this as a condition rather than a plan.</p>
-          <p>What is settled so far: Filen encrypts everything on your device before it leaves, and it offers no hosted WebDAV address, so it cannot become one more preset on the WebDAV card. It does publish an official SDK that runs in a browser, so the question is not whether a route exists. It is whether carrying another provider's encryption is worth what it costs an extension this size, and that question is open, which is the honest reason there is no date here.</p>
-          <p>There is something to try today if you already run Filen's command line tool. It can serve your drive over WebDAV or S3 from your own machine, and the generic WebDAV card takes a local address. Nobody has reported trying that with Konode, and a server you run yourself is not a backend we support, so treat it as an experiment. Reports are welcome.</p>
-        </div>
-      </li>
-      <li>
-        <span class="st st-planned">Planned</span>
-        <div>
-          <h3>Conflict resolution that shows you the difference</h3>
-          <p>Set conflict resolution to Manual and Konode asks which version of your bookmarks to keep, without showing you either one. Both answers act on the whole tree, so the choice is a guess. The plan is a resolve screen in Settings with room to list what actually differs, title and address for bookmarks and history, reached by a button on the popup rather than squeezed into a popup 360 pixels wide.</p>
-          <p>Underneath it is a second problem worth fixing first. Manual asks whenever two devices' files are not identical byte for byte, and they never are: each browser gives a bookmark its own internal identifier and its own date added, neither of which can survive the trip. So it asks on the first sync between any two devices even when the bookmarks on both are the same. Both are open in the tracker.</p>
+          <h3>More languages</h3>
+          <p>Japanese, Estonian and Arabic are being translated by volunteers on <a href="https://hosted.weblate.org/projects/konode/">Hosted Weblate</a>, and none of them has a date. Each ships in the first release after it is finished. Arabic is the first right-to-left language, so it brings the page layout work with it. Anyone who reads a language Konode does not speak yet can start it there.</p>
         </div>
       </li>
       <li>
@@ -282,6 +336,28 @@
           <h3>iCloud Drive</h3>
           <p>Apple publishes no third-party API for iCloud Drive and no WebDAV, so there is no supported way for an extension to put a file there. What circulates as iCloud over WebDAV is a relay service that copies your files through its own servers, which is the arrangement Konode exists to avoid.</p>
           <p>The sanctioned route, CloudKit, writes into a container the developer registers rather than into your iCloud Drive. You could not open those files in Finder, copy them out, or hand them to another tool. Being able to do exactly that is what "storage you own" means here, so an iCloud card would be the one backend that makes the promise untrue. On Apple hardware, any WebDAV provider works today, and so does a private GitHub repository.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-no">No</span>
+        <div>
+          <h3>Safari</h3>
+          <p>Safari runs only extensions that are packaged inside a Mac app and distributed through the App Store with a paid Apple developer account. That makes it a separate app with its own review and upkeep, not one more build the way Firefox was, so it is not on the roadmap. On the Mac, Orion runs on the same engine as Safari and takes Chrome and Firefox extensions, see its card above.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-no">No</span>
+        <div>
+          <h3>MEGA and Filen</h3>
+          <p>Both were asked for, and neither is planned. MEGA has no plain storage address a browser can write to, so it needs MEGA's own client library and its encryption bundled into the extension. It is parked, and the design notes stay in the repository for anyone who wants to pick it up.</p>
+          <p>Filen is blocked on a license before any engineering. Its official SDK is AGPL-3.0 and Konode is MPL-2.0, and shipping the two together is a legal question that has to be answered first. If you already run Filen's command line tool, it can serve your drive over WebDAV from your own machine, and the generic WebDAV card takes a local address. Nobody has reported trying that.</p>
+        </div>
+      </li>
+      <li>
+        <span class="st st-no">No</span>
+        <div>
+          <h3>Cookie sync</h3>
+          <p>Cookies are your logged-in sessions. Copying them to storage would put every account at risk the moment any device or the storage itself was compromised, and reading them would need access to every site you visit. Konode will not do it.</p>
         </div>
       </li>
       <li>
