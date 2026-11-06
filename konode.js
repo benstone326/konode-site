@@ -1,5 +1,6 @@
 /* Konode site — the only script on the page.
-   Swaps the install CTA to the visitor's browser. Everything else is CSS.
+   Swaps the install CTA to the visitor's browser: Firefox Add-ons, Microsoft
+   Edge Add-ons, or the Chrome Web Store. Everything else is CSS.
    Kept external (no inline handlers) so vercel.json can keep script-src 'self'. */
 
 (function () {
@@ -17,6 +18,12 @@
       family: "Firefox based",
       logo: "assets/firefox.svg",
       url: "https://addons.mozilla.org/firefox/addon/konode/"
+    },
+    edge: {
+      label: "Edge",
+      family: "Chromium based",
+      logo: "assets/edge.svg",
+      url: "https://microsoftedge.microsoft.com/addons/detail/acmngpjfommajbkfbfmdfemlheiamfoe"
     }
   };
 
@@ -26,9 +33,14 @@
     // Gecko is the reliable Firefox tell; forks (LibreWolf, Waterfox, Zen) match too.
     if (/\bGecko\/\d+/.test(ua) && /Firefox\/\d+/.test(ua)) return "firefox";
 
-    // Everything else that can install a Chrome Web Store item: Chrome, Edge,
-    // Brave, Opera, Vivaldi, Arc. Safari gets Chrome as the neutral default,
-    // since neither store applies there.
+    // Edge has its own store, and it is the one Edge for Android installs from.
+    // "Edg/" on desktop, "EdgA/" on Android. Edge on iOS ("EdgiOS/") runs no
+    // extensions, so it falls through to the neutral default like Safari.
+    if (/\bEdgA?\/\d+/.test(ua)) return "edge";
+
+    // Everything else that can install a Chrome Web Store item: Chrome, Brave,
+    // Opera, Vivaldi, Arc. Safari gets Chrome as the neutral default, since no
+    // store applies there.
     return "chrome";
   }
 

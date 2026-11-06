@@ -1,5 +1,6 @@
 # Refreshes the version numbers on roadmap.html from Firefox Add-ons, the Chrome
-# extension update endpoint and the GitHub releases API, then pushes the result —
+# extension update endpoint, Microsoft Edge Add-ons and the GitHub releases API,
+# then pushes the result —
 # which redeploys the live site.
 #
 # Nothing here writes prose: scripts/sync-status.mjs only rewrites the fenced
@@ -23,7 +24,7 @@ on:
   # actually moved, so an extra run on an ordinary docs push leaves no trace.
   #
   # It cannot run AHEAD of the stores, which is the limit worth remembering: the
-  # numbers are read from Firefox Add-ons and the Chrome update endpoint, so this
+  # numbers are read from Firefox Add-ons, the Chrome update endpoint and Edge Add-ons, so this
   # reports what they serve, not what was uploaded. AMO takes minutes, the Chrome
   # Web Store takes days, and the schedule below is what eventually catches it.
   repository_dispatch:

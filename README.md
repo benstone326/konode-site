@@ -9,7 +9,7 @@ requests** — the fonts and logos are self-hosted, so the site makes the same
 promise the extension does.
 
 The only script is `konode.js` (~1 KB), which swaps the install CTA between the
-Chrome Web Store and AMO based on the visitor's browser. It is an external file
+Chrome Web Store, Microsoft Edge Add-ons and AMO based on the visitor's browser. It is an external file
 with no inline handlers, so `vercel.json` keeps `script-src 'self'`.
 
 ## Pages
