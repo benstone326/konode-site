@@ -10,6 +10,9 @@
  *     update endpoint below which version it should be running. That is a
  *     versioned protocol rather than page markup, and its answer is the number
  *     that actually matters: what a browser would install right now.
+ *   - Microsoft Edge Add-ons answers a product-details request by extension id,
+ *     the same call its own store page makes. The answer has to name our id back,
+ *     or it is not trusted.
  *   - The newest release tag comes from GitHub. That call is authenticated when
  *     GITHUB_TOKEN is set, which the workflow does with its own token: without
  *     one, api.github.com allows 60 requests an hour per IP, and Actions runners
@@ -45,6 +48,8 @@ const LATEST_RELEASE = "https://api.github.com/repos/konabe-studio/konode/releas
 const cwsUpdate = (id) =>
   "https://clients2.google.com/service/update2/crx" +
   `?response=updatecheck&prodversion=999.0&acceptformat=crx3&x=id%3D${id}%26uc`;
+
+const edgeDetails = (id) => `https://microsoftedge.microsoft.com/addons/getproductdetailsbycrxid/${id}`;
 
 const UA = { "user-agent": "konode-site status sync" };
 
@@ -99,29 +104,44 @@ async function chromeVersion(listingUrl) {
   return version("The Chrome Web Store update endpoint", found[1]);
 }
 
+async function edgeVersion(listingUrl) {
+  const id = extensionId(listingUrl);
+  const details = await fetchJson(edgeDetails(id));
+  // An unknown id has been seen to answer with an empty body rather than a 404, so
+  // the reply has to be about our extension before its version means anything.
+  if (details?.crxId !== id) {
+    throw new Error(`Microsoft Edge Add-ons answered for "${details?.crxId}", not ${id}. Refusing to guess.`);
+  }
+  return version("Microsoft Edge Add-ons", details.version);
+}
+
 const before = await readFile(STATUS_FILE, "utf8");
 const status = JSON.parse(before);
 
-const [amo, release, chrome] = await Promise.all([
+const [amo, release, chrome, edge] = await Promise.all([
   fetchJson(AMO),
   fetchJson(LATEST_RELEASE, GITHUB),
   chromeVersion(status.chrome.url),
+  edgeVersion(status.edge.url),
 ]);
 status.firefox.version = version("Firefox Add-ons", amo.current_version.version);
 status.chrome.version = chrome;
+status.edge.version = edge;
 status.latestRelease = release.tag_name;
 
 const fx = status.firefox;
 const cr = status.chrome;
+const ed = status.edge;
 
 /* A row per store, because the question a reader has is "what will I get if I
-   install right now", and that is a version number per store. Both numbers now
+   install right now", and that is a version number per store. Every number now
    come from the store itself, so there is nothing left to caption: a state
    column would read "live" on every row of every run, and which release a store
    is still working through is our problem rather than the reader's. */
 const rows = [
   { name: "Firefox Add-ons", url: fx.url, serving: fx.version },
   { name: "Chrome Web Store", url: cr.url, serving: cr.version },
+  { name: "Microsoft Edge Add-ons", url: ed.url, serving: ed.version },
 ];
 
 const block =
@@ -159,6 +179,7 @@ const releaseVersion = status.latestRelease.replace(/^v/, "");
 for (const [label, serving] of [
   ["Firefox Add-ons", fx.version],
   ["Chrome Web Store", cr.version],
+  ["Microsoft Edge Add-ons", ed.version],
 ]) {
   if (serving !== releaseVersion) {
     console.warn(
@@ -181,4 +202,4 @@ if (!changed) {
 status.checkedOn = new Date().toISOString().slice(0, 10);
 await writeFile(PAGE_FILE, nextHtml);
 await writeFile(STATUS_FILE, JSON.stringify(status, null, 2) + "\n");
-console.log(`Updated: Firefox ${fx.version}, Chrome ${cr.version}, latest release ${status.latestRelease}.`);
+console.log(`Updated: Firefox ${fx.version}, Chrome ${cr.version}, Edge ${ed.version}, latest release ${status.latestRelease}.`);
