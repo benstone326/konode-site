@@ -12,9 +12,9 @@
   <meta name="theme-color" content="#f7f8fa" />
   <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="tokens.css?v=2" />
-  <link rel="stylesheet" href="header.css?v=2" />
-  <link rel="stylesheet" href="docs.css?v=2" />
+  <link rel="stylesheet" href="tokens.css?v=3" />
+  <link rel="stylesheet" href="header.css?v=3" />
+  <link rel="stylesheet" href="docs.css?v=3" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Konode" />
   <meta property="og:url" content="https://konode.org/setup.html" />
@@ -59,6 +59,7 @@
         <a href="index.html#privacy">Privacy</a>
         <a href="index.html#compare">Compare</a>
         <a href="index.html#faq">FAQ</a>
+        <a href="features.html">Feature guide</a>
         <a href="setup.html" aria-current="page">Setup guide</a>
         <a href="troubleshooting.html">Troubleshooting</a>
         <a href="roadmap.html">Roadmap</a>
@@ -138,11 +139,20 @@
       You can switch later, but the backends do not migrate between each other. Treat
       a switch as starting fresh.
     </p>
+    <p>
+      Konode opens its setup wizard in a new tab as soon as it is installed. Press
+      <strong>Choose storage</strong> and pick a card; you enter the details on the same
+      step. Everything here can be changed later under <strong>Settings → Storage</strong>,
+      which the gear icon in the popup opens.
+    </p>
+    <figure class="shot">
+      <img src="assets/shots/setup-storage.png" width="380" height="450" alt="The setup wizard's Choose your storage step, listing Google Drive, Nextcloud / ownCloud, pCloud, Koofr, Fastmail, Nutstore, GitHub and WebDAV (other)" />
+    </figure>
 
     <h2 id="drive">3. Connect Google Drive</h2>
     <ol class="steps">
-      <li>Open the Konode popup and go to the settings screen.</li>
-      <li>Choose <strong>Google Drive</strong> as the backend and start the sign-in.</li>
+      <li>Choose <strong>Google Drive</strong> in the setup wizard or under Settings → Storage.</li>
+      <li>Press <strong>Sign in with Google</strong>.</li>
       <li>
         Sign in with your Google account and approve the request. The consent screen
         will name the <code>drive.file</code> scope, which is deliberately narrow: it
@@ -168,7 +178,7 @@
         Scope it to <strong>only that one repository</strong>, and give it read and
         write access to repository contents. Nothing else is needed.
       </li>
-      <li>Paste the token into Konode's settings along with the repository name.</li>
+      <li>Paste the token into Konode along with the repository, as <code>owner/repo</code> or the repository's full address.</li>
     </ol>
     <div class="callout">
       <p>
@@ -183,22 +193,30 @@
       Works with Nextcloud, ownCloud, pCloud, Koofr, Fastmail, Nutstore (坚果云),
       Synology, kDrive, and anything else exposing a WebDAV endpoint. Nextcloud,
       ownCloud, pCloud, Koofr, Fastmail and Nutstore have a card of their own that
-      fills in the address. For the rest you need the endpoint URL plus a username
-      and password.
+      knows the address, so you type less: Nextcloud and ownCloud ask only for your
+      server's host, pCloud for your account's region, and the rest for nothing at all.
+      For any other server, choose <strong>WebDAV (other)</strong> and enter its full
+      address.
     </p>
     <ol class="steps">
-      <li>Find your provider's WebDAV URL. On Nextcloud it looks like <code>https://your-server/remote.php/dav/files/USERNAME/</code>.</li>
+      <li>Pick your provider's card, or WebDAV (other).</li>
       <li>
         Create an app-specific password rather than using your main account
         password, if your provider supports it. Nextcloud calls these
-        <strong>app passwords</strong>; most others have an equivalent.
+        <strong>app passwords</strong> (Settings → Security); Koofr, Fastmail and
+        Nutstore have their own.
       </li>
-      <li>Enter the URL, username, and password in Konode's settings.</li>
+      <li>Enter your username and that password, and press <strong>Test connection</strong>.</li>
     </ol>
+    <figure class="shot">
+      <img src="assets/shots/settings-storage.png" width="560" height="648" alt="Settings, Storage: the provider tiles with the Nextcloud / ownCloud panel open, asking for Server host, Username and Password / App token" />
+    </figure>
     <p>
-      The endpoint has to be HTTPS. Browsers block extensions from sending
-      credentials over plain HTTP, so a self-signed or expired certificate will fail
-      here too.
+      The address has to be <code>https://</code>, with a certificate your browser
+      trusts. WebDAV sends your username and password with every request, and plain
+      <code>http://</code> would send them readable to anyone on the way, so Konode
+      refuses it. The one exception is a server on the same computer
+      (<code>localhost</code> or <code>127.0.0.1</code>).
     </p>
 
     <h2 id="encryption">6. Turn on end-to-end encryption</h2>
@@ -230,7 +248,8 @@
     <h2 id="datatypes">7. Pick what syncs</h2>
     <p>
       Four independent toggles: bookmarks, open tabs, history, and your installed
-      extension list. Nothing is read until you turn it on.
+      extension list. Bookmarks start switched on; the other three start off, and none of
+      them is read until you turn it on.
     </p>
     <p>
       Bookmarks need no extra permission. History, tabs, and the extension list each
@@ -245,11 +264,12 @@
       extension fills.
     </p>
     <p>
-      While you are here, set your conflict rule: newest change wins, always prefer
-      this device, always prefer the other one, or ask you each time. "Newest wins"
-      is the reasonable default for most people, and the one we would suggest today.
-      "Ask each time" has one limit worth knowing first: it names the device that
-      disagrees but not the bookmarks that differ.
+      Later, under Settings → Device, you can set your conflict rule: newest change
+      wins, always prefer this device, always prefer the other one, or ask you each
+      time. "Newest wins" is the default and the reasonable choice for most people.
+      "Ask each time" has one limit worth knowing in 1.5.1: it names the device that
+      disagrees but not the bookmarks that differ. The next version lists them. The
+      <a href="features.html#conflicts">feature guide</a> shows both.
     </p>
 
     <h2 id="second">8. Add a second device</h2>
@@ -268,9 +288,11 @@
 
     <div class="callout">
       <p>
-        Something not behaving? The <a href="troubleshooting.html">troubleshooting
-        page</a> covers the failures that come up most, including expired tokens,
-        passphrase mismatches, and history timestamps.
+        Set up? The <a href="features.html">feature guide</a> shows what everything else
+        in Konode is for. Something not behaving? The
+        <a href="troubleshooting.html">troubleshooting page</a> covers the failures that
+        come up most, including expired tokens, passphrase mismatches, and history
+        timestamps.
       </p>
     </div>
   </main>
@@ -286,6 +308,7 @@
           </p>
         </div>
         <div class="links">
+          <a href="features.html">Features</a>
           <a href="setup.html">Setup</a>
           <a href="troubleshooting.html">Troubleshooting</a>
           <a href="roadmap.html">Roadmap</a>

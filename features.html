@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feature guide. What each part of Konode is for | Konode</title>
+  <meta name="description" content="Every Konode feature with a screenshot: the popup, bookmarks, open tabs, history and extension sync, storage providers, end-to-end encryption, conflict resolution, restore points, the device list, and what comes in the next version." />
+  <link rel="canonical" href="https://konode.org/features.html" />
+  <link rel="icon" href="icon.svg?v=2" type="image/svg+xml" />
+  <link rel="icon" href="icon128.png?v=2" sizes="128x128" />
+  <link rel="apple-touch-icon" href="icon128.png?v=2" />
+  <meta name="theme-color" content="#f7f8fa" />
+  <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="tokens.css?v=3" />
+  <link rel="stylesheet" href="header.css?v=3" />
+  <link rel="stylesheet" href="docs.css?v=3" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Konode" />
+  <meta property="og:url" content="https://konode.org/features.html" />
+  <meta property="og:title" content="Feature guide. What each part of Konode is for | Konode" />
+  <meta property="og:description" content="What each part of Konode is for, when to use it, and where to find it, with screenshots." />
+  <meta property="og:image" content="https://konode.org/og.png?v=1" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="Konode. Sync your browser to storage you own." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="konode.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#storage">Storage</a>
+      <a href="index.html#privacy">Privacy</a>
+      <a href="setup.html">Setup</a>
+      <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg>
+        GitHub
+      </a>
+    </nav>
+
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" />
+        </svg>
+      </summary>
+      <nav aria-label="Mobile navigation">
+        <a class="m-install js-install" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa" target="_blank" rel="noopener noreferrer">Add to <span class="js-browser">Chrome</span> for free</a>
+        <a href="index.html">Home</a>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#storage">Storage</a>
+        <a href="index.html#privacy">Privacy</a>
+        <a href="index.html#compare">Compare</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="features.html" aria-current="page">Feature guide</a>
+        <a href="setup.html">Setup guide</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        <a href="roadmap.html">Roadmap</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="https://github.com/konabe-studio/konode" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </details>
+
+    <a class="header-cta js-install" href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa" target="_blank" rel="noopener noreferrer">
+      <img class="js-browser-logo" src="assets/chrome.svg" alt="" />
+      <span>Add to <span class="js-browser">Chrome</span></span>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M11.3333 10V4.66667H6M11.3333 4.66667L4.66667 11.3333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </header>
+
+  <main id="main" class="wrap doc">
+    <h1>Feature guide</h1>
+    <p class="lead">
+      What each part of Konode is for, when you would use it, and where to find it. New to
+      Konode? Start with the <a href="setup.html">setup guide</a>.
+    </p>
+
+    <div class="callout">
+      <p>
+        The screenshots show the version in development, so a few screens look newer than
+        the 1.5.1 in the stores: Storage is a grid of tiles rather than a list, and the
+        popup names each data type's state in words. Parts that are not in 1.5.1 at all
+        are marked <span class="next">Next version</span>.
+      </p>
+    </div>
+
+    <nav class="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#popup">The popup</a></li>
+        <li><a href="#sync">What you can sync</a></li>
+        <li><a href="#storage">Where your data goes</a></li>
+        <li><a href="#encryption">End-to-end encryption</a></li>
+        <li><a href="#exclude">Keeping bookmarks out of sync</a></li>
+        <li><a href="#conflicts">When two devices disagree</a></li>
+        <li><a href="#restore">Restore points and the mass-deletion guard</a></li>
+        <li><a href="#devices">Your devices</a></li>
+        <li><a href="#when">When Konode syncs</a></li>
+        <li><a href="#pause">Pausing sync</a> <span class="next">Next version</span></li>
+        <li><a href="#send">Send to device</a> <span class="next">Next version</span></li>
+        <li><a href="#activity">Activity log, backup and the rest</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="popup">The popup</h2>
+    <figure class="shot">
+      <img src="assets/shots/popup.png" width="360" height="457" alt="The Konode popup: status Synced, a Sync now button, four data types each marked Synced, 2 missing extensions with an Open all link, and another device, Home desktop, with 5 tabs and a Restore button" />
+    </figure>
+    <p>Click the Konode icon in your toolbar to see where things stand.</p>
+    <ul>
+      <li><strong>Status</strong> at the top left: Ready, Syncing, Synced, Error or Conflict, with the time of the last sync.</li>
+      <li><strong>Sync now</strong> syncs straight away, without waiting for the next scheduled pull.</li>
+      <li><strong>Data types</strong> lists the types you sync, each with its state: Synced, Not synced yet, Last sync failed, or Off.</li>
+      <li><strong>Missing extensions</strong> appears when another device has extensions this one does not. <strong>Open all</strong> opens their store pages in new tabs.</li>
+      <li><strong>Other devices</strong> lists the open tabs of each device that syncs them, with <strong>Restore</strong>.</li>
+      <li>The icons at the top right open the <a href="#send">Send to device</a> menu, <a href="#pause">pause automatic sync</a>, and open Settings. The first two come with the next version.</li>
+    </ul>
+    <p>
+      The popup also carries notices that need you: a <a href="#conflicts">conflict</a>
+      waiting for your choice, or a <a href="#restore">deletion that was held back</a>.
+    </p>
+
+    <h2 id="sync">What you can sync</h2>
+    <p>
+      Pick the data types under <strong>Settings → Data Types</strong>, or in the setup
+      wizard. Bookmarks are on by default. The other three are off until you turn them on,
+      and turning one on is when the browser asks for the permission it needs, so a type you
+      never turn on is a permission Konode never holds.
+    </p>
+    <figure class="shot">
+      <img src="assets/shots/settings-data-types.png" width="640" height="765" alt="Settings, Data Types: switches for Bookmarks, Sessions, History and Extensions, then Exclude bookmarks from sync, and Tab group names and colours" />
+    </figure>
+
+    <h3>Bookmarks</h3>
+    <p>
+      Your whole bookmark tree on every device, folders and order included. Use it when you
+      want the same bookmarks in every browser you use, including a mix of Chromium browsers
+      and Firefox.
+    </p>
+    <ul>
+      <li>New bookmarks, renames, moves and folder reorders travel to your other devices.</li>
+      <li>Deletions travel too, so a bookmark you deleted does not come back from a device that still had it.</li>
+      <li>The first sync on a new device merges: bookmarks it already had are kept and combined with the rest.</li>
+      <li>A folder can stay on one device only. See <a href="#exclude">Keeping bookmarks out of sync</a>.</li>
+    </ul>
+
+    <h3>Open tabs (Sessions)</h3>
+    <p>
+      Each device shares the tabs it has open. Use it to pick up on one computer where you
+      left off on another.
+    </p>
+    <ul>
+      <li>In the popup, <strong>Other devices</strong> lists every device's tabs. <strong>Restore</strong> asks first, then opens them. It opens only the tabs you do not already have open, so restoring twice does not double them up.</li>
+      <li>Tab groups come back as groups. With <strong>Tab group names and colours</strong> on, they keep their names and colours too. Firefox has tab groups from version 138, and their names and colours from 139.</li>
+      <li>Pinned tabs stay pinned. Whether a group was collapsed is not synced.</li>
+    </ul>
+
+    <h3>History</h3>
+    <p>
+      The pages you visited, combined from your devices into one list without duplicates.
+      Use it when you want to find a page you opened on another computer.
+    </p>
+    <ul>
+      <li><strong>Days to sync</strong> sets how far back it goes: 7 to 365 days, 30 by default.</li>
+      <li>Firefox keeps each page's original visit date. Chromium browsers give an extension no way to set it, so there a page from another device is dated when it arrived. Visit counts are not carried on either.</li>
+    </ul>
+
+    <h3>Extension list</h3>
+    <p>
+      The names of the extensions you have installed, so you can see which ones a device is
+      missing. Use it when you set up a new computer.
+    </p>
+    <ul>
+      <li>The popup shows how many are missing here. Settings → Data Types lists them one by one with an Install or Find link.</li>
+      <li>Konode never installs or removes an extension. The permission it asks for only reads the list.</li>
+      <li>Between a Chromium browser and Firefox, extensions are matched by name and developer website, since the two stores use different IDs.</li>
+    </ul>
+
+    <h2 id="storage">Where your data goes</h2>
+    <figure class="shot">
+      <img src="assets/shots/settings-storage.png" width="640" height="741" alt="Settings, Storage: tiles for Google Drive, Nextcloud / ownCloud, pCloud, Koofr, Fastmail, Nutstore, GitHub and WebDAV (other), with the Nextcloud panel open showing Server host, Username and Password fields and a Test connection button" />
+    </figure>
+    <p>
+      Konode writes to storage you already have, and to nothing else. Pick it under
+      <strong>Settings → Storage</strong>. All your devices use the same one.
+    </p>
+    <ul>
+      <li><strong>Google Drive</strong>: one sign-in with your Google account. The least setup. Konode sees only the files it created (the <code>drive.file</code> scope).</li>
+      <li><strong>GitHub</strong>: a private repository and a fine-grained token with Contents: Read and write. Every sync is a commit, so you get a full history of changes. Public repositories are refused.</li>
+      <li><strong>Nextcloud / ownCloud</strong>: your server's host, your username and an app password. Konode builds the WebDAV address from the host.</li>
+      <li><strong>pCloud</strong>: your account region, EU or US. Needs a paid pCloud plan.</li>
+      <li><strong>Koofr</strong>: your Koofr email and a Koofr app password.</li>
+      <li><strong>Fastmail</strong>: your Fastmail address and an app password with Files (WebDAV) access.</li>
+      <li><strong>Nutstore / 坚果云</strong>: your Nutstore email and a third-party app password. Works from mainland China, where Google Drive cannot be reached.</li>
+      <li><strong>WebDAV (other)</strong>: the full <code>https://</code> address of a Synology, kDrive or any other WebDAV server, a username and a password.</li>
+    </ul>
+    <p>
+      <strong>Test connection</strong> checks the details before you save. Konode connects
+      to a WebDAV server only over <code>https://</code>, or over <code>http://</code> to a
+      server on the same computer, because WebDAV sends your password with every request.
+      It keeps one file per device and data type in a <code>Konode</code> folder
+      (<code>konode</code> on GitHub and WebDAV), which you can look at, or delete, with
+      your provider's own tools.
+    </p>
+
+    <h2 id="encryption">End-to-end encryption</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-encryption.png" width="640" height="310" alt="Settings, Storage, Encryption card: End-to-end encryption switched on, with a passphrase typed twice and the note Passphrases match" />
+    </figure>
+    <p>
+      With encryption on, Konode encrypts your data on your device before it uploads it, so
+      your storage provider stores files it cannot read. Use it whenever anyone other than
+      you could see your storage.
+    </p>
+    <ul>
+      <li>Turn it on in the setup wizard, or under <strong>Settings → Storage → Encryption</strong>. It is off until you choose it.</li>
+      <li>Type a passphrase of at least 12 characters, or press <strong>Generate a strong key</strong>. Every device needs the same one.</li>
+      <li>AES-256-GCM, with the key derived from your passphrase by PBKDF2-SHA256 over 600,000 rounds. The passphrase stays on the device and is never uploaded.</li>
+      <li>If a device's passphrase does not match the others, Konode tells you on that device instead of failing quietly.</li>
+      <li><strong>There is no recovery.</strong> Konode runs no server, so nobody can reset a lost passphrase. Keep it in a password manager.</li>
+    </ul>
+
+    <h2 id="exclude">Keeping bookmarks out of sync</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-exclusions.png" width="640" height="547" alt="Settings, Data Types, Bookmarks card: Exclude bookmarks from sync switched on, showing the bookmark tree with the Work folder ticked and the note 1 item kept out of sync" />
+    </figure>
+    <p>
+      Tick any folder or bookmark to keep it on this device only. Use it for a folder
+      another extension fills, for work bookmarks you do not want at home, or for a very
+      large folder you never need elsewhere.
+    </p>
+    <ul>
+      <li>Find it under <strong>Settings → Data Types → Bookmarks → Exclude bookmarks from sync</strong>, or under Bookmarks in the setup wizard.</li>
+      <li>What you tick is never uploaded, and nothing your other devices do changes it. A ticked folder stays excluded when you rename it.</li>
+      <li>Excluding deletes nothing: copies your other devices already have stay there.</li>
+      <li>Moving a bookmark into an excluded folder removes it from your other devices, as deleting it would. Moving it back out brings it back to them.</li>
+    </ul>
+
+    <h2 id="conflicts">When two devices disagree</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-conflict-strategies.png" width="640" height="409" alt="Settings, Device, Conflict resolution: Last Write Wins selected, with Prefer Local, Prefer Remote and Manual below it, each with a description" />
+    </figure>
+    <p>
+      Choose under <strong>Settings → Device → Conflict resolution</strong> what happens when
+      another device changed the same bookmarks:
+    </p>
+    <ul>
+      <li><strong>Last Write Wins</strong>, the default: the newest change wins. A bookmark deleted on another device is deleted here too, unless you added it again after that.</li>
+      <li><strong>Prefer Local</strong>: this device's bookmarks win. New bookmarks from other devices still arrive, but their deletions, moves and renames are never applied here.</li>
+      <li><strong>Prefer Remote</strong>: other devices' moves and renames win over yours. Deletions work as in Last Write Wins.</li>
+      <li><strong>Manual</strong>: Konode asks you before it applies anything from a device whose bookmarks differ from yours. Until you choose, none of that device's bookmark changes reach this one, deletions included.</li>
+    </ul>
+    <h3>Manual: choosing a version</h3>
+    <figure class="shot">
+      <img src="assets/shots/popup-conflict.png" width="360" height="543" alt="The popup in Conflict state with a card for Home desktop offering Resolve, Keep local and Use remote" />
+    </figure>
+    <p>
+      With Manual on, the popup shows a card for each device that differs. <strong>Keep
+      local</strong> leaves this device as it is. <strong>Use remote</strong> merges the other
+      device's changes into this one.
+    </p>
+    <figure class="shot card">
+      <img src="assets/shots/settings-conflict-view.png" width="640" height="382" alt="Settings, Activity, Conflicts: Bookmarks, this device and Home desktop, with Keep local and Use remote buttons and a list headed Only on Home desktop (3) naming Lentil soup, Weekend pancakes and Weekly menu plan with their addresses" />
+    </figure>
+    <p>
+      <span class="next">Next version</span> The card's <strong>Resolve</strong> link opens
+      <strong>Settings → Activity → Conflicts</strong>, which lists what differs before you
+      choose: the bookmarks or pages only the other device has, the ones only this device
+      has, and how many sit in a different folder or under a different title. Looking
+      changes nothing on either device. In 1.5.1 the card names the device but not what
+      differs.
+    </p>
+
+    <h2 id="restore">Restore points and the mass-deletion guard</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-restore-points.png" width="640" height="320" alt="Settings, Activity, Restore points: a Create restore point button and two restore points, each with Restore and delete buttons" />
+    </figure>
+    <p>
+      A restore point is a copy of your bookmark tree, kept in your storage where every
+      device can see it. Use one to undo a cleanup that went too far, on any of your devices.
+    </p>
+    <ul>
+      <li>Find them under <strong>Settings → Activity → Restore points</strong>. <strong>Create restore point</strong> saves one now.</li>
+      <li><strong>Restore</strong> adds back the bookmarks missing on this device and puts them back where they were. It never deletes anything.</li>
+      <li>The newest 10 are kept. You can delete any of them.</li>
+    </ul>
+    <p>
+      <strong>The mass-deletion guard.</strong> If another device asks to delete more than
+      60% of your bookmarks within a day, Konode holds the deletion back, saves a restore
+      point first, and tells you in the popup. This protects you from a broken or confused
+      device clearing every browser at once, while ordinary cleanups still go through.
+      Change the threshold under <strong>Settings → Device → Safety → Max bulk delete from a
+      peer</strong>, from 50 to 95%.
+    </p>
+    <figure class="shot">
+      <img src="assets/shots/popup-blocked-deletion.png" width="360" height="541" alt="The popup with a notice: An unusual deletion (37 bookmarks) was blocked and a restore point was saved. Apply it or keep them in Settings, Activity." />
+    </figure>
+    <p>Then decide in <strong>Settings → Activity → Blocked deletion</strong>:</p>
+    <figure class="shot card">
+      <img src="assets/shots/settings-blocked-deletion.png" width="640" height="482" alt="Settings, Activity, Blocked deletion: 37 of your 40 bookmarks, asked for by Old netbook, a list of the first five bookmarks with their addresses and 32 more, and an Apply the deletion button" />
+    </figure>
+    <ul>
+      <li><strong>Apply the deletion</strong> if you meant it.</li>
+      <li>To keep the bookmarks, restore a point from before the cleanup on the device that asked. That clears its record of the deletion, so it stops being sent.</li>
+    </ul>
+    <p>
+      <span class="next">Next version</span> The card lists the first bookmarks the deletion
+      would remove, by title and address, so you can tell a cleanup you meant from one you
+      never made. In 1.5.1 it gives the count and the device.
+    </p>
+
+    <h2 id="devices">Your devices</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-devices.png" width="640" height="303" alt="Settings, Activity, Devices: Work laptop marked This device, Old netbook and Home desktop, each with the browser, what it syncs and when it last uploaded, and a Forget button" />
+    </figure>
+    <p>
+      <strong>Settings → Activity → Devices</strong> lists every device with files in your
+      storage and what each one syncs. Use it to check that a new device has joined, or to
+      clear out one you no longer use.
+    </p>
+    <ul>
+      <li><strong>Forget</strong> deletes that device's files from your storage. It removes no bookmarks from any browser. A browser that is still running uploads itself again within a minute, so forget a device after you have uninstalled Konode there.</li>
+      <li>Give each device a name you will recognize under <strong>Settings → Device → Device name</strong>.</li>
+    </ul>
+    <p>
+      <span class="next">Next version</span> Each row says how long ago the device last
+      uploaded and which browser it is, for example "Brave (Chromium)" or "Firefox (Gecko)".
+      A device that has uploaded nothing for over 30 days is marked Inactive. Nothing
+      happens to it on its own.
+    </p>
+
+    <h2 id="when">When Konode syncs</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-sync-behavior.png" width="640" height="361" alt="Settings, Device, Sync behavior: Sync on change, Auto sync and Notifications switched on, and Sync interval set to 60 seconds" />
+    </figure>
+    <p>Three things start a sync, under <strong>Settings → Device → Sync behavior</strong>:</p>
+    <ul>
+      <li><strong>Sync on change</strong>: a bookmark you add, edit or delete goes out about a second later. Bookmarks only.</li>
+      <li><strong>Auto sync</strong>: the scheduled pull, every <strong>Sync interval</strong>, 60 seconds by default, 30 to 600. This is how a device hears about other devices' changes, and how history, open tabs and the extension list travel.</li>
+      <li><strong>Sync now</strong> in the popup.</li>
+    </ul>
+    <p>
+      Your storage has no way to tell a device that something changed, so each device checks
+      on a schedule. 30 seconds is the fastest a browser runs an extension's background
+      timer.
+    </p>
+
+    <h2 id="pause">Pausing sync <span class="next">Next version</span></h2>
+    <figure class="shot">
+      <img src="assets/shots/popup-paused.png" width="360" height="457" alt="The popup with status Paused and a play button in place of the pause icon" />
+    </figure>
+    <p>
+      The pause icon at the top of the popup stops both automatic syncs, Sync on change and
+      Auto sync, until you resume. Use it while you reorganize a lot of bookmarks and want to
+      finish before your other devices see the result, or on a slow or metered connection.
+    </p>
+    <ul>
+      <li>The status reads <strong>Paused</strong>, and the icon turns into a play button that resumes.</li>
+      <li><strong>Sync now</strong> still works while paused.</li>
+      <li>Your edits are kept and go out with the next sync. Resuming syncs straight away.</li>
+      <li>Settings → Device → Sync behavior says sync is paused, greys out the two switches and has a <strong>Resume</strong> button too. Your own Sync on change and Auto sync settings are left as they were.</li>
+    </ul>
+
+    <h2 id="send">Send to device <span class="next">Next version</span></h2>
+    <figure class="shot">
+      <img src="assets/shots/popup-send-menu.png" width="360" height="457" alt="The popup with the Send to device menu open: Send this tab, How rivers shape a valley, then the devices Home desktop and Old netbook" />
+    </figure>
+    <p>
+      Send the page you are on to another of your devices. Use it to carry an article from
+      your phone to your computer, or a page from work to home, without bookmarking it.
+    </p>
+    <ul>
+      <li>Right-click a page or a link and choose <strong>Send to device</strong>, then the device. In Firefox the entry is on a tab's own menu as well.</li>
+      <li>Or press the paper-plane icon in the popup, which lists your devices for the page you are on. On Firefox for Android this is the way to send.</li>
+      <li>Konode has no server, so the tab travels through your storage and opens on the other device at its next sync, quietly, in a background tab. With Auto sync on that is within a minute or so. A device that is off opens it when it starts.</li>
+      <li>A device is offered once it runs this version. With encryption on, a sent tab is encrypted like everything else, and a device that cannot read your encrypted data is not offered.</li>
+      <li>A tab that is never picked up is dropped after 14 days.</li>
+      <li>This adds two permissions that ask nothing at install: the right-click menu, and access to the tab you are on at the moment you click Konode or that menu entry.</li>
+    </ul>
+
+    <h2 id="activity">Activity log, backup and the rest</h2>
+    <figure class="shot card">
+      <img src="assets/shots/settings-activity-log.png" width="640" height="743" alt="Settings, Activity, Log: a count of entries, Show errors only, Copy for a bug report with a Copy log button, and the newest log lines" />
+    </figure>
+    <p>
+      <strong>Settings → Activity</strong> shows what Konode did on this device: how much it
+      transferred, how many syncs it ran, and the last 200 log entries. All of it stays on
+      the device.
+    </p>
+    <ul>
+      <li><strong>Show errors only</strong> hides the entries that went fine.</li>
+      <li><strong>Copy log</strong> puts the whole log on the clipboard, oldest first, with the Konode version and your browser at the top, ready to paste into a bug report. It is word for word, so it includes your storage server's address. Read it before you post it anywhere public.</li>
+      <li><strong>Export backup</strong> (Settings → Advanced) downloads your bookmarks, history and extension list as a JSON file, with no storage needed. <strong>Import backup</strong> adds the bookmarks from such a file into a new folder, <code>Konode Import</code>.</li>
+      <li><strong>Notifications</strong> (Settings → Device) shows sync status and conflict alerts from the browser.</li>
+      <li><strong>Debug mode</strong> (Settings → Advanced) writes more detail to the log. Turn it on when you are chasing a problem, and off when you are done.</li>
+    </ul>
+    <p>
+      Konode cannot sync passwords: browsers do not let extensions read their password store.
+      Use a password manager for those.
+    </p>
+
+    <div class="callout">
+      <p>
+        Something not behaving? The <a href="troubleshooting.html">troubleshooting page</a>
+        covers the failures that come up most. The screenshots here use made-up bookmarks and
+        devices.
+      </p>
+    </div>
+  </main>
+
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Konode</a>
+          <p class="about">
+            An independent, open-source project by <b>Kōnabe Studio</b>. Not
+            affiliated with Google, GitHub, Mozilla, or any storage provider.
+          </p>
+        </div>
+        <div class="links">
+          <a href="features.html">Features</a>
+          <a href="setup.html">Setup</a>
+          <a href="troubleshooting.html">Troubleshooting</a>
+          <a href="roadmap.html">Roadmap</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="https://chromewebstore.google.com/detail/konode/mmlfiiimnpnjcjhhbldenpcmnibedkfa">Chrome Web Store</a>
+          <a href="https://github.com/konabe-studio/konode">GitHub</a>
+          <span class="lic">MPL-2.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
