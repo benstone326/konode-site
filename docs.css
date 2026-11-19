@@ -117,6 +117,22 @@ main.doc { max-width: calc(var(--maxw-text) + 2 * var(--gutter)); }
 .toc ol { margin: 0; padding-left: 1.3em; }
 .toc li { margin-bottom: var(--s-2); }
 
+/* Screenshots of the extension, on the feature guide and the setup page. A hairline edge
+   and no shadow, like a card: the capture is flat, it does not float. The width attribute
+   on each img sets its size, and height: auto keeps the ratio when the column is narrower. */
+.shot { margin: var(--s-5) 0 var(--s-5); }
+.shot img { height: auto; border: 1px solid var(--border); border-radius: var(--r-card); background: var(--bg-card); }
+/* A Settings card captured on its own already carries its edge, so it gets no second one. */
+.shot.card img { border: 0; border-radius: var(--r-sm); }
+
+/* "Next version" on a feature that is merged but not yet in the stores. */
+.next {
+  display: inline-block; vertical-align: middle;
+  font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 400; letter-spacing: 0;
+  color: var(--accent-solid); background: var(--bg-card-sel);
+  border-radius: var(--r-pill); padding: 2px 8px;
+}
+
 .qa { border-top: 1px solid var(--border); margin-top: var(--s-6); }
 .qa > div { padding: var(--s-6) 0; border-bottom: 1px solid var(--border); }
 .qa h3 { margin-top: 0; }

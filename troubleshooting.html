@@ -12,9 +12,9 @@
   <meta name="theme-color" content="#f7f8fa" />
   <link rel="preload" href="fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="tokens.css?v=2" />
-  <link rel="stylesheet" href="header.css?v=2" />
-  <link rel="stylesheet" href="docs.css?v=2" />
+  <link rel="stylesheet" href="tokens.css?v=3" />
+  <link rel="stylesheet" href="header.css?v=3" />
+  <link rel="stylesheet" href="docs.css?v=3" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Konode" />
   <meta property="og:url" content="https://konode.org/troubleshooting.html" />
@@ -59,6 +59,7 @@
         <a href="index.html#privacy">Privacy</a>
         <a href="index.html#compare">Compare</a>
         <a href="index.html#faq">FAQ</a>
+        <a href="features.html">Feature guide</a>
         <a href="setup.html">Setup guide</a>
         <a href="troubleshooting.html">Troubleshooting</a>
         <a href="roadmap.html">Roadmap</a>
@@ -85,9 +86,11 @@
       <p>
         Not covered here? Open an issue on
         <a href="https://github.com/konabe-studio/konode/issues">GitHub</a> with your
-        browser, your backend, and what the popup's activity log shows. The log lives
-        on your device and is never uploaded, so you will need to copy the relevant
-        part in yourself.
+        browser, your backend, and what the activity log shows. The log lives on your
+        device and is never uploaded. <strong>Copy log</strong> under Settings → Activity
+        puts all of it on your clipboard, ready to paste; it includes your storage
+        server's address, so read it before you post it. For what each setting does, see
+        the <a href="features.html">feature guide</a>.
       </p>
     </div>
 
@@ -97,14 +100,19 @@
         <h3>Konode is not syncing, and there is no error</h3>
         <p>
           Check the obvious three in order. First, is a backend actually connected, or
-          did setup stop halfway? Second, are any data types turned on? All four are
-          off until you enable them, so a connected backend with nothing enabled will
-          sit there doing exactly nothing. Third, run a manual sync from the popup to
-          see whether it is a scheduling problem or a connection problem.
+          did setup stop halfway? Second, are any data types turned on? Bookmarks start
+          on and the other three start off, so a device where bookmarks were switched
+          off and nothing else switched on will sit there doing exactly nothing. Third,
+          run a manual sync from the popup to see whether it is a scheduling problem or
+          a connection problem.
         </p>
         <p>
-          If a manual sync works but automatic ones do not, your browser is probably
-          suspending the extension's background worker to save power. Manifest V3
+          If a manual sync works but automatic ones do not, look at the popup's status
+          first. From the next version, <strong>Paused</strong> there means automatic
+          sync was paused from the popup's pause icon; the play icon in the same place
+          resumes it. Otherwise check that <strong>Auto sync</strong> and <strong>Sync on
+          change</strong> are on under Settings → Device. If they are, your browser is
+          probably suspending the extension's background worker to save power. Manifest V3
           service workers are allowed to be shut down when idle. Keeping the browser
           open and the device awake is the practical workaround.
         </p>
@@ -158,11 +166,43 @@
           manual resolution and Konode will hand you the choice from the popup.
         </p>
         <p>
-          Two things to know before you do. The question names the device but not the
-          bookmarks, so it tells you two versions exist and not what is in either. And
-          it is asked on the first sync between any two devices whether or not they
-          actually differ, because what it compares is whether the two files are
-          identical byte for byte, which they never are. Both are being worked on.
+          It asks only when the two devices' bookmarks really differ, by folder, address
+          and title. In 1.5.1 the question names the device but not the bookmarks, so
+          it tells you two versions exist and not what is in either. The next version
+          adds a list of what differs, in Settings → Activity; the
+          <a href="features.html#conflicts">feature guide</a> shows it.
+        </p>
+      </div>
+      <div>
+        <h3>The browser freezes or stutters about once a minute, with History on</h3>
+        <p>
+          Reported on Edge. On every sync, Konode compares the other devices' history
+          with this browser's, and to do that it reads the local history, up to 100,000
+          pages, whether or not anything changed. With a long history, that is a lot of
+          work every minute.
+        </p>
+        <p>
+          Until a fix ships, turn <strong>History</strong> off under Settings → Data
+          Types and click <strong>Save changes</strong>, or raise <strong>Sync
+          interval</strong> under Settings → Device so it happens less often. A fix that
+          reads only the stretch of history your other devices actually cover is being
+          worked on
+          (<a href="https://github.com/konabe-studio/konode/issues/96">#96</a>).
+        </p>
+      </div>
+      <div>
+        <h3>A device is not offered under Send to device</h3>
+        <p>
+          Send to device comes with the next version. A device appears in its list once
+          it has synced on that version, since an older one would never open what it was
+          sent, so update it and let it sync once. With end-to-end encryption on, a
+          device that cannot read your encrypted data is not offered either.
+        </p>
+        <p>
+          A tab you sent opens at the other device's next sync, not at once: Konode has
+          no server to push it, so it waits in your storage until that device looks. With
+          Auto sync on that is within a minute or so, and a closed browser opens it when
+          it starts. A tab that is never picked up is dropped after 14 days.
         </p>
       </div>
     </div>
@@ -246,14 +286,29 @@
         <ul>
           <li>
             <strong>The URL has to be the WebDAV endpoint</strong>, not your normal
-            web login. On Nextcloud that means
+            web login. The Nextcloud / ownCloud card builds it for you from your
+            server's host. Under WebDAV (other), a Nextcloud address looks like
             <code>https://your-server/remote.php/dav/files/USERNAME/</code>, not the
             address you use in a browser.
           </li>
           <li>
             <strong>HTTPS is required</strong>, with a certificate your browser
-            already trusts. Self-signed and expired certificates fail, and so does
-            plain HTTP.
+            already trusts. Self-signed and expired certificates fail. Plain
+            <code>http://</code> is refused, because WebDAV sends your password with
+            every request; the one exception is a server on the same computer
+            (<code>localhost</code> or <code>127.0.0.1</code>). In 1.5.1 that refusal
+            reads as if permission to reach the server was not granted; from the next
+            version it says <code>http://</code> is not allowed
+            (<a href="https://github.com/konabe-studio/konode/issues/83">#83</a>).
+          </li>
+          <li>
+            <strong>Nextcloud says the password is wrong, but it works in another
+            browser?</strong> If you are signed in to Nextcloud's web page in the browser
+            that fails, sign out there, or clear that site's cookies, and press Sync now.
+            The browser was adding its Nextcloud session cookie to Konode's requests, and
+            Nextcloud refused them as a web session without its security token. From the
+            next version Konode sends no cookies with WebDAV requests
+            (<a href="https://github.com/konabe-studio/konode/issues/90">#90</a>).
           </li>
           <li>
             <strong>Use an app password</strong> if your provider offers one. Accounts
@@ -310,10 +365,12 @@
       <div>
         <h3>Can I turn encryption on after I have already been syncing?</h3>
         <p>
-          Yes, but the files already on your backend were written in readable form.
-          Turning encryption on affects what gets written from then on. If the point
-          is that nothing readable should remain, delete the existing Konode files
-          from your backend after enabling it, then sync again.
+          Yes. On its next sync each device rewrites its own files in encrypted form,
+          so turn it on, with the same passphrase, on every device. Until a device does,
+          its files stay readable. On GitHub, earlier versions remain in the repository's
+          history. If the point is that nothing readable should remain, delete the
+          existing Konode files from your backend after enabling it everywhere, then
+          sync again.
         </p>
       </div>
     </div>
@@ -353,7 +410,10 @@
         <p>
           Also intentional. History, tabs, and extension-management permissions are
           requested at the moment you turn those data types on, not up front, so an
-          install you never configure holds almost nothing.
+          install you never configure holds almost nothing. The next version adds two
+          that ask nothing at install, for Send to device: the right-click menu entry,
+          and access to the tab you are on only at the moment you click Konode or that
+          entry.
         </p>
       </div>
     </div>
@@ -415,6 +475,7 @@
           </p>
         </div>
         <div class="links">
+          <a href="features.html">Features</a>
           <a href="setup.html">Setup</a>
           <a href="troubleshooting.html">Troubleshooting</a>
           <a href="roadmap.html">Roadmap</a>
